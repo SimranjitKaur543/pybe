@@ -139,6 +139,8 @@ export function mountStory(root) {
       <p class="narration" data-for="readassign">Reading a name looks outward. Assigning one creates it right here.</p>
       <p class="narration" data-for="shadowbuiltin">Shadow a built-in name, and you lose the built-in.</p>
       <p class="narration" data-for="bridge">You meet this every time you write a function.</p>
+      <p class="narration" data-for="assignrule">Assigning to a name makes it local &mdash; unless you say <em>global</em> or <em>nonlocal</em>.</p>
+      <p class="narration" data-for="fourplaces">Four places. One order. Every time.</p>
       <p class="narration" data-for="lookout">Tara didn't create a name here, so Python can look outward.</p>
       <p class="narration" data-for="assigns">Because the function assigns to <em>name</em>, Python treats it as local.</p>
       <p class="narration" data-for="novalue">But the local name has no value yet.</p>
@@ -313,7 +315,7 @@ export function mountStory(root) {
 
   // Dev-only: lets a single scene be replayed without sitting through the ones
   // before it. Stripped from production builds by Vite.
-  if (import.meta.env.DEV) window.__palace = { stage, scenes, run, currentGeneration };
+  if (import.meta.env.DEV) window.__palace = { stage, scenes, run, currentGeneration, newRun };
 
   return stage;
 }
