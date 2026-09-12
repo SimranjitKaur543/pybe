@@ -100,17 +100,23 @@
 .door-void { fill: #150a2b; }
 
 /* The swing itself. Hinged on the left edge, because the knob is on the right.
-   Stops at 68deg rather than going past perpendicular — a leaf rotated further
-   than that turns edge-on and reads as vanishing rather than opening. */
+   The rotation is POSITIVE so the free edge swings OUT OF THE SCREEN, toward
+   the viewer, and the door opens into the room rather than folding back into
+   the wall. A negative angle here rotates the leaf away instead, which reads
+   as the door sinking sideways into the doorway — the shape shrinks and
+   flattens and never looks like it opened.
+   Stops short of perpendicular: a leaf rotated much further turns edge-on and
+   reads as vanishing rather than opening. */
 .door-swing {
   transform-box: fill-box;
   transform-origin: left center;
   transition: transform 1500ms cubic-bezier(0.34, 0.86, 0.32, 1);
 }
-.room-door.is-open .door-swing { transform: perspective(1100px) rotateY(-68deg); }
-/* the far face of the leaf is turned away from the lamp, so it darkens */
-.room-door.is-open .door-leaf  { filter: brightness(0.74); transition: filter 1500ms ease; }
-.room-door.is-open .door-panel { filter: brightness(0.8);  transition: filter 1500ms ease; }
+.room-door.is-open .door-swing { transform: perspective(1000px) rotateY(62deg); }
+/* Swinging toward us keeps the SAME face pointed at the room, so it must not
+   darken — it turns into the lamplight, if anything. */
+.room-door.is-open .door-leaf  { filter: brightness(1.06); transition: filter 1500ms ease; }
+.room-door.is-open .door-panel { filter: brightness(1.04); transition: filter 1500ms ease; }
 @keyframes knobGlint {
   0%, 100% { fill: var(--gold-deep); }
   50%      { fill: #fff3d0; }
