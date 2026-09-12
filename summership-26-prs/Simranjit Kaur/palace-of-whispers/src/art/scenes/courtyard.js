@@ -137,9 +137,18 @@ export function courtyard() {
 /**
  * The prompt that appears in the air — the story's only interactive moment.
  * Deliberately shaped like something the palace offers, not a UI button.
+ *
+ * The outer .ask-anchor exists because .ask-prompt.is-offered runs two CSS
+ * transform animations, and a CSS transform animation REPLACES an element's
+ * SVG transform attribute rather than composing with it. With the position
+ * set on the same group that animates, the prompt was thrown back to the
+ * portal origin — the middle of Tara's room — and rendered mostly off the
+ * left edge of the screen, which made the story's only interaction almost
+ * impossible to find. Position on the outer group, animate the inner one.
  */
 export function askPrompt() {
   return `
+<g class="ask-anchor">
 <g class="ask-prompt" role="button" tabindex="0" aria-label="Ask for the secret">
   <ellipse class="ask-aura" cx="0" cy="0" rx="330" ry="120" />
   <rect class="ask-hit" x="-360" y="-130" width="720" height="260" rx="130" />
@@ -149,15 +158,18 @@ export function askPrompt() {
   </g>
   <path class="ask-underline" d="M -196 46 Q 0 74 196 46" />
   <text class="ask-text" x="0" y="12" text-anchor="middle">Ask for the secret</text>
+</g>
 </g>`;
 }
 
 /** Her spoken question, as a glow rather than a speech bubble. */
 export function askSpeech() {
   return `
+<g class="ask-speech-anchor">
 <g class="ask-speech">
   <ellipse class="speech-aura" cx="0" cy="0" rx="420" ry="118" />
   <text class="speech-text" x="0" y="10" text-anchor="middle">Where is my secret?</text>
+</g>
 </g>`;
 }
 

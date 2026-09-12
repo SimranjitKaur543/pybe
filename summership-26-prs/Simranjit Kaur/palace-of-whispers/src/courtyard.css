@@ -98,6 +98,16 @@
              offerBreathe 3.4s ease-in-out 1.4s infinite;
 }
 .ask-prompt.is-taken { opacity: 0; transition: opacity 700ms ease; pointer-events: none; }
+
+/* If the offer goes unanswered the palace asks a little louder. The story is
+   blocked until this is clicked, so silence is the one thing it must not do. */
+.ask-prompt.is-urging { animation: offerIn 1400ms cubic-bezier(0.2, 1.2, 0.3, 1) both, offerUrge 1.7s ease-in-out infinite; }
+@keyframes offerUrge {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.075); }
+}
+.ask-prompt.is-urging .ask-text { fill: var(--gold); }
+.ask-prompt.is-urging .ask-underline { stroke-width: 8; }
 .ask-aura { fill: url(#wordGlow); opacity: 0.85; }
 .ask-text {
   font-family: var(--display);
@@ -256,6 +266,6 @@
   .lg, .mlabel { opacity: 1; }
   .ml-text, .ml-note, .ml-rule { opacity: 1; animation: none; }
   .ml-motes circle { display: none; }
-  .ask-prompt.is-offered { animation: none; opacity: 1; }
+  .ask-prompt.is-offered, .ask-prompt.is-urging { animation: none; opacity: 1; }
   .jet, .ripples .rp { animation: none; }
 }

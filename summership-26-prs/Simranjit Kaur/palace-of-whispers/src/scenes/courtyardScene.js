@@ -16,7 +16,9 @@ export async function courtyardScene(stage) {
   const { camera, tara, hers, ui, root } = stage;
   const door = root.querySelector('.room-door');
   const prompt = root.querySelector('.ask-prompt');
+  const promptAt = root.querySelector('.ask-anchor');
   const speech = root.querySelector('.ask-speech');
+  const speechAt = root.querySelector('.ask-speech-anchor');
   const qMotes = root.querySelector('.q-motes');
 
   // ── 1. the word she made comes back, and stays home ─────────────────────
@@ -64,11 +66,30 @@ export async function courtyardScene(stage) {
   await wait(500);
 
   // ── 5. the only interaction in the story ────────────────────────────────
-  prompt.setAttribute('transform', `translate(${COURT.centreX + 40} -520)`);
+  // NOTE: the position goes on the anchor. Setting it on .ask-prompt itself is
+  // silently discarded by its own CSS transform animation.
+  promptAt.setAttribute('transform', `translate(${COURT.askX} -470)`);
+
+  // Frame the shot ON the prompt before offering it. The story stops dead here
+  // until it is clicked, so it cannot be something the viewer has to hunt for:
+  // if they miss it they are left staring at a palace that appears to have
+  // frozen, with nothing on screen telling them what is wanted.
+  await camera.to({
+    ...inRoom(COURT.askX, -250),
+    zoom: camera.fitRoom(2150),
+    duration: 2000,
+    easing: ease.inOut
+  });
+  await tara.face('right');
   prompt.classList.add('is-offered');
 
   await new Promise((resolve) => {
+    // and if it still goes unnoticed, insist a little harder rather than
+    // waiting silently forever
+    const urge = setTimeout(() => prompt.classList.add('is-urging'), 7000);
     const go = () => {
+      clearTimeout(urge);
+      prompt.classList.remove('is-urging');
       prompt.removeEventListener('click', go);
       prompt.removeEventListener('keydown', key);
       resolve();
@@ -95,7 +116,7 @@ export async function courtyardScene(stage) {
   tara.setPose('reach');
   tara.express('curious');
 
-  speech.setAttribute('transform', `translate(${COURT.askX + 30} -330)`);
+  speechAt.setAttribute('transform', `translate(${COURT.askX + 30} -330)`);
   speech.classList.add('is-spoken');
   await wait(1400);
   tara.setPose('idle');

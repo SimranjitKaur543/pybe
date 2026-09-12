@@ -244,3 +244,25 @@ body {
   100% { transform: translate(46px, -150px) scale(1.1); opacity: 0; }
 }
 
+/* ── reverse transitions ──────────────────────────────────────────────────
+   A transition declared only inside a state-class selector disappears the
+   instant JS removes that class, so the property snaps back in one frame
+   instead of easing. Declaring it on the base element as well keeps the
+   easing in BOTH directions; the state rules are more specific, so they
+   still win while the state is on. Without this the whole stage flashes
+   when the error scene brightens back up. */
+.stage-svg { transition: filter 1200ms ease; }
+.room-wall { transition: filter 900ms ease; }
+.door-leaf, .door-panel { transition: filter 1500ms ease; }
+.court-floor, .room-floor { transition: filter 3000ms ease; }
+.lantern-glow, .court-stars circle, .jet { transition: opacity 1200ms ease; }
+.ask-prompt { transition: opacity 700ms ease; }
+.pupil, .glint { transition: transform 900ms ease; }
+.spark-slot { transition: opacity 900ms ease, filter 1200ms ease; }
+.sw-plate, .sw-text, .sw-motes circle { transition: opacity 1200ms ease; }
+.spark-core, .spark-rays { transition: opacity 500ms ease; }
+.read-out, .read-local, .read-blocked { transition: opacity 700ms ease; }
+.global-beam, .nonlocal-link, .nonlocal-tag { transition: opacity 800ms ease; }
+.lg-stroke, .lg-fill { transition: opacity 700ms ease; }
+.mithu-perch { transition: opacity 600ms ease; }
+.hero-frame, .hero-glow { transition: opacity 700ms ease; }

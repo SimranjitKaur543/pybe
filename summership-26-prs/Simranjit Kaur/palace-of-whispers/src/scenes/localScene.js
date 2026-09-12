@@ -122,5 +122,8 @@ export async function localScene(stage) {
   await wait(700);
   code.unfocus();
   code.clearNotes();
-  localTag.classList.remove('is-inline');
+  // both classes, not just is-inline: leaving is-named on meant the word
+  // "Local" stayed burned onto the screen for every scene that followed, and
+  // ended up stacked on top of the UnboundLocalError beat.
+  localTag.classList.remove('is-inline', 'is-named');
 }

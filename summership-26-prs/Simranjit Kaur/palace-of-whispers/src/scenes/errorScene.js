@@ -106,7 +106,7 @@ export async function errorScene(stage) {
 
   // ── 6. the error ────────────────────────────────────────────────────────
   root.querySelector('.stage').classList.add('is-darkened');
-  err.setAttribute('transform', 'translate(120 -700)');
+  err.setAttribute('transform', 'translate(120 -760)');
   err.classList.add('is-cast');
   code.mark(3, 'is-error');
   code.focus(3);

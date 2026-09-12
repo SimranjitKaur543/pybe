@@ -138,6 +138,15 @@
   transition: opacity 800ms ease;
 }
 .code-air.is-open { opacity: 1; }
+/* Centre-stage code sits directly over the palace, so it needs its own
+   ground or the pale text competes with lit windows and lanterns behind it.
+   Softer and wider than the docked panel's scrim, so it still reads as
+   writing in the air rather than as a dialog box. */
+.code-air:not(.is-docked) .ca-lines {
+  border-radius: 18px;
+  background: radial-gradient(120% 120% at 50% 50%, rgba(16, 8, 36, 0.9) 55%, rgba(16, 8, 36, 0) 100%);
+}
+
 .ca-lines {
   margin: 0;
   padding: clamp(14px, 3vw, 26px) clamp(18px, 4vw, 34px);
