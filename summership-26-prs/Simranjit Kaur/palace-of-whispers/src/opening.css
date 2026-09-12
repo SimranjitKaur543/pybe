@@ -76,8 +76,8 @@
 }
 .shutter-l { transform-origin: left center; }
 .shutter-r { transform-origin: right center; }
-.hero-window.is-open .shutter-l { transform: perspective(600px) rotateY(-104deg); }
-.hero-window.is-open .shutter-r { transform: perspective(600px) rotateY(104deg); }
+.hero-window.is-open .shutter-l { transform: perspective(900px) rotateY(-72deg); }
+.hero-window.is-open .shutter-r { transform: perspective(900px) rotateY(72deg); }
 
 /* once the camera is through, the frame and its clip stop existing */
 .hero-window.is-passed .hero-frame,

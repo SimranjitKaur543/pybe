@@ -48,7 +48,7 @@ export async function courtyardScene(stage) {
   camera.unfollow();
   await camera.to({
     ...inRoom(COURT.centreX - 260, -120),
-    zoom: INSIDE_ZOOM * 0.52,
+    zoom: camera.fitRoom(3077),
     duration: 2900,
     easing: ease.inOut
   });
@@ -86,7 +86,7 @@ export async function courtyardScene(stage) {
   // ── 6. she asks ─────────────────────────────────────────────────────────
   await parallel(
     tara.walkTo(COURT.askX, { speed: 190 }),
-    camera.to({ ...inRoom(COURT.askX + 60, -180), zoom: INSIDE_ZOOM * 0.6, duration: 2100 })
+    camera.to({ ...inRoom(COURT.askX + 60, -180), zoom: camera.fitRoom(2667), duration: 2100 })
   );
   await wait(300);
 
@@ -120,7 +120,7 @@ export async function courtyardScene(stage) {
   // the comparison is made by the shot itself rather than by a caption
   await camera.to({
     ...inRoom(700, -180),
-    zoom: INSIDE_ZOOM * 0.34,
+    zoom: camera.fitRoom(4706),
     duration: 2900,
     easing: ease.inOut
   });

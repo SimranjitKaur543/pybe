@@ -107,13 +107,19 @@ export function taraRoom() {
   </g>
   <g class="curtain-rod"><rect x="-420" y="-436" width="840" height="18" rx="9" /></g>
 
-  <!-- the door: the way out that the word never manages to take -->
+  <!-- The door: the way out that the word never manages to take.
+       The leaf, its panels and the knob are wrapped in one group so they swing
+       together on the hinge; door-void is the dark of the corridor behind,
+       which is what actually reads as "open" once the leaf moves off it. -->
   <g class="room-door">
     <rect class="door-frame" x="264" y="-140" width="252" height="${floorY + 140}" rx="10" />
-    <rect class="door-leaf"  x="280" y="-124" width="220" height="${floorY + 124}" rx="8" />
-    <rect class="door-panel" x="306" y="-92"  width="168" height="150" rx="6" />
-    <rect class="door-panel" x="306" y="86"   width="168" height="190" rx="6" />
-    <circle class="door-knob" cx="470" cy="200" r="13" />
+    <rect class="door-void"  x="280" y="-124" width="220" height="${floorY + 124}" rx="8" />
+    <g class="door-swing">
+      <rect class="door-leaf"  x="280" y="-124" width="220" height="${floorY + 124}" rx="8" />
+      <rect class="door-panel" x="306" y="-92"  width="168" height="150" rx="6" />
+      <rect class="door-panel" x="306" y="86"   width="168" height="190" rx="6" />
+      <circle class="door-knob" cx="470" cy="200" r="13" />
+    </g>
   </g>
 
   <!-- where a word strikes the far wall; positioned and triggered from a scene -->

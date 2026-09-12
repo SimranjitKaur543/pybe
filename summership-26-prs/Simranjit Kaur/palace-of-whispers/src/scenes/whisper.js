@@ -37,12 +37,12 @@ export async function whisper(stage) {
   spark.moveTo(470, -330, { duration: 2100, easing: ease.inOut });
   root.querySelector('.spark-slot').classList.add('is-dimmed');
 
-  await camera.to({ ...inRoom(tara.x - 30, 150), zoom: INSIDE_ZOOM * 1.02, duration: 2000 });
+  await camera.to({ ...inRoom(tara.x - 30, 150), zoom: camera.fitRoom(1569), duration: 2000 });
   tara.express('curious');
   await wait(700);
 
   // ── 2. she leans in and whispers ────────────────────────────────────────
-  await camera.to({ ...inRoom(tara.x + 10, 70), zoom: INSIDE_ZOOM * 1.5, duration: 2000 });
+  await camera.to({ ...inRoom(tara.x + 10, 70), zoom: camera.fitRoom(1067), duration: 2000 });
   await wait(500);
 
   tara.setPose('whisper');
@@ -62,7 +62,7 @@ export async function whisper(stage) {
   // ── 3. it floats up and wanders the room; she watches, then follows ─────
   await parallel(
     hers.moveTo(tara.x + 120, tara.y - 330, { duration: 2000, easing: ease.out }),
-    camera.to({ ...inRoom(tara.x + 60, -60), zoom: INSIDE_ZOOM * 1.18, duration: 2000 })
+    camera.to({ ...inRoom(tara.x + 60, -60), zoom: camera.fitRoom(1356), duration: 2000 })
   );
   await wait(500);
 
@@ -93,7 +93,7 @@ export async function whisper(stage) {
   hers.el.classList.remove('is-bouncing');
 
   camera.unfollow();
-  await camera.to({ ...inRoom(-520, -190), zoom: INSIDE_ZOOM * 1.1, duration: 1200 });
+  await camera.to({ ...inRoom(-520, -190), zoom: camera.fitRoom(1455), duration: 1200 });
   tara.express('surprised');
   await wait(700);
 
@@ -116,7 +116,7 @@ export async function whisper(stage) {
 
   // ── 5. her reaction — the point of the whole scene ──────────────────────
   camera.unfollow();
-  await camera.to({ ...inRoom(-560, -60), zoom: INSIDE_ZOOM * 1.16, duration: 1800 });
+  await camera.to({ ...inRoom(-560, -60), zoom: camera.fitRoom(1379), duration: 1800 });
 
   tara.express('confused');
   await wait(800);
@@ -138,7 +138,7 @@ export async function whisper(stage) {
   tara.express('curious');
   // Pull back far enough to hold BOTH her and the door in one frame: the shot
   // has to say "she is in here, that is the way out" without a cut.
-  await camera.to({ ...inRoom(-420, -40), zoom: INSIDE_ZOOM * 0.84, duration: 2000 });
+  await camera.to({ ...inRoom(-420, -40), zoom: camera.fitRoom(1905), duration: 2000 });
   await wait(500);
 
   // the door: shut, and plainly not where the word went

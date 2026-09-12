@@ -94,6 +94,23 @@
 .door-panel { fill: #5a3a2c; }
 .door-knob  { fill: var(--gold-deep); }
 .room-door.is-noticed .door-knob { animation: knobGlint 1.6s ease-in-out 2; }
+
+/* The doorway behind the leaf: plain night, so that when the leaf swings off
+   it there is visibly somewhere to go. */
+.door-void { fill: #150a2b; }
+
+/* The swing itself. Hinged on the left edge, because the knob is on the right.
+   Stops at 68deg rather than going past perpendicular — a leaf rotated further
+   than that turns edge-on and reads as vanishing rather than opening. */
+.door-swing {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transition: transform 1500ms cubic-bezier(0.34, 0.86, 0.32, 1);
+}
+.room-door.is-open .door-swing { transform: perspective(1100px) rotateY(-68deg); }
+/* the far face of the leaf is turned away from the lamp, so it darkens */
+.room-door.is-open .door-leaf  { filter: brightness(0.74); transition: filter 1500ms ease; }
+.room-door.is-open .door-panel { filter: brightness(0.8);  transition: filter 1500ms ease; }
 @keyframes knobGlint {
   0%, 100% { fill: var(--gold-deep); }
   50%      { fill: #fff3d0; }
@@ -138,6 +155,8 @@
 
 /* --------------------------------------------------------- reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  .door-swing { transition: none; }
+  .room-door.is-open .door-leaf, .room-door.is-open .door-panel { transition: none; }
   .wall-ripple.is-hit .wr { animation: none; opacity: 0.5; }
   .spark-slot.is-fading { opacity: 0; }
   .narration { transition: none; }

@@ -31,13 +31,13 @@ export async function opening(stage) {
   camera.set({ x: 300, y: -1080, zoom: camera.zoomToFitWidth(2000) });
   tara.setPose('idle').express('neutral');
 
-  await wait(1200);
+  await wait(600);
 
   // drift across the stars, the palace still out of frame below
   await camera.to({
     x: 1150, y: -560,
     zoom: camera.zoomToFitWidth(2300),
-    duration: 7000,
+    duration: 2200,
     easing: ease.inOut
   });
 
@@ -45,58 +45,58 @@ export async function opening(stage) {
   await camera.to({
     x: 1600, y: 420,
     zoom: camera.zoomToFitWidth(1900),
-    duration: 6500,
+    duration: 3400,
     easing: ease.inOut
   });
 
   // let the windows breathe before moving again
-  await wait(900);
+  await wait(400);
 
   // ── 3. approach: one window among many starts to matter ──────────────────
   await camera.to({
     x: HERO.x, y: HERO.y + 60,
     zoom: camera.zoomToFitWidth(900),
-    duration: 5200,
+    duration: 2400,
     easing: ease.inOut
   });
 
   await camera.to({
     x: HERO.x, y: HERO.y,
     zoom: camera.zoomToFitWidth(520),
-    duration: 4200,
+    duration: 2600,
     easing: ease.inOut
   });
 
   // ── 4. the shutters open ─────────────────────────────────────────────────
   stage.root.querySelector('.hero-window').classList.add('is-open');
-  await wait(1500);
+  await wait(1600);
 
   // Tara turns to the night while we are still outside looking in
   tara.express('curious');
   await tara.face('right');
-  await wait(700);
+  await wait(500);
 
   // ── 5. through the glass ─────────────────────────────────────────────────
   // The frame leaves the viewport first; only then is the clip dropped, so the
   // room opening up is invisible and the move reads as one continuous push.
   const through = camera.to({
     ...inRoom(0, 40),
-    zoom: INSIDE_ZOOM * 0.92,
-    duration: 5200,
+    zoom: camera.fitRoom(1739),
+    duration: 3400,
     easing: ease.inOut
   });
-  await wait(3000);
+  await wait(1900);
   stage.root.querySelector('.portal').classList.add('is-inside');
   stage.root.querySelector('.hero-window').classList.add('is-passed');
   await through;
 
   // ── 6. inside. she moves about her room ──────────────────────────────────
-  await camera.to({ ...inRoom(-40, 90), zoom: INSIDE_ZOOM * 0.96, duration: 2200 });
+  await camera.to({ ...inRoom(-40, 90), zoom: camera.fitRoom(1667), duration: 2200 });
   await wait(600);
 
   await parallel(
     tara.walkTo(ROOM.taraX - 360, { speed: 210 }),
-    camera.to({ ...inRoom(-220, 110), zoom: INSIDE_ZOOM * 0.95, duration: 3000 })
+    camera.to({ ...inRoom(-220, 110), zoom: camera.fitRoom(1684), duration: 3000 })
   );
   await wait(700);
   await tara.face('right');
@@ -112,7 +112,7 @@ export async function opening(stage) {
   // it drifts toward her; she watches it come
   await parallel(
     spark.moveTo(-60, -60, { duration: 2600, easing: ease.inOut }),
-    camera.to({ ...inRoom(-160, 40), zoom: INSIDE_ZOOM * 1.08, duration: 2600 })
+    camera.to({ ...inRoom(-160, 40), zoom: camera.fitRoom(1481), duration: 2600 })
   );
 
   // she reaches — and it slips away
@@ -128,7 +128,7 @@ export async function opening(stage) {
   tara.express('curious');
   await parallel(
     tara.walkTo(ROOM.taraX - 60, { speed: 190 }),
-    camera.to({ ...inRoom(40, -10), zoom: INSIDE_ZOOM * 1.02, duration: 2400 })
+    camera.to({ ...inRoom(40, -10), zoom: camera.fitRoom(1569), duration: 2400 })
   );
   await wait(500);
 
@@ -146,7 +146,7 @@ export async function opening(stage) {
   await wait(1600);
 
   // ── 9. the title gathers out of the air ──────────────────────────────────
-  await camera.to({ ...inRoom(30, 10), zoom: INSIDE_ZOOM * 0.9, duration: 2600 });
+  await camera.to({ ...inRoom(30, 10), zoom: camera.fitRoom(1778), duration: 2600 });
   ui.classList.add('show-title');
   await wait(4200);
   ui.classList.add('show-sub');
