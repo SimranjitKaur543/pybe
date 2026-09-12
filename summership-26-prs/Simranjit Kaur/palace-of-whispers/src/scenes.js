@@ -54,27 +54,36 @@ export async function opening(stage) {
 
   // ── 3. approach: one window among many starts to matter ──────────────────
   await camera.to({
-    x: HERO.x, y: HERO.y + 60,
-    zoom: camera.zoomToFitWidth(900),
+    x: HERO.x, y: HERO.y,
+    zoom: camera.zoomToFitWidth(780),
     duration: 2400,
     easing: ease.inOut
   });
 
-  await camera.to({
-    x: HERO.x, y: HERO.y,
-    zoom: camera.zoomToFitWidth(520),
-    duration: 2600,
-    easing: ease.inOut
-  });
-
   // ── 4. the shutters open ─────────────────────────────────────────────────
+  // The camera STAYS BACK for this. The shutters are 570 units tall, so at the
+  // old framing (520 wide => 456 tall) they were taller than the screen: you
+  // saw a middle band of slats, the swing happened entirely off the top and
+  // bottom of frame, and the gate appeared to dissolve rather than open.
+  // Holding at 780 wide (=> ~684 tall) puts the whole window on screen, so the
+  // swing is actually visible.
   stage.root.querySelector('.hero-window').classList.add('is-open');
-  await wait(1600);
+  // and the wait must outlast the 2200ms swing — it used to be 1600ms, so the
+  // camera left before the shutters had finished moving
+  await wait(2500);
 
   // Tara turns to the night while we are still outside looking in
   tara.express('curious');
   await tara.face('right');
-  await wait(500);
+  await wait(600);
+
+  // only now close the distance, with the gate already standing open
+  await camera.to({
+    x: HERO.x, y: HERO.y,
+    zoom: camera.zoomToFitWidth(540),
+    duration: 1800,
+    easing: ease.inOut
+  });
 
   // ── 5. through the glass ─────────────────────────────────────────────────
   // The frame leaves the viewport first; only then is the clip dropped, so the

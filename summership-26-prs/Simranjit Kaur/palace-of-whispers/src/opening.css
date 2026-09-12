@@ -78,8 +78,17 @@
 }
 .shutter-l { transform-origin: left center; }
 .shutter-r { transform-origin: right center; }
-.hero-window.is-open .shutter-l { transform: perspective(900px) rotateY(-72deg); }
-.hero-window.is-open .shutter-r { transform: perspective(900px) rotateY(72deg); }
+/* The signs matter, and they are the opposite of what a real shutter does.
+   Hinged on its outer edge, a NEGATIVE angle on the left leaf swings its free
+   edge toward the camera: under perspective that edge comes closer, scales up,
+   and the leaf sweeps across the whole lens just as we are about to fly
+   through the window. Swinging them AWAY instead foreshortens each leaf into a
+   thin slab tucked against its own frame, which clears the opening and lets
+   the push-through read. */
+.hero-window.is-open .shutter-l { transform: perspective(1600px) rotateY(76deg); }
+.hero-window.is-open .shutter-r { transform: perspective(1600px) rotateY(-76deg); }
+/* turned edge-on and away from the moon, so they fall into shadow */
+.hero-window.is-open .shutter rect { fill: #2b1440; transition: fill 2200ms ease; }
 
 /* once the camera is through, the frame and its clip stop existing */
 .hero-window.is-passed .hero-frame,
