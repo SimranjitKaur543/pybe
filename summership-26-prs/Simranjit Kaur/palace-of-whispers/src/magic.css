@@ -1,0 +1,139 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCENES 4–7 — the search, her own name, shadowing, and speaking to the palace.
+   Additive only.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ------------------------------------------------------------- her props */
+.prop { opacity: 0; transition: opacity 600ms ease; }
+.tara.has-lantern   .prop-lantern   { opacity: 1; }
+.tara.has-megaphone .prop-megaphone { opacity: 1; }
+
+.lan-hoop  { fill: none; stroke: #b98a3c; stroke-width: 5; }
+.lan-cap, .lan-base { fill: #c89a46; }
+.lan-glass { fill: rgba(255, 226, 160, 0.34); stroke: #b98a3c; stroke-width: 3; }
+.lan-halo  { fill: url(#lampGlow); }
+.lan-flame {
+  fill: var(--gold);
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: flameDance 1.6s ease-in-out infinite;
+}
+.tara.has-lantern .lan-halo { animation: lampPulse 3.2s ease-in-out infinite; }
+
+.meg-body  { fill: #c89a46; }
+.meg-mouth { fill: #e0b45c; }
+.meg-grip  { fill: #8d6a2c; }
+
+/* --------------------------------------------------- outer vs inner words */
+/* Distinguished by brightness and place, not by labels stuck on them. */
+.spark-slot.is-outer .sw-plate { stroke: rgba(255, 212, 137, 0.66); }
+.spark-slot.is-outer .sw-text  { fill: rgba(255, 212, 137, 0.82); }
+.spark-slot.is-outer .sw-aura  { opacity: 0.55; }
+
+.spark-slot.is-inner .sw-plate { stroke: var(--gold); stroke-width: 4.5; }
+.spark-slot.is-inner .sw-text  { fill: #fff3d2; }
+
+.spark-slot.is-answering .sw-aura { animation: sparkPulse 1.3s ease-in-out 3; }
+.spark-slot.is-answering .sw-plate { stroke: #fff3d2; }
+
+/* a word being touched, and a value transforming */
+.spark-slot.is-touched .sw-plate { stroke: #fff3d2; stroke-width: 6; }
+.spark-slot.is-morphing .spark-word { animation: morph 900ms ease-in-out; }
+@keyframes morph {
+  0%   { transform: scale(1)          rotate(0deg);   filter: brightness(1); }
+  45%  { transform: scale(0.62, 1.24) rotate(-5deg);  filter: brightness(2.1); }
+  60%  { transform: scale(1.18, 0.84) rotate(4deg);   filter: brightness(1.8); }
+  100% { transform: scale(1)          rotate(0deg);   filter: brightness(1); }
+}
+
+/* ------------------------------------------------------------- shadowing */
+/* The inner name rises and the outer one sinks behind her room's boundary:
+   the architecture does the hiding, not distance from Tara. */
+.spark-slot.is-shadowed {
+  opacity: 0.18;
+  filter: blur(2.5px);
+  transition: opacity 1600ms ease, filter 1600ms ease;
+}
+.spark-slot.is-shadowing .sw-plate { stroke-width: 6; }
+.spark-slot.is-shadowing .sw-aura  { animation: sparkPulse 2.4s ease-in-out infinite; }
+.reach.show-shadow ~ * .lg-local .lg-stroke { opacity: 1; }
+
+/* --------------------------------------------------- reaching outward */
+.reach .global-beam,
+.reach .nonlocal-link {
+  fill: none;
+  opacity: 0;
+  stroke-linecap: round;
+}
+.reach .global-beam {
+  stroke: var(--gold);
+  stroke-width: 26;
+  stroke-dasharray: 60 40;
+  filter: drop-shadow(0 0 40px rgba(255, 212, 137, 0.8));
+}
+.reach.show-global .global-beam {
+  opacity: 1;
+  animation: beamFlow 1.5s linear infinite;
+  transition: opacity 900ms ease;
+}
+@keyframes beamFlow { to { stroke-dashoffset: -200; } }
+
+/* nonlocal reaches only as far as the surrounding space */
+.reach .nonlocal-link {
+  stroke: #9fd8e8;
+  stroke-width: 16;
+  stroke-dasharray: 34 26;
+}
+.reach.show-nonlocal .nonlocal-link {
+  opacity: 0.95;
+  animation: beamFlow 2.2s linear infinite;
+  transition: opacity 700ms ease;
+}
+.nonlocal-tag {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 92px;
+  fill: #9fd8e8;
+  opacity: 0;
+}
+.reach.show-nonlocal .nonlocal-tag { opacity: 1; transition: opacity 900ms ease 400ms; }
+
+/* --------------------------------------------------- the searching light */
+.lg.is-probing .lg-stroke { animation: probe 1.6s ease-in-out infinite; }
+@keyframes probe {
+  0%, 100% { opacity: 0.45; stroke-width: 10; }
+  50%      { opacity: 1;    stroke-width: 20; }
+}
+.lg.is-empty .lg-stroke { opacity: 0.16; transition: opacity 700ms ease; }
+.lg.is-empty .lg-fill   { opacity: 0; transition: opacity 700ms ease; }
+.lg.is-found .lg-stroke { stroke: #a8e6b4; opacity: 1; animation: none; }
+.lg.is-found .lg-fill   { fill: #a8e6b4; opacity: 0.1; }
+
+/* ------------------------------------------ a name revealed mid-animation */
+/* Sits in the scene at the layer it belongs to; never a card, never a pause. */
+.mlabel.is-inline .ml-text { font-size: 108px; }
+.mlabel.is-inline .ml-note { font-size: 46px; }
+
+/* ------------------------------------------------------------ responsive */
+@media (max-width: 780px) {
+  .nonlocal-tag { font-size: 124px; }
+  .mlabel.is-inline .ml-text { font-size: 150px; }
+  .mlabel.is-inline .ml-note { font-size: 62px; }
+  /* thin the busiest scenery so the words and characters stay readable */
+  .court-tiles, .stone-courses, .kd-stars { display: none; }
+  .motes circle:nth-child(even) { display: none; }
+}
+
+.narration em {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-style: normal;
+  color: var(--gold);
+  font-size: 0.9em;
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reach .global-beam, .reach .nonlocal-link { animation: none; }
+  .lg.is-probing .lg-stroke { animation: none; opacity: 0.8; }
+  .spark-slot.is-morphing .spark-word { animation: none; }
+  .lan-flame, .tara.has-lantern .lan-halo { animation: none; }
+}

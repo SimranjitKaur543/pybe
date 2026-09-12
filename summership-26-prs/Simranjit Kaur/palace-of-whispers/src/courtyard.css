@@ -1,0 +1,261 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCENES 2–3 — the courtyard, and the palace naming its layers.
+   Additive only: the opening and the whisper are untouched.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ------------------------------------------------------------- courtyard */
+.court-sky { fill: #170d33; }
+.court-stars circle { fill: #fff2d4; animation: twinkle 5.2s ease-in-out infinite; }
+.court-moon { fill: #ffe9bd; opacity: 0.9; }
+
+.court-wall { fill: #4a2560; }
+.court-band { fill: #5c2f70; }
+.court-floor { fill: #3a1e4c; }
+.court-tiles rect { fill: rgba(255, 240, 210, 0.05); }
+.court-step { fill: #46265a; }
+.court-niche { fill: rgba(0, 0, 0, 0.3); }
+
+.balcony-floor, .balcony-rail, .baluster { fill: #5c3470; }
+.balcony-arch { fill: rgba(0, 0, 0, 0.36); }
+.court-curtain path { fill: #8d3f60; opacity: 0.92; }
+.court-curtain {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: breeze 8.4s ease-in-out infinite;
+}
+
+.chain { stroke: #4a3050; stroke-width: 7; }
+.lantern-shell { fill: #b8703a; }
+.lantern-cap { fill: #8d5228; }
+.lantern-glow { fill: var(--gold); animation: flicker 4.6s ease-in-out infinite; }
+.court-lantern {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: hang 8.2s ease-in-out infinite;
+}
+
+.pot { fill: #9c5434; }
+.pot-rim { fill: #b0663f; }
+.frond { fill: #3f7d4a; }
+.fronds {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: sway 9s ease-in-out infinite;
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-1.8deg); }
+  50%      { transform: rotate(1.8deg); }
+}
+
+/* fountain */
+.water-pool { fill: #2f6f86; opacity: 0.85; }
+.basin, .basin-top { fill: #6a4a78; }
+.water-top { fill: #3f87a0; }
+.jet {
+  fill: none;
+  stroke: rgba(180, 226, 240, 0.75);
+  stroke-width: 7;
+  stroke-linecap: round;
+  animation: jetFall 1.5s linear infinite;
+  stroke-dasharray: 24 30;
+}
+@keyframes jetFall { to { stroke-dashoffset: -108; } }
+.ripples .rp { fill: none; stroke: rgba(190, 232, 245, 0.5); stroke-width: 4; opacity: 0; }
+.ripples .r1 { animation: rippleOut 3.4s ease-out infinite; }
+.ripples .r2 { animation: rippleOut 3.4s ease-out 1.1s infinite; }
+.ripples .r3 { animation: rippleOut 3.4s ease-out 2.2s infinite; }
+@keyframes rippleOut {
+  0%   { opacity: 0.7; transform: scale(0.4); }
+  100% { opacity: 0;   transform: scale(1.7); }
+}
+
+/* the hush after she asks */
+.courtyard.is-hushed .lantern-glow,
+.courtyard.is-hushed .court-stars circle { animation-play-state: paused; opacity: 0.45; transition: opacity 1200ms ease; }
+.courtyard.is-hushed .jet { opacity: 0.3; transition: opacity 1200ms ease; }
+
+/* ------------------------------------------------ the word that stays home */
+.spark-slot.is-homebound .sw-plate { stroke-width: 4.5; }
+.spark-slot.is-beckoning .sw-aura { animation: sparkPulse 1.6s ease-in-out infinite; }
+
+/* ------------------------------------------------------ the one interaction */
+/* The whole stage is inert; only the prompt opts back in. Scenery rects were
+   otherwise swallowing the click before it reached the prompt. */
+.stage-svg { pointer-events: none; }
+.ask-hit { fill: transparent; }
+
+.ask-prompt {
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ask-prompt.is-offered {
+  opacity: 1;
+  pointer-events: auto;
+  animation: offerIn 1400ms cubic-bezier(0.2, 1.2, 0.3, 1) both,
+             offerBreathe 3.4s ease-in-out 1.4s infinite;
+}
+.ask-prompt.is-taken { opacity: 0; transition: opacity 700ms ease; pointer-events: none; }
+.ask-aura { fill: url(#wordGlow); opacity: 0.85; }
+.ask-text {
+  font-family: var(--display);
+  font-size: 86px;
+  font-style: italic;
+  fill: var(--cream);
+  letter-spacing: 0.01em;
+}
+.ask-underline { fill: none; stroke: var(--gold); stroke-width: 5; stroke-linecap: round; }
+.ask-motes circle { fill: var(--gold); animation: mote 4.2s ease-in-out infinite; }
+.ask-prompt:hover .ask-text,
+.ask-prompt:focus-visible .ask-text { fill: var(--gold); }
+.ask-prompt:focus-visible { outline: none; }
+.ask-prompt:focus-visible .ask-underline { stroke-width: 8; }
+@keyframes offerIn {
+  from { opacity: 0; transform: translateY(34px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+@keyframes offerBreathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.035); }
+}
+
+/* her question */
+.ask-speech { opacity: 0; }
+.ask-speech.is-spoken { animation: spoken 2600ms ease-out both; }
+.speech-aura { fill: url(#wordGlow); opacity: 0.6; }
+.speech-text {
+  font-family: var(--display);
+  font-size: 78px;
+  font-style: italic;
+  fill: var(--cream);
+}
+@keyframes spoken {
+  0%   { opacity: 0; transform: translateY(22px) scale(0.92); }
+  22%  { opacity: 1; transform: translateY(0)    scale(1); }
+  76%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-40px) scale(1.04); }
+}
+
+/* the nothing that answers */
+.q-motes { opacity: 0; }
+.q-motes.is-asking { opacity: 1; }
+.q-motes .q {
+  font-family: var(--display);
+  font-size: 92px;
+  fill: rgba(253, 243, 227, 0.68);
+  opacity: 0;
+}
+.q-motes.is-asking .q { animation: qRise 2400ms ease-out forwards; }
+@keyframes qRise {
+  0%   { opacity: 0;    transform: translateY(30px) scale(0.6) rotate(-8deg); }
+  30%  { opacity: 0.85; transform: translateY(0)    scale(1)   rotate(4deg); }
+  100% { opacity: 0;    transform: translateY(-120px) scale(0.7) rotate(-6deg); }
+}
+
+/* --------------------------------------------- the shell and the kingdom */
+.outer-world { opacity: 0; transition: opacity 2600ms ease; }
+.portal.show-shell .outer-world { opacity: 1; }
+
+.kd-sky { fill: #0f0824; }
+.kd-stars circle { fill: #fff2d4; opacity: 0.8; }
+.kd-moon { fill: #ffe9bd; opacity: 0.85; }
+.kd-hills { fill: #1d1040; }
+.kd-hills.far { fill: #261550; }
+
+.shell-roof { fill: #2b1547; }
+.shell-wall { fill: #33194f; }
+.shell-band { fill: #3d1e5c; }
+.shell-base { fill: #231040; }
+.shell-lit { fill: var(--gold); animation: flicker 5s ease-in-out infinite; }
+
+/* ------------------------------------------------------------ the layers */
+.layer-glows { opacity: 0; }
+.layer-glows.is-live { opacity: 1; }
+.lg { opacity: 0; }
+.lg-fill { fill: var(--gold); opacity: 0.055; }
+.lg-stroke { fill: none; stroke: var(--gold); stroke-width: 10; opacity: 0.85; }
+.lg-stroke.outer { stroke-dasharray: 46 34; stroke-width: 14; }
+.lg-link { stroke: var(--gold); stroke-width: 9; stroke-dasharray: 26 20; opacity: 0.9; }
+
+/* Each layer grows from the room outward, never from Tara. */
+.lg.is-lit { animation: layerIn 1500ms cubic-bezier(0.25, 1, 0.35, 1) forwards; }
+@keyframes layerIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.lg.is-lit .lg-stroke { animation: strokeDraw 1600ms ease-out both; }
+@keyframes strokeDraw {
+  from { opacity: 0; stroke-width: 26; }
+  to   { opacity: 0.85; stroke-width: 10; }
+}
+/* the enclosing layer is reached along a link out of her room */
+.lg-enclosing.is-lit .lg-link { animation: linkGrow 900ms ease-out both; }
+@keyframes linkGrow {
+  from { opacity: 0; stroke-dashoffset: 300; }
+  to   { opacity: 0.9; stroke-dashoffset: 0; }
+}
+
+/* --------------------------------------------------------- magical names */
+.mlabel { opacity: 0; }
+.mlabel.is-named { opacity: 1; }
+.ml-text {
+  font-family: var(--display);
+  font-size: 150px;
+  font-weight: 600;
+  fill: var(--cream);
+  letter-spacing: 0.01em;
+  opacity: 0;
+}
+.ml-note {
+  font-family: var(--body);
+  font-size: 58px;
+  font-style: italic;
+  fill: rgba(253, 243, 227, 0.62);
+  opacity: 0;
+}
+.ml-rule { fill: none; stroke: var(--gold); stroke-width: 5; opacity: 0; }
+.ml-motes circle { fill: var(--gold); opacity: 0; }
+
+.mlabel.is-named .ml-motes circle { animation: nameGather 1500ms ease-out forwards; }
+.mlabel.is-named .ml-text { animation: nameIn 1400ms ease-out 700ms forwards; }
+.mlabel.is-named .ml-rule { animation: nameIn 1200ms ease-out 1100ms forwards; }
+.mlabel.is-named .ml-note { animation: nameIn 1200ms ease-out 1500ms forwards; }
+@keyframes nameGather {
+  0%   { opacity: 0;   transform: translate(var(--mx), var(--my)) scale(1.5); }
+  30%  { opacity: 0.95; }
+  85%  { opacity: 0.8; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0;   transform: translate(0, 0) scale(0.3); }
+}
+@keyframes nameIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------- the two lines, chosen */
+.narration { display: none; }
+.ui[data-line="far"]   ~ .narration[data-for="far"],
+.ui[data-line="born"]  ~ .narration[data-for="born"],
+.ui[data-line="names"] ~ .narration[data-for="names"] { display: block; }
+/* scene 1 sets no data-line, so its original line stays the default */
+.ui:not([data-line]) ~ .narration[data-for="far"] { display: block; }
+
+/* ------------------------------------------------------------ responsive */
+@media (max-width: 780px) {
+  .ask-text { font-size: 112px; }
+  .speech-text { font-size: 100px; }
+  .ml-text { font-size: 190px; }
+  .ml-note { font-size: 74px; }
+  .q-motes .q { font-size: 120px; }
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .outer-world { opacity: 1; transition: none; }
+  .lg, .mlabel { opacity: 1; }
+  .ml-text, .ml-note, .ml-rule { opacity: 1; animation: none; }
+  .ml-motes circle { display: none; }
+  .ask-prompt.is-offered { animation: none; opacity: 1; }
+  .jet, .ripples .rp { animation: none; }
+}

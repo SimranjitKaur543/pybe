@@ -1,0 +1,117 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCENE 10 — the ending, and the final polish.
+   Additive only; the palette and every existing component are unchanged.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ---------------------------------------------------------- performance */
+/* Stars marked .still keep their light but drop the animation. The sky reads
+   the same and the perpetual work roughly halves. */
+.stars circle.still, .court-stars circle.still { animation: none; opacity: 0.72; }
+
+/* ------------------------------------------------- the palace waking up */
+.is-waking { animation: wakeWindow 1400ms ease-out both; }
+@keyframes wakeWindow {
+  0%   { opacity: 0.3; }
+  55%  { opacity: 1; filter: brightness(1.5); }
+  100% { opacity: 0.92; filter: brightness(1); }
+}
+.portal.is-warming .court-floor,
+.portal.is-warming .room-floor { filter: brightness(1.12); transition: filter 3000ms ease; }
+
+/* names at rest: present, not clamouring */
+.spark-slot.is-settled .sw-aura { animation: sparkPulse 5.4s ease-in-out infinite; opacity: 0.5; }
+.spark-slot.is-settled .sw-plate { stroke-width: 3; }
+
+/* ------------------------------------------------ she turns to the viewer */
+/* Her pupils drift to centre. Cheaper and warmer than a whole front-facing
+   drawing, and it keeps her visually identical to every other scene. */
+.tara.looks-out .pupil { transform: translateX(-3.5px); transition: transform 900ms ease; }
+.tara.looks-out .glint { transform: translateX(-3.5px); transition: transform 900ms ease; }
+.tara.mithu-nods .mithu-head { animation: nod 900ms ease-in-out 2; }
+@keyframes nod {
+  0%, 100% { transform: rotate(0deg); }
+  40%      { transform: rotate(15deg); }
+  70%      { transform: rotate(-6deg); }
+}
+
+/* --------------------------------------------- the soft final reprise */
+.layer-glows.is-soft .lg-stroke { opacity: 0.42; stroke-width: 7; }
+.layer-glows.is-soft .lg-fill { opacity: 0.03; }
+.lg.is-fading, .mlabel.is-fading { opacity: 0; transition: opacity 2200ms ease; }
+
+/* ------------------------------------------- the last word becomes a star */
+.spark-slot.is-rising .sw-plate,
+.spark-slot.is-rising .sw-text { opacity: 0; transition: opacity 2600ms ease; }
+.spark-slot.is-rising .sw-aura { opacity: 1; }
+.spark-slot.is-star .sw-aura { animation: twinkle 3.2s ease-in-out infinite; }
+.spark-slot.is-star .sw-motes circle { opacity: 0; transition: opacity 1200ms ease; }
+
+/* ---------------------------------------------------- the closing title */
+/* Same particles and same type as the opening — this is a film's end card,
+   not a landing page hero. */
+.title-sub2 { opacity: 0; }
+.title-sub2 {
+  font-family: var(--body);
+  font-size: 25px;
+  font-weight: 400;
+  fill: rgba(253, 243, 227, 0.78);
+  letter-spacing: 0.16em;
+}
+.ui.is-ending .title-sub { display: none; }
+.ui.is-ending.show-sub .title-sub2 { animation: titleIn 1800ms ease-out 200ms forwards; letter-spacing: 0.16em; }
+
+/* ------------------------------------------------------- replay control */
+.replay {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 44px;
+  padding: 0 13px;
+  border-radius: 999px;
+  font-family: var(--body);
+  font-size: 14px;
+  color: rgba(253, 243, 227, 0.7);
+  background: rgba(23, 13, 51, 0.55);
+  border: 1px solid rgba(253, 243, 227, 0.2);
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: color 220ms ease, border-color 220ms ease, gap 320ms ease, padding 320ms ease;
+}
+.replay-icon { font-size: 19px; line-height: 1; }
+.replay-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width 420ms ease, opacity 320ms ease;
+}
+/* it only announces itself once the story has finished */
+.replay.is-offered { color: var(--gold); border-color: rgba(255, 212, 137, 0.6); gap: 9px; }
+.replay.is-offered .replay-label { max-width: 180px; opacity: 1; }
+.replay:hover, .replay:focus-visible { color: var(--gold); border-color: var(--gold); }
+.replay:focus-visible {
+  outline: 3px solid rgba(255, 212, 137, 0.85);
+  outline-offset: 3px;
+}
+.replay:hover .replay-label { max-width: 180px; opacity: 1; }
+.replay:hover { gap: 9px; }
+
+/* ------------------------------------------------------------ responsive */
+@media (max-width: 780px) {
+  .title-sub2 { font-size: 34px; letter-spacing: 0.12em; }
+  .replay { right: 12px; bottom: 12px; height: 40px; font-size: 13px; }
+  /* on a phone the label would crowd the frame; the icon carries it */
+  .replay.is-offered .replay-label, .replay:hover .replay-label { max-width: 128px; }
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .is-waking { animation: none; opacity: 0.92; }
+  .tara.mithu-nods .mithu-head { animation: none; }
+  .spark-slot.is-star .sw-aura { animation: none; }
+  .replay, .replay-label { transition: none; }
+  .replay-label { max-width: 180px; opacity: 1; }
+}

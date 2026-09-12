@@ -1,0 +1,246 @@
+:root {
+  --indigo: #170d33;
+  --indigo-2: #2a1550;
+  --plum: #4a2560;
+  --plum-lit: #613173;
+  --dusk: #8d4463;
+  --gold: #ffd489;
+  --gold-deep: #e8a93f;
+  --cream: #fdf3e3;
+  --coral: #e2684a;
+  --marigold: #f0b93f;
+  --skin: #f2c39a;
+  --skin-shade: #d9a276;
+  --hair: #2d1f2b;
+  --leaf: #4fae5c;
+  --leaf-dark: #3c8f49;
+  --leaf-light: #6fc97a;
+  --beak: #f5a83a;
+
+  --display: "Fraunces", Georgia, serif;
+  --body: "Nunito", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--indigo);
+  color: var(--cream);
+  font-family: var(--body);
+  overflow: hidden;
+}
+
+#app { height: 100vh; display: flex; flex-direction: column; }
+
+/* ------------------------------------------------------------------ stage */
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.stage-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* ------------------------------------------------------------------- Tara */
+.tara .shadow { fill: rgba(0, 0, 0, 0.28); }
+.tara .skin { fill: var(--skin); }
+.tara .hair { fill: var(--hair); }
+.tara .ribbon { fill: var(--coral); }
+.tara .kurta { fill: var(--marigold); }
+.tara .kurta-hem { fill: var(--gold-deep); }
+.tara .dupatta { fill: var(--coral); opacity: 0.95; }
+.tara .sleeve { fill: var(--marigold); }
+.tara .arm-far .sleeve { fill: #d79f2f; }
+.tara .arm-far .skin { fill: var(--skin-shade); }
+.tara .churidar { fill: #6b3a63; }
+.tara .cuff { fill: #7d4774; }
+.tara .slipper { fill: #3f2140; }
+.tara .blush { fill: #ef9a86; opacity: 0.55; }
+.tara .eye-white { fill: #fffaf2; }
+.tara .pupil { fill: #34212f; }
+.tara .glint { fill: #ffffff; }
+.tara .flower { fill: var(--cream); }
+.tara .flower-mid { fill: var(--gold-deep); }
+.tara .brows path { fill: none; stroke: var(--hair); stroke-width: 4.5; stroke-linecap: round; }
+.tara .mouth-set { fill: none; stroke: #a4485a; stroke-width: 4; stroke-linecap: round; }
+.tara .mouth-set.open { fill: #a4485a; stroke: none; }
+
+/* joints: every limb pivots from where it attaches */
+.tara .limb, .tara .braid, .tara .head, .tara .body {
+  transform-box: fill-box;
+}
+.tara .limb, .tara .braid { transform-origin: top center; }
+.tara .head, .tara .body { transform-origin: bottom center; }
+
+/* one mood is revealed, the rest stay drawn but hidden */
+.tara .brow-set, .tara .mouth-set { display: none; }
+.tara[data-mood="neutral"]   :is(.brow-set, .mouth-set)[data-for="neutral"]   { display: block; }
+.tara[data-mood="curious"]   :is(.brow-set, .mouth-set)[data-for="curious"]   { display: block; }
+.tara[data-mood="surprised"] :is(.brow-set, .mouth-set)[data-for="surprised"] { display: block; }
+.tara[data-mood="confused"]  :is(.brow-set, .mouth-set)[data-for="confused"]  { display: block; }
+.tara[data-mood="happy"]     :is(.brow-set, .mouth-set)[data-for="happy"]     { display: block; }
+
+/* ---- always alive, whatever the pose ---- */
+.tara .eyes { transform-box: fill-box; transform-origin: center; animation: blink 5.4s ease-in-out infinite; }
+
+/* ---- idle ---- */
+.pose-idle .body  { animation: breathe 3.6s ease-in-out infinite; }
+.pose-idle .head  { animation: headFloat 3.6s ease-in-out infinite; }
+.pose-idle .braid { animation: braidSway 4.4s ease-in-out infinite; }
+.pose-idle .arm-near { animation: armIdle 3.6s ease-in-out infinite; }
+.pose-idle .arm-far  { animation: armIdle 3.6s ease-in-out 0.4s infinite; }
+
+/* ---- walk ---- */
+.pose-walk .leg-near { animation: swingA 0.62s ease-in-out infinite; }
+.pose-walk .leg-far  { animation: swingB 0.62s ease-in-out infinite; }
+.pose-walk .arm-near { animation: swingB 0.62s ease-in-out infinite; }
+.pose-walk .arm-far  { animation: swingA 0.62s ease-in-out infinite; }
+.pose-walk .body     { animation: bob 0.31s ease-in-out infinite; }
+.pose-walk .head     { animation: bob 0.31s ease-in-out infinite; }
+.pose-walk .braid    { animation: braidBounce 0.62s ease-in-out infinite; }
+
+/* ---- reach / wonder ---- */
+.pose-reach .arm-near { transform: rotate(-104deg); transition: transform 500ms cubic-bezier(0.3, 1.3, 0.5, 1); }
+.pose-reach .head     { transform: rotate(-5deg); }
+
+/* ---- recoil ---- */
+.pose-surprise .body { transform: rotate(-5deg) translateY(-4px); }
+.pose-surprise .arm-near { transform: rotate(-38deg); }
+.pose-surprise .arm-far  { transform: rotate(34deg); }
+
+/* ------------------------------------------------------------------ Mithu */
+.mithu .body { fill: var(--leaf); }
+.mithu .belly { fill: var(--leaf-light); opacity: 0.7; }
+.mithu .wing { fill: var(--leaf-dark); }
+.mithu .tail { fill: var(--leaf-dark); }
+.mithu .cheek { fill: #ffd9e0; opacity: 0.8; }
+.mithu .beak { fill: var(--beak); }
+.mithu .beak-lower { fill: #d98c25; }
+.mithu .crest { fill: var(--coral); }
+.mithu .eye-white { fill: #fffaf2; }
+.mithu .pupil { fill: #23301f; }
+.mithu .glint { fill: #ffffff; }
+.mithu .foot { stroke: var(--beak); stroke-width: 5; fill: none; stroke-linecap: round; }
+
+.mithu-head, .mithu-wing, .mithu-tail, .mithu-eye, .mithu-body {
+  transform-box: fill-box;
+}
+.mithu-head { transform-origin: bottom center; animation: tilt 4.8s ease-in-out infinite; }
+.mithu-wing { transform-origin: top right;   animation: flutter 5.6s ease-in-out infinite; }
+.mithu-tail { transform-origin: top right;   animation: tailSway 3.4s ease-in-out infinite; }
+.mithu-eye  { transform-origin: center;      animation: blink 3.9s ease-in-out infinite; }
+.mithu-hop { animation: hop 7.2s ease-in-out infinite; }
+
+/* ------------------------------------------------------------ magic words */
+.word-aura { fill: url(#wordGlow); }
+.word-plate { fill: rgba(48, 22, 62, 0.86); stroke: var(--gold); stroke-width: 3; }
+.word-text {
+  font-family: var(--body);
+  font-size: 42px;
+  font-weight: 700;
+  fill: var(--gold);
+  letter-spacing: 0.01em;
+}
+.word-motes circle { fill: var(--gold); animation: mote 4.6s ease-in-out infinite; }
+.word { animation: wordFloat 5.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+
+/* ------------------------------------------------------------- keyframes */
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95%           { transform: scaleY(0.1); }
+}
+@keyframes breathe {
+  0%, 100% { transform: scaleY(1)     scaleX(1); }
+  50%      { transform: scaleY(1.022) scaleX(0.995); }
+}
+@keyframes headFloat {
+  0%, 100% { transform: translateY(0)    rotate(0deg); }
+  50%      { transform: translateY(-3px) rotate(1.2deg); }
+}
+@keyframes braidSway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50%      { transform: rotate(2.5deg); }
+}
+@keyframes braidBounce {
+  0%, 100% { transform: rotate(-6deg); }
+  50%      { transform: rotate(5deg); }
+}
+@keyframes armIdle {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50%      { transform: rotate(3deg); }
+}
+@keyframes swingA {
+  0%, 100% { transform: rotate(21deg); }
+  50%      { transform: rotate(-21deg); }
+}
+@keyframes swingB {
+  0%, 100% { transform: rotate(-21deg); }
+  50%      { transform: rotate(21deg); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+@keyframes tilt {
+  0%, 62%, 100% { transform: rotate(0deg); }
+  72%           { transform: rotate(-13deg); }
+  86%           { transform: rotate(9deg); }
+}
+@keyframes flutter {
+  0%, 78%, 100% { transform: rotate(0deg)   translateX(0); }
+  84%           { transform: rotate(-26deg) translateX(-5px); }
+  90%           { transform: rotate(6deg); }
+}
+@keyframes tailSway {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(5deg); }
+}
+@keyframes hop {
+  0%, 70%, 100% { transform: translateY(0); }
+  76%           { transform: translateY(-13px); }
+  82%           { transform: translateY(0); }
+  88%           { transform: translateY(-7px); }
+  94%           { transform: translateY(0); }
+}
+@keyframes mote {
+  0%, 100% { transform: translate(0, 0);      opacity: 0.15; }
+  30%      { transform: translate(9px, -16px); opacity: 1; }
+  65%      { transform: translate(-7px, -30px); opacity: 0.5; }
+}
+@keyframes wordFloat {
+  0%, 100% { transform: translateY(0)     rotate(-0.6deg); }
+  50%      { transform: translateY(-13px) rotate(0.6deg); }
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ------------------------------------------------- world & architecture */
+.moon { fill: #ffe6ad; }
+.stone { fill: #2b1547; }
+.backdrop .stone { fill: #33194f; }
+.arch { fill: rgba(0, 0, 0, 0.3); }
+.lit-window { fill: var(--gold); animation: flicker 5.4s ease-in-out infinite; }
+.ground { fill: #1c0f34; }
+.light-shaft { fill: url(#shaft); }
+.motes circle { fill: var(--gold); opacity: 0.5; animation: drift linear infinite; }
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.84; }
+  44%      { opacity: 1; }
+  70%      { opacity: 0.7; }
+}
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  20%  { opacity: 0.65; }
+  100% { transform: translate(46px, -150px) scale(1.1); opacity: 0; }
+}
+

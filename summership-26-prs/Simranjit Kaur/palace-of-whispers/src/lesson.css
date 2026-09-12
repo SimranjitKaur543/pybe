@@ -1,0 +1,261 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCENES 8–9 — the empty name, and Mithu's explanation.
+   Additive only.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ------------------------------------------------- a name with no value */
+/* An outline holding nothing: it reads as claimed-but-empty, which is exactly
+   what a local name is before its assignment runs. */
+.spark-slot.is-hollow .sw-plate {
+  fill: none;
+  stroke: rgba(255, 212, 137, 0.55);
+  stroke-width: 4;
+  stroke-dasharray: 18 14;
+}
+.spark-slot.is-hollow .sw-text { fill: rgba(255, 212, 137, 0.5); }
+.spark-slot.is-hollow .sw-aura { opacity: 0.22; }
+.spark-slot.is-hollow .sw-motes circle { opacity: 0.25; }
+
+.spark-slot.is-claimed .sw-plate { animation: claimSpin 9s linear infinite; }
+@keyframes claimSpin { to { stroke-dashoffset: -160; } }
+
+.spark-slot.is-hollow-pulse .sw-plate { animation: hollowPulse 1.3s ease-in-out infinite; }
+@keyframes hollowPulse {
+  0%, 100% { stroke: rgba(255, 212, 137, 0.45); stroke-width: 4; }
+  50%      { stroke: #ff9d9d;                   stroke-width: 9; }
+}
+
+/* a call ending, and its names going with it */
+.spark-slot.is-clearing {
+  opacity: 0;
+  transform-box: fill-box;
+  transition: opacity 900ms ease-in;
+}
+
+/* ------------------------------------------------------------- the trails */
+.trails path { fill: none; opacity: 0; stroke-linecap: round; }
+.trails .read-out,
+.trails .read-local {
+  stroke: var(--gold);
+  stroke-width: 16;
+  stroke-dasharray: 40 30;
+}
+.trails .read-blocked {
+  stroke: #ff9d9d;
+  stroke-width: 16;
+  stroke-dasharray: 34 26;
+}
+.trails.show-out .read-out,
+.trails.show-local .read-local,
+.trails.show-blocked .read-blocked {
+  opacity: 1;
+  animation: trailFlow 1.6s linear infinite;
+  transition: opacity 700ms ease;
+}
+@keyframes trailFlow { to { stroke-dashoffset: -140; } }
+
+/* the room's own boundary, doing the blocking */
+.block-wall { opacity: 0; }
+.trails.is-barred .block-wall { opacity: 1; }
+.bw-line {
+  stroke: #ff9d9d;
+  stroke-width: 12;
+  stroke-dasharray: 26 20;
+  opacity: 0.9 !important;
+  animation: barShake 420ms ease-in-out 3;
+}
+.bw-sparks circle { fill: #ffd0d0; animation: sparkOut 900ms ease-out infinite; }
+@keyframes barShake {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(9px); }
+}
+@keyframes sparkOut {
+  0%   { opacity: 0.95; transform: scale(0.4); }
+  100% { opacity: 0;    transform: scale(2.4); }
+}
+
+/* ------------------------------------------------------------- the error */
+.stage.is-darkened .stage-svg { filter: brightness(0.52) saturate(0.75); transition: filter 1200ms ease; }
+
+.error-spell { opacity: 0; pointer-events: none; }
+.error-spell.is-cast { opacity: 1; }
+.err-text {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 132px;
+  font-weight: 700;
+  fill: #ffb3b3;
+  letter-spacing: 0.02em;
+  opacity: 0;
+}
+.error-spell.is-cast .err-text { animation: errIn 1100ms cubic-bezier(0.2, 1.1, 0.3, 1) 500ms both; }
+@keyframes errIn {
+  0%   { opacity: 0; transform: scale(0.72) rotate(-3deg); }
+  60%  { opacity: 1; transform: scale(1.06) rotate(1deg); }
+  100% { opacity: 1; transform: scale(1)    rotate(0deg); }
+}
+.err-crack {
+  fill: none; stroke: #ff8d8d; stroke-width: 7; opacity: 0;
+  stroke-dasharray: 1400; stroke-dashoffset: 1400;
+}
+.error-spell.is-cast .err-crack { animation: crack 900ms ease-out 260ms forwards; }
+@keyframes crack {
+  from { opacity: 1; stroke-dashoffset: 1400; }
+  to   { opacity: 0.85; stroke-dashoffset: 0; }
+}
+.err-smoke ellipse { fill: rgba(60, 20, 46, 0.55); opacity: 0; }
+.error-spell.is-cast .err-smoke ellipse { animation: smokeUp 3.4s ease-out infinite; }
+@keyframes smokeUp {
+  0%   { opacity: 0;    transform: translateY(60px) scale(0.6); }
+  35%  { opacity: 0.75; }
+  100% { opacity: 0;    transform: translateY(-180px) scale(1.5); }
+}
+.err-shards path { fill: #ff9d9d; opacity: 0; }
+.error-spell.is-cast .err-shards path { animation: shardOut 1500ms ease-out forwards; }
+@keyframes shardOut {
+  0%   { opacity: 0;   transform: translate(0, 0) scale(0.3) rotate(0deg); }
+  30%  { opacity: 0.9; }
+  100% { opacity: 0;   transform: translate(0, -90px) scale(1.3) rotate(40deg); }
+}
+
+/* ----------------------------------------------------- Mithu on his perch */
+.perch-stand { opacity: 0; transition: opacity 900ms ease; }
+.perch-stand.is-up { opacity: 1; }
+.perch-post, .perch-bar { fill: #6b4634; }
+.perch-foot { fill: #4a2b3a; }
+.tara.mithu-away .mithu-perch { opacity: 0; transition: opacity 600ms ease; }
+
+/* --------------------------------------------------- code written in air */
+/* An overlay, so its size is real CSS and legible at 375px by construction.
+   No panel, no gutter, no chrome — glowing text on the night itself. */
+.code-air {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  transform: translateX(-50%);
+  max-width: min(760px, 90vw);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 800ms ease;
+}
+.code-air.is-open { opacity: 1; }
+.ca-lines {
+  margin: 0;
+  padding: clamp(14px, 3vw, 26px) clamp(18px, 4vw, 34px);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: clamp(16.5px, 3.8vw, 27px);
+  line-height: 1.75;
+  white-space: pre;
+  text-shadow: 0 0 34px rgba(255, 212, 137, 0.45), 0 3px 22px rgba(10, 4, 22, 0.95);
+}
+.ca-line {
+  display: block;
+  color: rgba(253, 243, 227, 0.92);
+  opacity: 0;
+  transform: translateY(10px);
+}
+.ca-line.is-written { animation: codeIn 700ms ease-out forwards; }
+@keyframes codeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 0.92; transform: translateY(0); }
+}
+.ca-line.is-running {
+  color: var(--gold);
+  opacity: 1;
+  animation: lineGlow 1.4s ease-in-out infinite;
+}
+@keyframes lineGlow {
+  0%, 100% { text-shadow: 0 0 12px rgba(255, 212, 137, 0.5); }
+  50%      { text-shadow: 0 0 40px rgba(255, 212, 137, 1); }
+}
+
+/* ----------------------------------------------------------- sitting down */
+.pose-sit .leg-near { transform: rotate(74deg)  translateY(-16px); }
+.pose-sit .leg-far  { transform: rotate(-64deg) translateY(-14px); }
+.pose-sit .body     { transform: translateY(46px); }
+.pose-sit .head     { transform: translateY(46px) rotate(3deg); }
+.pose-sit .arm-near { transform: rotate(24deg)  translateY(40px); }
+.pose-sit .arm-far  { transform: rotate(-18deg) translateY(40px); }
+.pose-sit .limb, .pose-sit .body, .pose-sit .head { transition: transform 700ms cubic-bezier(0.25, 1, 0.4, 1); }
+
+/* ------------------------------------------- the docked panel (story half) */
+/* While the story is still running, the code rides in a corner and GROWS. The
+   palace keeps the frame; the panel is the quiet second voice saying the same
+   thing in Python. No chrome — just a soft scrim so it stays legible over
+   whatever the camera happens to be flying past. */
+.code-air.is-docked {
+  left: clamp(14px, 3vw, 34px);
+  top: auto;
+  bottom: clamp(66px, 9vh, 104px);
+  transform: none;
+  max-width: min(660px, 74vw);
+}
+/* inline-block so the backdrop hugs the widest line instead of being clipped
+   to a fixed width while white-space:pre spills the text out past it */
+.code-air.is-docked .ca-lines { display: inline-block; }
+.code-air.is-docked .ca-lines {
+  padding: clamp(11px, 1.6vw, 17px) clamp(14px, 2vw, 21px);
+  font-size: clamp(13px, 1.35vw, 18px);
+  line-height: 1.66;
+  border-radius: 13px;
+  background: linear-gradient(180deg, rgba(18, 9, 40, 0.76), rgba(18, 9, 40, 0.62));
+  backdrop-filter: blur(7px);
+  text-shadow: 0 0 20px rgba(255, 212, 137, 0.3), 0 2px 12px rgba(10, 4, 22, 0.9);
+}
+
+/* a line's verdict, shown on the line itself rather than in prose */
+.ca-line.is-ok    { color: #9fe7bf; }
+.ca-line.is-error { color: #ff9d8a; }
+.ca-line.is-claim { color: var(--gold); opacity: 1; }
+.ca-line.is-error.is-written { animation: codeIn 700ms ease-out forwards, errShake 420ms ease-out 220ms; }
+@keyframes errShake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-5px); }
+  75%      { transform: translateX(5px); }
+}
+
+/* the inline comment that carries the rule */
+.ca-note {
+  color: rgba(197, 178, 224, 0.78);
+  font-style: italic;
+  text-shadow: none;
+}
+.ca-line.is-ok .ca-note    { color: rgba(159, 231, 191, 0.8); }
+.ca-line.is-error .ca-note { color: rgba(255, 157, 138, 0.85); }
+
+@media (max-width: 780px) {
+  /* on a phone the corner panel would fight the narration, so it spans the
+     foot of the frame instead and sits above the caption line */
+  .code-air.is-docked {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: clamp(78px, 13vh, 128px);
+    max-width: 92vw;
+  }
+  .code-air.is-docked .ca-lines { font-size: clamp(12px, 3.1vw, 15px); line-height: 1.6; }
+  .ca-note { display: none; }   /* the rule is spoken; the comment would wrap */
+}
+
+/* ------------------------------------------------------------ responsive */
+/* No font override for the code here on purpose. The camera frames the block
+   by its own measured width, so enlarging the type only makes the bbox wider
+   and the camera pull further back — the apparent size never changes. What
+   controls legibility is the framing multiplier in lessonScene.frameCode(). */
+@media (max-width: 780px) {
+  .err-text { font-size: 168px; }
+  .code-air { top: 6%; max-width: 94vw; }
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .trails path, .bw-line, .bw-sparks circle { animation: none; }
+  .error-spell.is-cast .err-text,
+  .error-spell.is-cast .err-crack { animation: none; opacity: 1; stroke-dashoffset: 0; }
+  .err-smoke ellipse, .err-shards path { display: none; }
+  .ca-line.is-written { animation: none; opacity: 0.92; transform: none; }
+  .ca-line.is-running { animation: none; }
+  .ca-line.is-error.is-written { animation: none; opacity: 0.92; transform: none; }
+  .spark-slot.is-claimed .sw-plate,
+  .spark-slot.is-hollow-pulse .sw-plate { animation: none; }
+  .pose-sit .limb, .pose-sit .body, .pose-sit .head { transition: none; }
+}

@@ -1,0 +1,286 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCENE 0 — the palace at night, and the room inside it.
+   Positioning is JS; atmosphere is CSS. Nothing here is ever fully still.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ---------------------------------------------------------------- the sky */
+.moon { fill: #ffe9bd; }
+.moon-crater { fill: rgba(196, 156, 96, 0.34); }
+
+.stars circle { fill: #fff2d4; animation: twinkle 4.6s ease-in-out infinite; }
+.stars.far circle { opacity: 0.55; animation-duration: 6.4s; }
+
+.clouds .cloud ellipse { fill: rgba(74, 38, 96, 0.5); }
+.clouds .cloud { animation-name: cloudDrift; animation-timing-function: linear; animation-iteration-count: infinite; }
+@keyframes cloudDrift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(5200px); }
+}
+
+.ridge path { fill: #2a1550; }
+.near-ridge path { fill: #21114a; }
+
+/* ------------------------------------------------------------- the palace */
+.palace .stone, .stone { fill: #33194f; }
+.stone-band { fill: #3d1e5c; }
+.plinth { fill: #281244; }
+.ground { fill: #1b0e38; }
+.arch, .niche { fill: rgba(0, 0, 0, 0.32); }
+
+.lit-window {
+  fill: var(--gold);
+  animation: flicker 5.4s ease-in-out infinite;
+}
+@keyframes flicker {
+  0%, 100% { opacity: 0.8; }
+  38%      { opacity: 1; }
+  62%      { opacity: 0.66; }
+  81%      { opacity: 0.93; }
+}
+
+.flagpole { fill: #5b4370; }
+.pennant {
+  fill: #d1586f;
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: wave 3.1s ease-in-out infinite;
+}
+@keyframes wave {
+  0%, 100% { transform: skewY(0deg)   scaleX(1); }
+  30%      { transform: skewY(-7deg)  scaleX(0.9); }
+  64%      { transform: skewY(5deg)   scaleX(0.96); }
+}
+
+.motes circle { fill: var(--gold); opacity: 0.5; animation: drift linear infinite; }
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  18%  { opacity: 0.7; }
+  100% { transform: translate(58px, -190px) scale(1.15); opacity: 0; }
+}
+
+/* --------------------------------------------------------- Tara's window */
+.hero-glow { fill: url(#lampGlow); opacity: 0.9; animation: heroBreathe 6s ease-in-out infinite; }
+@keyframes heroBreathe {
+  0%, 100% { opacity: 0.72; }
+  50%      { opacity: 1; }
+}
+
+.frame-stone { fill: #46225f; }
+.frame-sill  { fill: #3a1b52; }
+
+.shutter rect { fill: #3c1d55; }
+.shutter-slat { fill: #4d2a68 !important; }
+.shutter {
+  transform-box: fill-box;
+  transition: transform 2200ms cubic-bezier(0.32, 0.9, 0.3, 1);
+}
+.shutter-l { transform-origin: left center; }
+.shutter-r { transform-origin: right center; }
+.hero-window.is-open .shutter-l { transform: perspective(600px) rotateY(-104deg); }
+.hero-window.is-open .shutter-r { transform: perspective(600px) rotateY(104deg); }
+
+/* once the camera is through, the frame and its clip stop existing */
+.hero-window.is-passed .hero-frame,
+.hero-window.is-passed .shutter,
+.hero-window.is-passed .hero-glow { opacity: 0; transition: opacity 700ms ease; }
+.portal.is-inside { clip-path: none !important; }
+
+/* ------------------------------------------------------------- the room */
+.room-wall { fill: #4b2a5e; }
+.room-floor { fill: #381c46; }
+.room-skirting { fill: #2c1438; }
+.rug { fill: #6d3152; }
+.rug-in { fill: #7d3a5d; }
+
+.bed-frame { fill: #5a3a2c; }
+.bed-post  { fill: #6b4634; }
+.bed-knob  { fill: var(--gold-deep); }
+.bed-sheet { fill: #d9c6a8; }
+.bed-pillow { fill: #f1e4cc; }
+
+.shelf-board { fill: #6b4634; }
+.book { fill: #b0524a; }
+.book.b2 { fill: #4e7ca8; }
+.book.b3 { fill: #d59a3c; }
+.book.b4 { fill: #6b9a63; }
+.book.b5 { fill: #9a5d9c; }
+
+.table-top, .table-leg { fill: #6b4634; }
+.lamp-dish { fill: #c08a34; }
+.lamp-halo { animation: lampPulse 4.2s ease-in-out infinite; }
+.flame-outer { fill: #ffb545; }
+.flame-inner { fill: #fff2cc; }
+.lamp-flame {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: flameDance 1.7s ease-in-out infinite;
+}
+@keyframes flameDance {
+  0%, 100% { transform: scale(1, 1)       translateX(0); }
+  28%      { transform: scale(0.9, 1.16)  translateX(-2px); }
+  61%      { transform: scale(1.08, 0.92) translateX(2px); }
+}
+@keyframes lampPulse {
+  0%, 100% { opacity: 0.82; }
+  50%      { opacity: 1; }
+}
+
+.cord { stroke: #4a3050; stroke-width: 5; }
+.lantern-body { fill: #b8703a; }
+.lantern-core { fill: var(--gold); animation: flicker 4.1s ease-in-out infinite; }
+.hang-lantern {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: hang 7.4s ease-in-out infinite;
+}
+.hang-lantern.l2 { animation-duration: 6.1s; animation-delay: 1.2s; }
+@keyframes hang {
+  0%, 100% { transform: rotate(-1.6deg); }
+  50%      { transform: rotate(1.6deg); }
+}
+
+.window-night { fill: #160c30; }
+.window-stars circle { fill: #fff2d4; animation: twinkle 5s ease-in-out infinite; }
+.window-moon { fill: #ffe9bd; }
+.window-sill { fill: #5a3a2c; }
+.window-mullion { fill: #4a2a38; }
+
+.curtain path { fill: #8d3f60; }
+.curtain-right path { fill: #7d3757; }
+.curtain {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: breeze 7.8s ease-in-out infinite;
+}
+.curtain-right { animation-duration: 8.8s; animation-delay: 0.9s; }
+@keyframes breeze {
+  0%, 100% { transform: skewX(0deg)    scaleX(1); }
+  34%      { transform: skewX(-2.6deg) scaleX(1.03); }
+  70%      { transform: skewX(1.8deg)  scaleX(0.985); }
+}
+.curtain-rod rect { fill: #6b4634; }
+
+/* -------------------------------------------------------------- the spark */
+.spark { opacity: 0; transition: opacity 900ms ease; }
+.spark-slot.is-live .spark { opacity: 1; }
+.spark-core { fill: #fff6dc; animation: sparkPulse 1.9s ease-in-out infinite; }
+.spark-halo { fill: url(#wordGlow); animation: sparkPulse 2.6s ease-in-out infinite; }
+.spark-rays rect { fill: rgba(255, 226, 160, 0.85); }
+.spark-rays {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin 9s linear infinite;
+}
+.spark-trail circle { fill: var(--gold); }
+.spark-trail .t1 { opacity: 0.34; animation: trail 1.5s ease-out infinite; }
+.spark-trail .t2 { opacity: 0.26; animation: trail 1.5s ease-out 0.1s infinite; }
+.spark-trail .t3 { opacity: 0.2;  animation: trail 1.5s ease-out 0.2s infinite; }
+.spark-trail .t4 { opacity: 0.14; animation: trail 1.5s ease-out 0.3s infinite; }
+@keyframes trail {
+  0%   { transform: translate(0, 0)      scale(1);   opacity: 0.34; }
+  100% { transform: translate(-52px, 30px) scale(0.2); opacity: 0; }
+}
+@keyframes sparkPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.28); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* the bloom: spark opens out into lettering */
+.spark-word {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.16) rotate(-16deg);
+  transition: opacity 900ms ease, transform 1100ms cubic-bezier(0.22, 1.4, 0.36, 1);
+}
+.spark-slot.is-word .spark-word { opacity: 1; transform: scale(1) rotate(0deg); }
+.spark-slot.is-word .spark-core { opacity: 0; transition: opacity 500ms ease; }
+.spark-slot.is-word .spark-rays { opacity: 0; transition: opacity 500ms ease; }
+.sw-aura { fill: url(#wordGlow); animation: sparkPulse 3.6s ease-in-out infinite; }
+.sw-plate { fill: rgba(44, 20, 58, 0.8); stroke: var(--gold); stroke-width: 3.5; }
+.sw-text {
+  font-family: var(--body);
+  font-size: 48px;
+  font-weight: 700;
+  fill: var(--gold);
+  letter-spacing: 0.02em;
+}
+.sw-motes circle { fill: var(--gold); animation: mote 4.4s ease-in-out infinite; }
+@keyframes mote {
+  0%, 100% { transform: translate(0, 0);       opacity: 0.14; }
+  30%      { transform: translate(10px, -18px); opacity: 1; }
+  66%      { transform: translate(-8px, -34px); opacity: 0.45; }
+}
+
+/* --------------------------------------------------------------- the title */
+.ui { position: absolute; inset: 0; pointer-events: none; }
+.title-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.title-motes circle {
+  fill: var(--gold);
+  opacity: 0;
+  transform: translate(var(--fx), var(--fy));
+}
+.show-title .title-motes circle { animation: gather 1900ms cubic-bezier(0.3, 0.8, 0.3, 1) forwards; }
+@keyframes gather {
+  0%   { opacity: 0;    transform: translate(var(--fx), var(--fy)) scale(1.4); }
+  25%  { opacity: 0.95; }
+  78%  { opacity: 0.9;  transform: translate(0, 0) scale(1); }
+  100% { opacity: 0;    transform: translate(0, 0) scale(0.3); }
+}
+
+.title-main, .title-sub { opacity: 0; }
+.title-main {
+  font-family: var(--display);
+  font-size: 72px;
+  font-weight: 600;
+  fill: var(--cream);
+  letter-spacing: -0.012em;
+}
+.title-sub {
+  font-family: var(--body);
+  font-size: 24px;
+  font-weight: 400;
+  fill: rgba(253, 243, 227, 0.82);
+  letter-spacing: 0.2em;
+}
+.show-title .title-main { animation: titleIn 2400ms cubic-bezier(0.2, 0.9, 0.3, 1) 1100ms forwards; }
+.show-sub   .title-sub  { animation: titleIn 1800ms ease-out 200ms forwards; }
+@keyframes titleIn {
+  0%   { opacity: 0; letter-spacing: 0.22em; }
+  100% { opacity: 1; letter-spacing: -0.012em; }
+}
+.show-sub .title-sub { letter-spacing: 0.2em; }
+
+/* --------------------------------------------------------------- controls */
+.replay {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 19px;
+  color: rgba(253, 243, 227, 0.7);
+  background: rgba(23, 13, 51, 0.55);
+  border: 1px solid rgba(253, 243, 227, 0.2);
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: color 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+.replay:hover { color: var(--gold); border-color: var(--gold); transform: scale(1.07); }
+
+/* ------------------------------------------------------------- responsive */
+@media (max-width: 700px) {
+  .title-main { font-size: 118px; }
+  .title-sub  { font-size: 36px; letter-spacing: 0.16em; }
+  .replay { right: 12px; bottom: 12px; }
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .title-motes circle { display: none; }
+  .title-main, .title-sub { opacity: 1; animation: none; }
+  .shutter { transition: none; }
+}

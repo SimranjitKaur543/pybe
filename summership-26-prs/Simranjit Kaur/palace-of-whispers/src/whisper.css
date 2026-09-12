@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCENE 1 — THE WHISPER
+   Additive only: nothing here alters how the opening looks.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ------------------------------------------------------------- new poses */
+
+/* leaning in, one hand cupped at her mouth */
+.pose-whisper .arm-near {
+  transform: rotate(-118deg) translateY(6px);
+  transition: transform 620ms cubic-bezier(0.3, 1.2, 0.5, 1);
+}
+.pose-whisper .body { transform: rotate(3deg); transition: transform 620ms ease; }
+.pose-whisper .head { transform: rotate(4deg) translateX(4px); transition: transform 620ms ease; }
+.pose-whisper .braid { animation: braidSway 4.4s ease-in-out infinite; }
+
+/* palm flat against the wall */
+.pose-touch .arm-near {
+  transform: rotate(-84deg);
+  transition: transform 760ms cubic-bezier(0.25, 1.1, 0.4, 1);
+}
+.pose-touch .body { transform: rotate(-3deg); transition: transform 760ms ease; }
+.pose-touch .head { transform: rotate(-4deg); transition: transform 760ms ease; }
+.pose-touch .arm-far { transform: rotate(6deg); transition: transform 760ms ease; }
+
+/* Mithu noticing before she does */
+.mithu-alert .mithu-wing { animation: flutter 0.62s ease-in-out 5; }
+.mithu-alert .mithu-head { animation: alertTilt 0.9s ease-in-out 4; }
+.mithu-alert .mithu-hop  { animation: hop 1.5s ease-in-out 3; }
+@keyframes alertTilt {
+  0%, 100% { transform: rotate(0deg); }
+  30%      { transform: rotate(-22deg); }
+  65%      { transform: rotate(16deg); }
+}
+
+/* ------------------------------------------------- the first word, parked */
+.spark-slot.is-dimmed { opacity: 0.34; transition: opacity 2600ms ease; }
+
+/* ------------------------------------------------------- her word's fate */
+
+/* thrown back off the wall */
+.spark-slot.is-bouncing .spark-word {
+  animation: recoil 700ms cubic-bezier(0.3, 1.5, 0.4, 1);
+}
+@keyframes recoil {
+  0%   { transform: scale(1)          rotate(0deg); }
+  22%  { transform: scale(0.72, 1.26) rotate(-9deg); }
+  55%  { transform: scale(1.14, 0.86) rotate(7deg); }
+  100% { transform: scale(1)          rotate(0deg); }
+}
+
+/* pressing against the boundary, and failing */
+.spark-slot.is-straining .spark-word { animation: strain 1.1s ease-in-out; }
+.spark-slot.is-straining .sw-plate   { stroke: #ffb0a0; }
+@keyframes strain {
+  0%, 100% { transform: scale(1, 1); }
+  35%      { transform: scale(0.88, 1.1) translateX(-9px); }
+  70%      { transform: scale(0.94, 1.04) translateX(-4px); }
+}
+
+.spark-slot.is-fading {
+  opacity: 0;
+  transform-box: fill-box;
+  transition: opacity 1500ms ease-in;
+}
+.spark-slot.is-fading .sw-motes circle { animation: scatter 1400ms ease-out forwards; }
+@keyframes scatter {
+  0%   { opacity: 1; transform: translate(0, 0)     scale(1); }
+  100% { opacity: 0; transform: translate(0, -34px) scale(0.2); }
+}
+
+/* --------------------------------------------------- the wall pushes back */
+.wall-ripple { opacity: 0; }
+.wall-ripple .wr {
+  fill: none;
+  stroke: rgba(255, 214, 140, 0.9);
+  stroke-width: 5;
+}
+.wall-ripple.is-hit { opacity: 1; }
+.wall-ripple.is-hit .r1 { animation: ripple 900ms ease-out forwards; }
+.wall-ripple.is-hit .r2 { animation: ripple 900ms ease-out 140ms forwards; }
+.wall-ripple.is-hit .r3 { animation: ripple 900ms ease-out 280ms forwards; }
+@keyframes ripple {
+  0%   { r: 18;  opacity: 0.95; stroke-width: 7; }
+  100% { r: 230; opacity: 0;    stroke-width: 1; }
+}
+
+/* the wall itself answers her hand */
+.room.wall-felt .room-wall { filter: brightness(1.14); transition: filter 900ms ease; }
+
+/* ------------------------------------------------------------- the door */
+.door-frame { fill: #3a1d2c; }
+.door-leaf  { fill: #6b4634; }
+.door-panel { fill: #5a3a2c; }
+.door-knob  { fill: var(--gold-deep); }
+.room-door.is-noticed .door-knob { animation: knobGlint 1.6s ease-in-out 2; }
+@keyframes knobGlint {
+  0%, 100% { fill: var(--gold-deep); }
+  50%      { fill: #fff3d0; }
+}
+
+/* ----------------------------------------------- retiring the title card */
+/* Higher specificity than .show-title's rule so it wins while both are set. */
+.ui.show-title.title-out .title-main,
+.ui.show-title.title-out .title-sub {
+  animation: titleOut 1400ms ease forwards;
+}
+@keyframes titleOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* --------------------------------------------------------- the one line */
+.narration {
+  position: absolute;
+  left: 50%;
+  bottom: 11%;
+  transform: translateX(-50%) translateY(14px);
+  margin: 0;
+  padding: 0 22px;
+  max-width: min(720px, 88vw);
+  text-align: center;
+  font-family: var(--display);
+  font-size: clamp(20px, 2.7vw, 34px);
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(253, 243, 227, 0.94);
+  text-shadow: 0 4px 26px rgba(12, 6, 26, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1500ms ease, transform 1500ms cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+/* .narration is the next sibling after .ui inside .stage */
+.ui.show-line ~ .narration {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .wall-ripple.is-hit .wr { animation: none; opacity: 0.5; }
+  .spark-slot.is-fading { opacity: 0; }
+  .narration { transition: none; }
+}
