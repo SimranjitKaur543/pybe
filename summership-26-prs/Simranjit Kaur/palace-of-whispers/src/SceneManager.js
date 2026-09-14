@@ -6,7 +6,7 @@
 import { Camera } from './engine/Camera.js';
 import { Actor } from './engine/Actor.js';
 import { CodeSpell } from './engine/CodeSpell.js';
-import { tween, ease, REDUCED, newRun, currentGeneration } from './engine/anim.js';
+import { tween, ease, REDUCED, newRun, currentGeneration, togglePause, resume, isPaused, clockDebug } from './engine/anim.js';
 import { tara as taraArt } from './art/cast.js';
 import { defs } from './art/parts.js';
 import { palaceNight, heroClipDef, HERO } from './art/scenes/palaceNight.js';
@@ -160,6 +160,10 @@ export function mountStory(root) {
 
       <div class="code-air"><pre class="ca-lines"></pre></div>
 
+      <button class="pausebtn" type="button" aria-label="Pause the story" aria-pressed="false">
+        <span class="pause-icon" aria-hidden="true">&#10073;&#10073;</span>
+        <span class="play-icon" aria-hidden="true">&#9654;</span>
+      </button>
       <button class="replay" type="button" aria-label="Replay the story from the beginning">
         <span class="replay-icon" aria-hidden="true">&#8635;</span>
         <span class="replay-label">Replay the story</span>
@@ -246,6 +250,13 @@ export function mountStory(root) {
     sparkSlot.classList.remove('is-settled');
     root.querySelector('.layer-glows').classList.remove('is-soft');
     root.querySelector('.replay').classList.remove('is-offered');
+    // a replay while paused would start a story whose clock is stopped
+    resume();
+    root.querySelector('.stage').classList.remove('is-paused');
+    const pb = root.querySelector('.pausebtn');
+    pb.classList.remove('is-paused');
+    pb.setAttribute('aria-pressed', 'false');
+    pb.setAttribute('aria-label', 'Pause the story');
     stage.ui.classList.remove('is-ending');
     delete stage.ui.dataset.line;
     stage.ui.classList.remove('show-title', 'show-sub', 'show-line');
@@ -258,6 +269,31 @@ export function mountStory(root) {
     camera.unfollow();
     playStory(stage);
   };
+
+  // ── pause ───────────────────────────────────────────────────────────────
+  // Stopping the clock freezes tweens and holds; the class stops CSS
+  // animations, which run on their own timeline the clock cannot reach.
+  const pauseBtn = root.querySelector('.pausebtn');
+  const stageEl = root.querySelector('.stage');
+
+  const setPaused = (on) => {
+    stageEl.classList.toggle('is-paused', on);
+    pauseBtn.classList.toggle('is-paused', on);
+    pauseBtn.setAttribute('aria-pressed', String(on));
+    pauseBtn.setAttribute('aria-label', on ? 'Resume the story' : 'Pause the story');
+  };
+
+  pauseBtn.addEventListener('click', () => setPaused(togglePause()));
+
+  // Space is what everyone reaches for. Ignore it while a button has focus,
+  // or it would toggle the pause AND re-trigger whatever is focused.
+  addEventListener('keydown', (e) => {
+    if (e.code !== 'Space' && e.key !== ' ') return;
+    const t = e.target;
+    if (t instanceof HTMLElement && (t.tagName === 'BUTTON' || t.isContentEditable)) return;
+    e.preventDefault();
+    setPaused(togglePause());
+  });
 
   root.querySelector('.replay').addEventListener('click', run);
 
@@ -322,7 +358,7 @@ export function mountStory(root) {
 
   // Dev-only: lets a single scene be replayed without sitting through the ones
   // before it. Stripped from production builds by Vite.
-  if (import.meta.env.DEV) window.__palace = { stage, scenes, run, currentGeneration, newRun };
+  if (import.meta.env.DEV) window.__palace = { stage, scenes, run, currentGeneration, newRun, clockDebug, togglePause };
 
   return stage;
 }

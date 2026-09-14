@@ -99,10 +99,54 @@
 .replay:hover .replay-label { max-width: 180px; opacity: 1; }
 .replay:hover { gap: 9px; }
 
+/* ---------------------------------------------------------- pause control */
+/* Sits beside Replay and is available from the first frame, unlike Replay
+   which only offers itself at the end. A seven-minute film with no way to stop
+   it is a film people close. */
+.pausebtn {
+  position: absolute;
+  right: 72px;
+  bottom: 18px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 14px;
+  color: rgba(253, 243, 227, 0.7);
+  background: rgba(23, 13, 51, 0.55);
+  border: 1px solid rgba(253, 243, 227, 0.2);
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: color 220ms ease, border-color 220ms ease;
+}
+.pausebtn:hover, .pausebtn:focus-visible { color: var(--gold); border-color: var(--gold); }
+.pausebtn:focus-visible { outline: 3px solid rgba(255, 212, 137, 0.85); outline-offset: 3px; }
+.pause-icon { letter-spacing: 1px; font-size: 12px; }
+.play-icon { display: none; font-size: 15px; margin-left: 2px; }
+/* while paused the control inverts, and goes gold so it is obvious why the
+   palace has stopped moving */
+.pausebtn.is-paused .pause-icon { display: none; }
+.pausebtn.is-paused .play-icon { display: inline; }
+.pausebtn.is-paused { color: var(--gold); border-color: rgba(255, 212, 137, 0.6); }
+
+/* The story clock freezes tweens and the holds between beats, but CSS
+   animations run on a timeline of their own that the clock cannot reach —
+   flames, motes, breathing, the walk cycle. They have to be stopped here, or
+   pausing would leave a frozen camera over a still-fidgeting palace.
+   Scoped to the scene so the controls themselves stay responsive. */
+.stage.is-paused .stage-svg *,
+.stage.is-paused .narration,
+.stage.is-paused .code-air * {
+  animation-play-state: paused !important;
+}
+
 /* ------------------------------------------------------------ responsive */
 @media (max-width: 780px) {
   .title-sub2 { font-size: 34px; letter-spacing: 0.12em; }
   .replay { right: 12px; bottom: 12px; height: 40px; font-size: 13px; }
+  .pausebtn { right: 60px; bottom: 12px; width: 40px; height: 40px; }
   /* on a phone the label would crowd the frame; the icon carries it */
   .replay.is-offered .replay-label, .replay:hover .replay-label { max-width: 128px; }
 }
