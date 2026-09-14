@@ -26,24 +26,24 @@ export async function courtyardScene(stage) {
   // absence outside reads as absence, not as something we forgot to draw.
   hers.at(-620, -240).setScale(1);
   hers.el.classList.add('is-live', 'is-word', 'is-homebound');
-  await wait(500);
+  await wait(400);
 
   // ── 2. Mithu has the idea first ─────────────────────────────────────────
   root.querySelector('.tara').classList.add('mithu-alert');
-  await wait(700);
+  await wait(500);
   tara.express('curious');
   await tara.face('right');
-  await wait(400);
+  await wait(300);
 
   // ── 3. out through her own door ─────────────────────────────────────────
   door.classList.add('is-open');
-  await wait(600);
+  await wait(500);
 
   camera.follow(tara, { map: (x, y) => inRoom(x, y), offsetY: -150, lag: 0.028 });
   await tara.walkTo(ROOM.doorX + 40, { speed: 210 });
 
   // hold on the doorway a moment: her room is still there behind her
-  await wait(500);
+  await wait(400);
   await tara.walkTo(COURT.x0 + 300, { speed: 200 });
 
   // ── 4. the courtyard opens up ───────────────────────────────────────────
@@ -51,19 +51,19 @@ export async function courtyardScene(stage) {
   await camera.to({
     ...inRoom(COURT.centreX - 260, -120),
     zoom: camera.fitRoom(3077),
-    duration: 2900,
+    duration: 2300,
     easing: ease.inOut
   });
 
   tara.express('surprised');
-  await wait(600);
+  await wait(500);
 
   // she looks around the bigger space
   await tara.face('left');
-  await wait(400);
+  await wait(300);
   await tara.face('right');
   tara.express('curious');
-  await wait(500);
+  await wait(400);
 
   // ── 5. the only interaction in the story ────────────────────────────────
   // NOTE: the position goes on the anchor. Setting it on .ask-prompt itself is
@@ -77,7 +77,7 @@ export async function courtyardScene(stage) {
   await camera.to({
     ...inRoom(COURT.askX, -250),
     zoom: camera.fitRoom(2150),
-    duration: 2000,
+    duration: 1600,
     easing: ease.inOut
   });
   await tara.face('right');
@@ -107,7 +107,7 @@ export async function courtyardScene(stage) {
   // ── 6. she asks ─────────────────────────────────────────────────────────
   await parallel(
     tara.walkTo(COURT.askX, { speed: 190 }),
-    camera.to({ ...inRoom(COURT.askX + 60, -180), zoom: camera.fitRoom(2667), duration: 2100 })
+    camera.to({ ...inRoom(COURT.askX + 60, -180), zoom: camera.fitRoom(2667), duration: 1700 })
   );
   await wait(300);
 
@@ -118,7 +118,7 @@ export async function courtyardScene(stage) {
 
   speechAt.setAttribute('transform', `translate(${COURT.askX + 30} -330)`);
   speech.classList.add('is-spoken');
-  await wait(1400);
+  await wait(1100);
   tara.setPose('idle');
   speech.classList.remove('is-spoken');
 
@@ -126,12 +126,12 @@ export async function courtyardScene(stage) {
   qMotes.setAttribute('transform', `translate(${COURT.askX + 40} -420)`);
   qMotes.classList.add('is-asking');
   root.querySelector('.courtyard').classList.add('is-hushed');
-  await wait(1400);
+  await wait(1100);
   qMotes.classList.remove('is-asking');
 
   tara.express('confused');
   root.querySelector('.tara').classList.add('mithu-alert');
-  await wait(900);
+  await wait(700);
 
   // ── 8. she looks back — and it is still in there ────────────────────────
   await tara.face('left');
@@ -142,18 +142,18 @@ export async function courtyardScene(stage) {
   await camera.to({
     ...inRoom(700, -180),
     zoom: camera.fitRoom(4706),
-    duration: 2900,
+    duration: 2300,
     easing: ease.inOut
   });
   hers.el.classList.add('is-beckoning');
-  await wait(1400);
+  await wait(1100);
 
   // ── 9. the line ─────────────────────────────────────────────────────────
   ui.dataset.line = 'born';
   ui.classList.add('show-line');
   await wait(4800);
   ui.classList.remove('show-line');
-  await wait(500);
+  await wait(400);
 
   root.querySelector('.tara').classList.remove('mithu-alert');
   root.querySelector('.courtyard').classList.remove('is-hushed');

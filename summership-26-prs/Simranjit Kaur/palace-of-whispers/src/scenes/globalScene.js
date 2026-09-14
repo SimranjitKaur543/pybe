@@ -23,13 +23,13 @@ export async function globalScene(stage) {
   reach.classList.remove('show-shadow');
   spark.el.classList.remove('is-shadowed');
   hers.el.classList.remove('is-shadowing');
-  await wait(500);
+  await wait(400);
 
   // ── 1. she looks out at the palace's name ───────────────────────────────
-  await camera.to({ ...inRoom(400, -620), zoom: camera.zoomToFitWidth(1420), duration: 2200 });
+  await camera.to({ ...inRoom(400, -620), zoom: camera.zoomToFitWidth(1420), duration: 1800 });
   await tara.face('right');
   tara.express('curious');
-  await wait(900);
+  await wait(700);
 
   // ── 2. Mithu: then you must speak to the palace ─────────────────────────
   fig.classList.add('mithu-alert');
@@ -40,15 +40,15 @@ export async function globalScene(stage) {
   fig.classList.remove('mithu-alert');
 
   // ── 3. the megaphone ────────────────────────────────────────────────────
-  await camera.to({ ...inRoom(-200, -300), zoom: camera.zoomToFitWidth(880), duration: 2000 });
+  await camera.to({ ...inRoom(-200, -300), zoom: camera.zoomToFitWidth(880), duration: 1600 });
   fig.classList.add('has-megaphone');
-  await wait(600);
+  await wait(500);
   tara.setPose('reach');
   tara.express('happy');
-  await wait(600);
+  await wait(500);
 
   // ── 4. the reach: out of her room, all the way to the palace ────────────
-  await camera.to({ ...inRoom(700, -700), zoom: camera.zoomToFitWidth(1620), duration: 2100 });
+  await camera.to({ ...inRoom(700, -700), zoom: camera.zoomToFitWidth(1620), duration: 1700 });
 
   // the declaration goes in ABOVE the assignment, because that is where it has
   // to be: it changes what the assignment on the next line means
@@ -56,11 +56,11 @@ export async function globalScene(stage) {
   code.mark(3, 'is-claim');
   code.note(3, "rebinds the palace name, not a local one");
   await code.append(['    name = "Tara"'], { stagger: 0 });
-  await wait(1000);
+  await wait(800);
 
   reach.classList.add('show-global');
   camera.shake(6);
-  await wait(1500);
+  await wait(1100);
 
   // the palace's own name changes — not a copy of it
   spark.el.classList.add('is-touched');
@@ -68,24 +68,24 @@ export async function globalScene(stage) {
   spark.el.classList.remove('is-touched');
   spark.el.classList.add('is-answering');
   camera.shake(8);
-  await wait(1400);
+  await wait(1100);
 
   tara.setPose('idle');
   spark.el.classList.remove('is-answering');
   reach.classList.remove('show-global');
   fig.classList.remove('has-megaphone');
-  await wait(600);
+  await wait(500);
 
   // ── 5. name the thing she just did ──────────────────────────────────────
   const globalTag = root.querySelector('.mlabel-global');
   globalTag.classList.add('is-named', 'is-inline');
-  await wait(2200);
+  await wait(1700);
   globalTag.classList.remove('is-inline', 'is-named');
 
   // ── 6. one mention of the other one ─────────────────────────────────────
   // Shown as a shorter reach that stops at the enclosing space, so the
   // difference from `global` is visible rather than asserted.
-  await camera.to({ ...inRoom(260, -420), zoom: camera.zoomToFitWidth(1240), duration: 2100 });
+  await camera.to({ ...inRoom(260, -420), zoom: camera.zoomToFitWidth(1240), duration: 1700 });
   fig.classList.add('mithu-alert');
 
   // The enclosing layer has been architecture up to now. Here it finally gets
@@ -104,7 +104,7 @@ export async function globalScene(stage) {
   code.focus(4);
   code.note(4, 'reaches the ENCLOSING room only');
   reach.classList.add('show-nonlocal');
-  await wait(1400);
+  await wait(1100);
 
   ui.dataset.line = 'nonlocal';
   ui.classList.add('show-line');
@@ -116,5 +116,5 @@ export async function globalScene(stage) {
   code.clearNotes();
 
   tara.express('happy');
-  await wait(900);
+  await wait(700);
 }

@@ -220,9 +220,12 @@
 }
 .ml-note {
   font-family: var(--body);
-  font-size: 58px;
+  /* was 58px against a 150px label, illegible in the wide shot where all four
+     layers appear at once. This line now carries the palace-to-Python mapping,
+     so it has to be readable. */
+  font-size: 80px;
   font-style: italic;
-  fill: rgba(253, 243, 227, 0.62);
+  fill: rgba(253, 243, 227, 0.86);
   opacity: 0;
 }
 .ml-rule { fill: none; stroke: var(--gold); stroke-width: 5; opacity: 0; }

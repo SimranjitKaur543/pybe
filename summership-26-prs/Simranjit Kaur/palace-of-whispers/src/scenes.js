@@ -31,13 +31,30 @@ export async function opening(stage) {
   camera.set({ x: 300, y: -1080, zoom: camera.zoomToFitWidth(2000) });
   tara.setPose('idle').express('neutral');
 
-  await wait(600);
+  await wait(400);
+
+  // ── 1b. the premise, said before the metaphor that illustrates it ────────
+  // This used to be six seconds of empty sky. The film opened straight into
+  // "some words don't travel far" over a palace, so for minutes a viewer had
+  // no way of knowing it was about Python — and went away having learned
+  // something about a palace. The statement runs CONCURRENTLY with the drift,
+  // so it orients the viewer without costing the film any time.
+  const intro = (async () => {
+    ui.dataset.line = 'premise';
+    ui.classList.add('show-line');
+    await wait(2100);
+    ui.dataset.line = 'premise2';
+    await wait(2100);
+    ui.dataset.line = 'premise3';
+    await wait(2200);
+    ui.classList.remove('show-line');
+  })();
 
   // drift across the stars, the palace still out of frame below
   await camera.to({
     x: 1150, y: -560,
     zoom: camera.zoomToFitWidth(2300),
-    duration: 2200,
+    duration: 2300,
     easing: ease.inOut
   });
 
@@ -45,9 +62,10 @@ export async function opening(stage) {
   await camera.to({
     x: 1600, y: 420,
     zoom: camera.zoomToFitWidth(1900),
-    duration: 3400,
+    duration: 2600,
     easing: ease.inOut
   });
+  await intro;
 
   // let the windows breathe before moving again
   await wait(400);
@@ -56,7 +74,7 @@ export async function opening(stage) {
   await camera.to({
     x: HERO.x, y: HERO.y,
     zoom: camera.zoomToFitWidth(780),
-    duration: 2400,
+    duration: 1800,
     easing: ease.inOut
   });
 
@@ -91,7 +109,7 @@ export async function opening(stage) {
   const through = camera.to({
     ...inRoom(0, 40),
     zoom: camera.fitRoom(1739),
-    duration: 3400,
+    duration: 2600,
     easing: ease.inOut
   });
   await wait(1900);
@@ -100,12 +118,12 @@ export async function opening(stage) {
   await through;
 
   // ── 6. inside. she moves about her room ──────────────────────────────────
-  await camera.to({ ...inRoom(-40, 90), zoom: camera.fitRoom(1667), duration: 2200 });
+  await camera.to({ ...inRoom(-40, 90), zoom: camera.fitRoom(1667), duration: 1800 });
   await wait(600);
 
   await parallel(
     tara.walkTo(ROOM.taraX - 360, { speed: 210 }),
-    camera.to({ ...inRoom(-220, 110), zoom: camera.fitRoom(1684), duration: 3000 })
+    camera.to({ ...inRoom(-220, 110), zoom: camera.fitRoom(1684), duration: 2300 })
   );
   await wait(700);
   await tara.face('right');
@@ -120,8 +138,8 @@ export async function opening(stage) {
 
   // it drifts toward her; she watches it come
   await parallel(
-    spark.moveTo(-60, -60, { duration: 2600, easing: ease.inOut }),
-    camera.to({ ...inRoom(-160, 40), zoom: camera.fitRoom(1481), duration: 2600 })
+    spark.moveTo(-60, -60, { duration: 2000, easing: ease.inOut }),
+    camera.to({ ...inRoom(-160, 40), zoom: camera.fitRoom(1481), duration: 2000 })
   );
 
   // she reaches — and it slips away
@@ -137,7 +155,7 @@ export async function opening(stage) {
   tara.express('curious');
   await parallel(
     tara.walkTo(ROOM.taraX - 60, { speed: 190 }),
-    camera.to({ ...inRoom(40, -10), zoom: camera.fitRoom(1569), duration: 2400 })
+    camera.to({ ...inRoom(40, -10), zoom: camera.fitRoom(1569), duration: 1800 })
   );
   await wait(500);
 
@@ -155,13 +173,13 @@ export async function opening(stage) {
   await wait(1600);
 
   // ── 9. the title gathers out of the air ──────────────────────────────────
-  await camera.to({ ...inRoom(30, 10), zoom: camera.fitRoom(1778), duration: 2600 });
+  await camera.to({ ...inRoom(30, 10), zoom: camera.fitRoom(1778), duration: 2000 });
   ui.classList.add('show-title');
-  await wait(4200);
+  await wait(3400);
   ui.classList.add('show-sub');
 
   // the world keeps living behind the title
-  await wait(4000);
+  await wait(3000);
 }
 
 /** The story so far. Each entry continues the last; the stage is never rebuilt. */

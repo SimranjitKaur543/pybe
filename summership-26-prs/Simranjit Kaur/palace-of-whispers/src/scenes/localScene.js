@@ -28,16 +28,16 @@ export async function localScene(stage) {
   // ── 1. back to her room, the palace's name still glowing out there ──────
   await parallel(
     tara.walkTo(ROOM.taraX - 120, { speed: 240 }),
-    camera.to({ ...inRoom(-120, -240), zoom: camera.zoomToFitWidth(760), duration: 2800 })
+    camera.to({ ...inRoom(-120, -240), zoom: camera.zoomToFitWidth(760), duration: 2200 })
   );
   fig.classList.remove('has-lantern');
   await tara.face('right');
   tara.express('curious');
-  await wait(700);
+  await wait(500);
 
   // ── 2. "I'll make my own." ──────────────────────────────────────────────
   tara.setPose('whisper');
-  await wait(600);
+  await wait(500);
 
   hers.setText('MITHU').at(HER_WORD.x, HER_WORD.y).setScale(0.05);
   hers.el.classList.remove('is-homebound', 'is-beckoning');
@@ -52,18 +52,18 @@ export async function localScene(stage) {
   code.mark(3, 'is-claim');
   code.note(3, 'assigning MAKES a new local name');
   await code.append(['    print(name)'], { stagger: 0 });
-  await wait(1300);
-
-  // both exist: same name, two different places
-  await camera.to({ ...inRoom(560, -620), zoom: camera.zoomToFitWidth(1500), duration: 2200 });
   await wait(1000);
 
+  // both exist: same name, two different places
+  await camera.to({ ...inRoom(560, -620), zoom: camera.zoomToFitWidth(1500), duration: 1800 });
+  await wait(800);
+
   // ── 3. she changes HERS ─────────────────────────────────────────────────
-  await camera.to({ ...inRoom(-260, -260), zoom: camera.zoomToFitWidth(820), duration: 2000 });
+  await camera.to({ ...inRoom(-260, -260), zoom: camera.zoomToFitWidth(820), duration: 1600 });
   await tara.walkTo(HER_WORD.x + 250, { speed: 200 });
   await tara.face('left');
   tara.setPose('reach');
-  await wait(400);
+  await wait(300);
 
   hers.el.classList.add('is-touched');
   camera.shake(4);
@@ -71,32 +71,32 @@ export async function localScene(stage) {
   hers.el.classList.remove('is-touched');
   tara.setPose('idle');
   tara.express('surprised');
-  await wait(700);
+  await wait(500);
 
   // ── 4. and the palace's is exactly as it was ────────────────────────────
-  await camera.to({ ...inRoom(620, -640), zoom: camera.zoomToFitWidth(1560), duration: 2200 });
+  await camera.to({ ...inRoom(620, -640), zoom: camera.zoomToFitWidth(1560), duration: 1800 });
   spark.el.classList.add('is-answering');
   code.note(0, 'untouched');
-  await wait(1400);
+  await wait(1100);
   spark.el.classList.remove('is-answering');
   code.note(0, '');
 
   tara.express('happy');
   fig.classList.add('mithu-alert');
-  await wait(1000);
+  await wait(800);
   fig.classList.remove('mithu-alert');
 
   // ── 5. only now, the word for it ────────────────────────────────────────
   const localTag = root.querySelector('.mlabel-local');
   localTag.classList.add('is-named', 'is-inline');
-  await wait(2200);
+  await wait(1700);
 
   // ── 6. the asymmetry, said once and plainly ─────────────────────────────
   // Reading looked outward one scene ago. Assigning did not. Same function,
   // same name — the only difference is which side of the "=" it sat on.
   code.unmark('is-claim');
   code.focus(3);
-  await wait(900);
+  await wait(700);
   ui.dataset.line = 'readassign';
   ui.classList.add('show-line');
   await wait(4400);
@@ -104,22 +104,22 @@ export async function localScene(stage) {
   code.unfocus();
 
   // ── 7. shadowing: the nearer name covers the wider one ──────────────────
-  await camera.to({ ...inRoom(-160, -420), zoom: camera.zoomToFitWidth(1120), duration: 2200 });
-  await wait(500);
+  await camera.to({ ...inRoom(-160, -420), zoom: camera.zoomToFitWidth(1120), duration: 1800 });
+  await wait(400);
 
   root.querySelector('.reach').classList.add('show-shadow');
   spark.el.classList.add('is-shadowed');
   hers.el.classList.add('is-shadowing');
   code.focus(4);
   code.note(4, 'finds the local one; outer is hidden');
-  await wait(1800);
+  await wait(1400);
 
   ui.dataset.line = 'hides';
   ui.classList.add('show-line');
   await wait(4200);
   ui.classList.remove('show-line');
 
-  await wait(700);
+  await wait(500);
   code.unfocus();
   code.clearNotes();
   // both classes, not just is-inline: leaving is-named on meant the word

@@ -36,32 +36,32 @@ export async function layersScene(stage) {
   await camera.to({
     ...inRoom(900, -420),
     zoom: camera.zoomToFitWidth(1080),
-    duration: 2900,
+    duration: 2300,
     easing: ease.inOut
   });
-  await wait(400);
+  await wait(300);
 
   // reveal the shell and the world beyond it as we clear the roofline
   root.querySelector('.portal').classList.add('show-shell');
   await camera.to({
     ...inRoom(980, -940),
     zoom: camera.zoomToFitWidth(1760),
-    duration: 3200,
+    duration: 2600,
     easing: ease.inOut
   });
-  await wait(600);
+  await wait(500);
 
   // ── 2. the palace lights its layers, from the word outward ──────────────
   glows.classList.add('is-live');
 
   for (const layer of LAYERS) {
     root.querySelector(`.${layer.cls}`).classList.add('is-lit');
-    await wait(500);
+    await wait(400);
     labels.querySelector(`.mlabel-${layer.id}`).classList.add('is-named');
-    await wait(1200);
+    await wait(900);
   }
 
-  await wait(700);
+  await wait(500);
 
   ui.dataset.line = 'names';
   ui.classList.add('show-line');
@@ -80,5 +80,5 @@ export async function layersScene(stage) {
   code.dock();
   await code.write(['name = "Mithu"'], { stagger: 0 });
   code.note(0, 'Global — out in the open palace');
-  await wait(2100);
+  await wait(1600);
 }

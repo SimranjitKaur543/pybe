@@ -124,11 +124,18 @@ export function mountStory(root) {
         </svg>
       </div>
 
+      <!-- The film used to open straight into the metaphor, so for three
+           minutes a viewer had no idea it was about Python at all. These two
+           lines say what is being taught BEFORE the story that illustrates it,
+           and they play over the sky drift that was empty anyway. -->
+      <p class="narration" data-for="premise">In Python, a <em>function</em> is a room.</p>
+      <p class="narration" data-for="premise2">A <em>variable</em> you make inside it stays inside it.</p>
+      <p class="narration" data-for="premise3">This is a story about where variables live.</p>
       <p class="narration" data-for="far">Some words don't travel far.</p>
-      <p class="narration" data-for="born">Some words belong to the place where they were born.</p>
-      <p class="narration" data-for="names">Python gives these places names.</p>
-      <p class="narration" data-for="wider">Words can be found in wider places too.</p>
-      <p class="narration" data-for="hides">Sometimes a nearer name hides a wider one.</p>
+      <p class="narration" data-for="born">Some variables belong only to the place where they were born.</p>
+      <p class="narration" data-for="names">Python gives these places names. They are called <em>scopes</em>.</p>
+      <p class="narration" data-for="wider">A variable can be found in a wider place too.</p>
+      <p class="narration" data-for="hides">A nearer variable hides a wider one with the same name.</p>
       <p class="narration" data-for="speak">Then you must speak to the palace.</p>
       <p class="narration" data-for="nonlocal">And if you mean the surrounding room, Python has <em>nonlocal</em>.</p>
       <p class="narration" data-for="claimed">But Tara had already claimed that name for her room.</p>

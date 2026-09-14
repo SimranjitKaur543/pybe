@@ -140,10 +140,10 @@ export function palaceNight() {
       <g class="tara-slot"></g>
       ${layerGlows()}
       <g class="magic-labels">
-        ${magicLabel('local',     'Local',     -330, -900)}
-        ${magicLabel('enclosing', 'Enclosing', 1870, -1120, 'because her room sits inside it')}
-        ${magicLabel('global',    'Global',    980,  -1760)}
-        ${magicLabel('builtin',   'Built-in',  980,  -2520)}
+        ${magicLabel('local',     'Local',     -330, -900,  'inside one function')}
+        ${magicLabel('enclosing', 'Enclosing', 1870, -1120, 'a function written inside another')}
+        ${magicLabel('global',    'Global',    980,  -1760, 'the whole file')}
+        ${magicLabel('builtin',   'Built-in',  980,  -2520, 'names Python already knows')}
       </g>
       ${readTrails()}
       ${perchedMithu()}

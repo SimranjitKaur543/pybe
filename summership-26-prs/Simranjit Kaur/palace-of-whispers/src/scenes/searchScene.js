@@ -42,9 +42,9 @@ export async function searchScene(stage) {
   spark.el.classList.remove('is-dimmed');
   spark.el.classList.add('is-live', 'is-word', 'is-outer');
 
-  await camera.to({ ...inRoom(760, -560), zoom: camera.zoomToFitWidth(1180), duration: 2100 });
+  await camera.to({ ...inRoom(760, -560), zoom: camera.zoomToFitWidth(1180), duration: 1700 });
   tara.express('curious');
-  await wait(600);
+  await wait(500);
 
   // ── 2. Mithu's line ─────────────────────────────────────────────────────
   fig.classList.add('mithu-alert');
@@ -58,11 +58,11 @@ export async function searchScene(stage) {
   code.clearNotes();
   await code.append(['', 'def room():', '    print(name)'], { stagger: 380 });
   code.focus(3);
-  await wait(700);
+  await wait(500);
 
   // ── 4. she takes up the lantern ─────────────────────────────────────────
   fig.classList.add('has-lantern');
-  await wait(600);
+  await wait(500);
 
   // ── 5. the light widens outward, one nested space at a time ─────────────
   glows.classList.add('is-live', 'is-searching');
@@ -77,14 +77,14 @@ export async function searchScene(stage) {
     if (step.cls === 'lg-enclosing') {
       parallel(
         tara.walkTo(COURT.centreX - 200, { speed: 230 }),
-        camera.to({ ...inRoom(900, -640), zoom: camera.zoomToFitWidth(1420), duration: 2200 })
+        camera.to({ ...inRoom(900, -640), zoom: camera.zoomToFitWidth(1420), duration: 1800 })
       );
     }
     if (step.cls === 'lg-global') {
-      camera.to({ ...inRoom(980, -860), zoom: camera.zoomToFitWidth(1780), duration: 2400 });
+      camera.to({ ...inRoom(980, -860), zoom: camera.zoomToFitWidth(1780), duration: 1900 });
     }
 
-    await wait(1400);
+    await wait(1100);
 
     if (step.found) {
       layer.classList.remove('is-probing');
@@ -93,7 +93,7 @@ export async function searchScene(stage) {
       code.mark(3, 'is-ok');
       tara.express('happy');
       camera.shake(5);
-      await wait(1800);
+      await wait(1400);
     } else {
       layer.classList.remove('is-probing');
       layer.classList.add('is-empty');
@@ -102,7 +102,7 @@ export async function searchScene(stage) {
   }
 
   // the kingdom stays dark: the looking ended the moment the name was found
-  await wait(1000);
+  await wait(800);
 
   // ── 6. and the Built-in ring finally earns its keep ─────────────────────
   // `print` was on screen the whole time. It is not hers, not the courtyard's
@@ -112,7 +112,7 @@ export async function searchScene(stage) {
   code.note(3, 'and print? found in the outermost ring');
   root.querySelector('.lg-builtin').classList.add('is-lit', 'is-found');
   root.querySelector('.mlabel-builtin').classList.add('is-named');
-  await wait(1300);
+  await wait(1000);
 
   ui.dataset.line = 'builtin';
   ui.classList.add('show-line');

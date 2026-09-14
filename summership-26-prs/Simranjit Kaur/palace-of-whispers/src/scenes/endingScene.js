@@ -90,58 +90,21 @@ export async function endingScene(stage) {
   await tara.face('right');
   await wait(600);
 
-  // ── 3. the palace comes up, window by window ────────────────────────────
-  root.querySelector('.portal').classList.add('show-shell');
-  await camera.to({ ...inRoom(900, -620), zoom: camera.fitRoom(3600), duration: 3600 });
-
-  const windows = [...root.querySelectorAll('.shell-lit, .courtyard .lantern-glow, .room-window ~ * .lit-window')];
-  root.querySelector('.portal').classList.add('is-warming');
-  for (const w of windows.slice(0, 10)) {
-    w.classList.add('is-waking');
-    await wait(300);
-  }
-  await wait(700);
-
-  // the names rest quietly where they belong
+  // ── 3. she steps out to look at the palace she now understands ──────────
+  // This used to light ten windows one at a time and then spend three more
+  // narration lines on the same feeling. It is the same beat; it does not need
+  // ninety seconds to land.
+  root.querySelector('.portal').classList.add('show-shell', 'is-warming');
+  await camera.to({ ...inRoom(900, -620), zoom: camera.fitRoom(3200), duration: 3000 });
   hers.el.classList.add('is-settled');
   spark.el.classList.add('is-settled');
-  await camera.to({ ...inRoom(980, -940), zoom: camera.zoomToFitWidth(1760), duration: 3000 });
-  await wait(800);
-
-  // ── 4. back to her, one last time ───────────────────────────────────────
-  await camera.to({
-    ...inRoom(COURT.centreX + 640, -180),
-    zoom: camera.fitRoom(1100),
-    duration: 3600,
-    easing: ease.inOut
-  });
-  fig.classList.add('looks-out');               // she turns to us
+  fig.classList.add('looks-out');
   tara.express('happy');
-  await wait(700);
-
-  ui.dataset.line = 'whenever';
-  ui.classList.add('show-line');
-  await wait(1900);
-  ui.classList.remove('show-line');
-
-  // she looks around her palace before finishing the thought
-  await tara.face('left');
-  await wait(400);
-  await tara.face('right');
-  await wait(300);
+  await wait(900);
 
   ui.dataset.line = 'belong';
   ui.classList.add('show-line');
-  await wait(3800);
-  ui.classList.remove('show-line');
-
-  fig.classList.add('mithu-nods');
-  await wait(900);
-  fig.classList.remove('mithu-nods');
-
-  ui.dataset.line = 'whichscope';
-  ui.classList.add('show-line');
-  await wait(3600);
+  await wait(3400);
   ui.classList.remove('show-line');
 
   // ── 5. THE LAST QUESTION ────────────────────────────────────────────────
@@ -226,29 +189,10 @@ export async function endingScene(stage) {
   root.querySelectorAll('.lg').forEach((g) => g.classList.remove('is-lit', 'is-fading'));
   root.querySelector('.layer-glows').classList.remove('is-soft');
 
-  // ── 6. the last word rises, and becomes a star ──────────────────────────
-  hers.el.classList.remove('is-settled');
-  await camera.to({ ...inRoom(-300, -500), zoom: camera.fitRoom(1600), duration: 2400 });
-  await wait(400);
-
-  hers.el.classList.add('is-rising');
-  await parallel(
-    hers.moveTo(-200, -3200, { duration: 4100, easing: ease.inOut }),
-    hers.scaleTo(0.08, { duration: 4100, easing: ease.in }),
-    camera.to({ ...inRoom(-160, -2400), zoom: camera.fitRoom(2600), duration: 4100 })
-  );
-  hers.el.classList.add('is-star');
-  await wait(1000);
-
-  // and the camera drifts back down to the palace
-  await camera.to({ ...inRoom(900, -820), zoom: camera.zoomToFitWidth(1900), duration: 3600 });
+  // The word rising into the sky as a star lived here. It was lovely and it
+  // taught nothing, and by that point the film had already ended twice.
+  await camera.to({ ...inRoom(900, -820), zoom: camera.zoomToFitWidth(1900), duration: 3000 });
   await wait(600);
-
-  ui.dataset.line = 'beginssearch';
-  ui.classList.add('show-line');
-  await wait(4200);
-  ui.classList.remove('show-line');
-  await wait(400);
 
   // ── 6b. the bridge out of the palace and into real code ────────────────
   ui.dataset.line = 'bridge';

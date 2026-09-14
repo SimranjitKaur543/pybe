@@ -34,7 +34,7 @@ export async function errorScene(stage) {
   // her room has NO name of its own right now
   hers.el.classList.remove('is-word', 'is-live', 'is-inner', 'is-shadowing', 'is-hollow');
 
-  await camera.to({ ...inRoom(40, -140), zoom: camera.fitRoom(1500), duration: 2500 });
+  await camera.to({ ...inRoom(40, -140), zoom: camera.fitRoom(1500), duration: 2000 });
   await tara.face('right');
   tara.express('curious');
 
@@ -47,23 +47,23 @@ export async function errorScene(stage) {
     '    print(name)',
     '    name = "Tara"'
   ], { stagger: 300 });
-  await wait(700);
+  await wait(500);
 
   // ── 2. she can see the palace's name from here ──────────────────────────
   trails.classList.add('show-out');
   spark.el.classList.add('is-answering');
-  await wait(1500);
+  await wait(1100);
   trails.classList.remove('show-out');
   spark.el.classList.remove('is-answering');
-  await wait(500);
+  await wait(400);
 
   // ── 3. she decides to make one of her own ───────────────────────────────
   // THE CLAIM. This happens now — before any attempt to read — because the
   // function assigning to `name` is what makes `name` local at all.
-  await camera.to({ ...inRoom(-380, -200), zoom: camera.fitRoom(1000), duration: 2000 });
+  await camera.to({ ...inRoom(-380, -200), zoom: camera.fitRoom(1000), duration: 1600 });
   await tara.face('left');
   tara.setPose('reach');
-  await wait(500);
+  await wait(400);
 
   hers.setText('name').at(-560, -300).setScale(0.1);
   hers.el.classList.add('is-live', 'is-hollow');
@@ -71,13 +71,13 @@ export async function errorScene(stage) {
   hers.el.classList.add('is-word');
   camera.shake(4);
   tara.setPose('idle');
-  await wait(900);
+  await wait(700);
 
   // the room now owns the name, and it is holding nothing
   hers.el.classList.add('is-claimed');
   code.focus(4);
   code.note(4, 'seen first — so name is local everywhere');
-  await wait(1900);
+  await wait(1400);
 
   // ── 4. she tries to read it ─────────────────────────────────────────────
   tara.setPose('reach');
@@ -85,23 +85,23 @@ export async function errorScene(stage) {
   trails.classList.add('show-local');
   code.focus(3);
   code.note(3, 'runs first — local name still empty');
-  await wait(1300);
+  await wait(1000);
 
   // nothing comes back
   hers.el.classList.add('is-hollow-pulse');
-  await wait(1000);
+  await wait(800);
   trails.classList.remove('show-local');
 
   // ── 5. and the way out is shut, because the room already owns the name ──
-  await camera.to({ ...inRoom(140, -300), zoom: camera.fitRoom(1700), duration: 2000 });
+  await camera.to({ ...inRoom(140, -300), zoom: camera.fitRoom(1700), duration: 1600 });
   trails.classList.add('show-blocked');
-  await wait(700);
+  await wait(500);
   trails.classList.add('is-barred');
   camera.shake(9);
   tara.setPose('surprise');
   tara.express('surprised');
   fig.classList.add('mithu-alert');
-  await wait(1100);
+  await wait(800);
   trails.classList.remove('show-blocked', 'is-barred');
 
   // ── 6. the error ────────────────────────────────────────────────────────
@@ -111,20 +111,20 @@ export async function errorScene(stage) {
   code.mark(3, 'is-error');
   code.focus(3);
   camera.shake(12);
-  await wait(1800);
+  await wait(1400);
 
   ui.dataset.line = 'claimed';
   ui.classList.add('show-line');
   await wait(4200);
   ui.classList.remove('show-line');
-  await wait(400);
+  await wait(300);
 
   ui.dataset.line = 'lookedthere';
   ui.classList.add('show-line');
   await wait(4400);
   ui.classList.remove('show-line');
 
-  await wait(1000);
+  await wait(800);
   err.classList.remove('is-cast');
   root.querySelector('.stage').classList.remove('is-darkened');
   fig.classList.remove('mithu-alert');
@@ -133,5 +133,5 @@ export async function errorScene(stage) {
   code.unmark('is-error');
   code.unfocus();
   code.clearNotes();
-  await wait(600);
+  await wait(500);
 }

@@ -25,7 +25,7 @@ export async function lessonScene(stage) {
   // ── 1. everyone settles ─────────────────────────────────────────────────
   await parallel(
     tara.walkTo(ROOM.taraX - 220, { speed: 200 }),
-    camera.to({ ...inRoom(-120, -260), zoom: camera.fitRoom(1300), duration: 2400 })
+    camera.to({ ...inRoom(-120, -260), zoom: camera.fitRoom(1300), duration: 1900 })
   );
   await tara.face('right');
   tara.setPose('sit');
@@ -34,7 +34,7 @@ export async function lessonScene(stage) {
   perch.setAttribute('transform', `translate(${ROOM.taraX + 190} ${ROOM.floorY})`);
   perch.classList.add('is-up');
   fig.classList.add('mithu-away');     // he has hopped off her shoulder
-  await wait(600);
+  await wait(500);
 
   ui.dataset.line = 'rules';
   ui.classList.add('show-line');
@@ -45,7 +45,7 @@ export async function lessonScene(stage) {
   code.at(CODE_AT.x, CODE_AT.y);
   code.undock();
   await code.clear({ duration: 400 });
-  await camera.to({ ...inRoom(520, -760), zoom: camera.fitRoom(2100), duration: 2200 });
+  await camera.to({ ...inRoom(520, -760), zoom: camera.fitRoom(2100), duration: 1800 });
 
   hers.el.classList.remove(
     'is-word', 'is-live', 'is-hollow', 'is-claimed', 'is-hollow-pulse',
@@ -64,9 +64,9 @@ export async function lessonScene(stage) {
 
   code.focus(3);
   trails.classList.add('show-out');
-  await wait(600);
+  await wait(500);
   spark.el.classList.add('is-answering');
-  await wait(900);
+  await wait(700);
 
   ui.dataset.line = 'lookout';
   ui.classList.add('show-line');
@@ -93,13 +93,13 @@ export async function lessonScene(stage) {
   hers.el.classList.add('is-live', 'is-inner');
   await hers.scaleTo(1, { duration: 900, easing: ease.back });
   hers.el.classList.add('is-word');
-  await wait(500);
+  await wait(400);
 
   code.focus(4);
   trails.classList.add('show-local');
   hers.el.classList.add('is-shadowing');
   spark.el.classList.add('is-shadowed');
-  await wait(1100);
+  await wait(800);
 
   ui.dataset.line = 'hides';
   ui.classList.add('show-line');
@@ -108,7 +108,7 @@ export async function lessonScene(stage) {
 
   const shadowTag = root.querySelector('.shadow-tag .mlabel');
   shadowTag.classList.add('is-named');
-  await wait(1400);
+  await wait(1100);
   shadowTag.classList.remove('is-named');
 
   trails.classList.remove('show-local');
@@ -125,27 +125,27 @@ export async function lessonScene(stage) {
     '    print(name)',
     '    name = "Tara"'
   ]);
-  await wait(400);
+  await wait(300);
 
   // the claim is made by the assignment on the LAST line, before anything runs
   code.focus(4);
-  await wait(600);
+  await wait(500);
   hers.setText('name').at(-560, -300).setScale(0.1);
   hers.el.classList.remove('is-inner');
   hers.el.classList.add('is-live', 'is-hollow');
   await hers.scaleTo(1, { duration: 800, easing: ease.back });
   hers.el.classList.add('is-word', 'is-claimed');
   camera.shake(4);
-  await wait(900);
+  await wait(700);
 
   // only now is the read attempted, and it finds an empty name
   code.focus(3);
   trails.classList.add('show-blocked');
   hers.el.classList.add('is-hollow-pulse');
-  await wait(700);
+  await wait(500);
   trails.classList.add('is-barred');
   camera.shake(8);
-  await wait(600);
+  await wait(500);
   trails.classList.remove('show-blocked', 'is-barred');
 
   // clear of the code block, which runs from -1180 down to about -700
@@ -153,7 +153,7 @@ export async function lessonScene(stage) {
   root.querySelector('.stage').classList.add('is-darkened');
   err.classList.add('is-cast');
   code.mark(3, 'is-error');
-  await wait(1200);
+  await wait(900);
 
   ui.dataset.line = 'assigns';
   ui.classList.add('show-line');
@@ -181,20 +181,20 @@ export async function lessonScene(stage) {
     'len = 5',
     'print(len("palace"))'
   ], { stagger: 380 });
-  await wait(400);
+  await wait(300);
 
   code.focus(0);
   code.note(0, 'this hides the built-in len');
   root.querySelector('.lg-builtin').classList.add('is-lit');
   root.querySelector('.mlabel-builtin').classList.add('is-named');
-  await wait(1200);
+  await wait(900);
 
   code.focus(1);
   code.mark(1, 'is-error');
   code.note(1, 'TypeError — 5 is not a function');
   camera.shake(6);
   tara.express('surprised');
-  await wait(1400);
+  await wait(1100);
 
   ui.dataset.line = 'shadowbuiltin';
   ui.classList.add('show-line');
@@ -210,7 +210,7 @@ export async function lessonScene(stage) {
   tara.express('curious');
 
   // ── 5. a fresh room every time she steps in ─────────────────────────────
-  await camera.to({ ...inRoom(-140, -180), zoom: camera.fitRoom(1500), duration: 2000 });
+  await camera.to({ ...inRoom(-140, -180), zoom: camera.fitRoom(1500), duration: 1600 });
   tara.setPose('idle');
 
   for (let pass = 0; pass < 2; pass += 1) {
@@ -221,14 +221,14 @@ export async function lessonScene(stage) {
     hers.el.classList.add('is-live', 'is-inner');
     await hers.scaleTo(1, { duration: 700, easing: ease.back });
     hers.el.classList.add('is-word');
-    await wait(600);
+    await wait(500);
 
     // she steps out, and the room empties
     await tara.walkTo(ROOM.doorX + 60, { speed: 240 });
     hers.el.classList.add('is-clearing');
-    await wait(500);
-    hers.el.classList.remove('is-live', 'is-word', 'is-clearing', 'is-inner');
     await wait(400);
+    hers.el.classList.remove('is-live', 'is-word', 'is-clearing', 'is-inner');
+    await wait(300);
   }
 
   ui.dataset.line = 'freshcall';
@@ -241,13 +241,13 @@ export async function lessonScene(stage) {
   await tara.face('right');
   tara.express('happy');
 
-  await camera.to({ ...inRoom(980, -940), zoom: camera.zoomToFitWidth(1760), duration: 3000 });
+  await camera.to({ ...inRoom(980, -940), zoom: camera.zoomToFitWidth(1760), duration: 2400 });
   root.querySelector('.layer-glows').classList.add('is-live');
   for (const id of ['local', 'enclosing', 'global', 'builtin']) {
     root.querySelector(`.lg-${id}`).classList.add('is-lit');
     await wait(300);
   }
-  await wait(600);
+  await wait(500);
 
   ui.dataset.line = 'begins';
   ui.classList.add('show-line');
@@ -255,5 +255,5 @@ export async function lessonScene(stage) {
   ui.classList.remove('show-line');
 
   // the palace is left glowing; the ending comes later
-  await wait(600);
+  await wait(500);
 }
