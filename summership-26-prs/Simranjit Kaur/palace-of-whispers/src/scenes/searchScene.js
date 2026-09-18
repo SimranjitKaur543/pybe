@@ -18,7 +18,7 @@
 // rule stated (previous scene), performed (here, in the architecture), and
 // written (here, in Python) — three times, without three explanations.
 
-import { ease, wait, parallel } from '../engine/anim.js';
+import { wait, parallel } from '../engine/anim.js';
 import { COURT } from '../art/scenes/courtyard.js';
 import { inRoom } from '../roomSpace.js';
 

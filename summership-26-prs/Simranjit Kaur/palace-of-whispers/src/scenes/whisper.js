@@ -14,7 +14,7 @@
 
 import { ease, wait, parallel } from '../engine/anim.js';
 import { ROOM } from '../art/scenes/taraRoom.js';
-import { inRoom, INSIDE_ZOOM } from '../roomSpace.js';
+import { inRoom } from '../roomSpace.js';
 
 const MOUTH = { x: 26, y: 176 };  // offset from Tara's origin to her mouth
 const WALL_X = ROOM.wallX;

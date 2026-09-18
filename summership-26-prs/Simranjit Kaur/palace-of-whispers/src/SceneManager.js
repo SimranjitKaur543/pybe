@@ -6,7 +6,7 @@
 import { Camera } from './engine/Camera.js';
 import { Actor } from './engine/Actor.js';
 import { CodeSpell } from './engine/CodeSpell.js';
-import { tween, ease, REDUCED, newRun, currentGeneration, togglePause, resume, isPaused, clockDebug } from './engine/anim.js';
+import { tween, ease, REDUCED, newRun, currentGeneration, togglePause, resume, clockDebug } from './engine/anim.js';
 import { tara as taraArt } from './art/cast.js';
 import { defs } from './art/parts.js';
 import { palaceNight, heroClipDef, HERO } from './art/scenes/palaceNight.js';
@@ -285,12 +285,17 @@ export function mountStory(root) {
 
   pauseBtn.addEventListener('click', () => setPaused(togglePause()));
 
-  // Space is what everyone reaches for. Ignore it while a button has focus,
-  // or it would toggle the pause AND re-trigger whatever is focused.
+  // Space is what everyone reaches for, but it is also how a keyboard user
+  // activates whatever they have focused — including the story's one
+  // interaction, which is an SVG <g role="button">. Testing for HTMLElement
+  // missed it (an SVG element is not an HTMLElement), so pressing Space on the
+  // prompt both took the offer AND paused the story, leaving a keyboard user
+  // frozen with no clue why. Match anything that behaves like a control.
   addEventListener('keydown', (e) => {
     if (e.code !== 'Space' && e.key !== ' ') return;
     const t = e.target;
-    if (t instanceof HTMLElement && (t.tagName === 'BUTTON' || t.isContentEditable)) return;
+    if (t instanceof Element &&
+        (t.closest('button') || t.getAttribute('role') === 'button' || t.isContentEditable)) return;
     e.preventDefault();
     setPaused(togglePause());
   });

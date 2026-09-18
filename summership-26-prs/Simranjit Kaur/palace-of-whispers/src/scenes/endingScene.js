@@ -5,7 +5,7 @@
 // windows come up one by one, her last word rises into the sky as a star, and
 // the title forms out of the same particles the opening used.
 
-import { ease, wait, parallel } from '../engine/anim.js';
+import { wait, parallel } from '../engine/anim.js';
 import { COURT } from '../art/scenes/courtyard.js';
 import { inRoom } from '../roomSpace.js';
 

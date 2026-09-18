@@ -10,7 +10,7 @@
 import { ease, wait, parallel } from '../engine/anim.js';
 import { ROOM } from '../art/scenes/taraRoom.js';
 import { COURT } from '../art/scenes/courtyard.js';
-import { inRoom, INSIDE_ZOOM } from '../roomSpace.js';
+import { inRoom } from '../roomSpace.js';
 
 export async function courtyardScene(stage) {
   const { camera, tara, hers, ui, root } = stage;

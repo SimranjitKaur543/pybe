@@ -17,7 +17,7 @@
 
 import { ease, wait, parallel } from '../engine/anim.js';
 import { ROOM } from '../art/scenes/taraRoom.js';
-import { inRoom, INSIDE_ZOOM } from '../roomSpace.js';
+import { inRoom } from '../roomSpace.js';
 
 const HER_WORD = { x: -560, y: -300 };
 

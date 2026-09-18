@@ -4,7 +4,7 @@
 // notes, and every beat is a real motion the camera or an actor performs —
 // there is deliberately no way here to advance the story by showing text.
 
-import { tween, ease, wait, parallel } from './engine/anim.js';
+import { ease, wait, parallel } from './engine/anim.js';
 import { HERO } from './art/scenes/palaceNight.js';
 import { ROOM } from './art/scenes/taraRoom.js';
 import { inRoom, INSIDE_ZOOM } from './roomSpace.js';

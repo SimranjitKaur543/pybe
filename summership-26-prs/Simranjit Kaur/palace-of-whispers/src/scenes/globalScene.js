@@ -11,7 +11,7 @@
 // space her room sits inside, never at the palace. Drawing it to the same place
 // as the beam would teach something false.
 
-import { ease, wait } from '../engine/anim.js';
+import { wait } from '../engine/anim.js';
 import { inRoom } from '../roomSpace.js';
 
 export async function globalScene(stage) {
