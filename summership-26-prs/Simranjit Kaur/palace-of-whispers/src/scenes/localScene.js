@@ -16,6 +16,8 @@
 // the same four lines so the difference is a diff, not a paragraph.
 
 import { ease, wait, parallel } from '../engine/anim.js';
+import { predict } from '../engine/Ask.js';
+import { beats } from '../story/beats.js';
 import { ROOM } from '../art/scenes/taraRoom.js';
 import { inRoom } from '../roomSpace.js';
 
@@ -102,6 +104,13 @@ export async function localScene(stage) {
   await wait(4400);
   ui.classList.remove('show-line');
   code.unfocus();
+
+  // ── 6b. commit to an answer before the story gives one ──────────────────
+  // Everything needed to work this out is already on screen: both names
+  // exist, and the learner has watched her make the inner one. Asking now,
+  // rather than after the reveal, is the difference between checking an
+  // intuition and being handed a fact.
+  await predict(stage, beats.shadowPredict);
 
   // ── 7. shadowing: the nearer name covers the wider one ──────────────────
   await camera.to({ ...inRoom(-160, -420), zoom: camera.zoomToFitWidth(1120), duration: 1800 });

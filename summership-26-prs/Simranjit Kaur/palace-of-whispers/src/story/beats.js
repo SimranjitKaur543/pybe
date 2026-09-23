@@ -55,5 +55,71 @@ export const beats = {
       followed: 'Almost — that is what it feels like. Watch where it actually is.',
       gone:     'Not gone. Look back at the room she came from.'
     }
+  },
+
+  // ── PREDICTION 1 · shadowing ────────────────────────────────────────────
+  // Placed the moment before the story shows it. "Mithu" is the belief that
+  // assigning inside a function changes the outer name, which is the single
+  // most common misreading of this code — so it is offered as a real option.
+  shadowPredict: {
+    code: [
+      'name = "Mithu"',
+      '',
+      'def room():',
+      '    name = "Tara"',
+      '    print(name)',
+      '',
+      'room()'
+    ],
+    question: 'What does this print?',
+    options: [
+      { value: 'Tara',  label: 'Tara' },
+      { value: 'Mithu', label: 'Mithu' },
+      { value: 'error', label: 'An error' }
+    ],
+    answer: 'Tara',
+    hints: [
+      'Look at where each name was made.',
+      'Is Tara inside the room, or outside it, when she reads it?'
+    ],
+    feedback: {
+      Tara:  'Yes. Inside the room, her own name is the nearer one.',
+      Mithu: 'Almost. The palace still says Mithu — but Tara made her own copy inside.',
+      error: 'No error here. Both names exist; the question is which one is nearer.'
+    },
+    reveal: 'It prints Tara. The name made inside the room hides the one outside it.'
+  },
+
+  // ── PREDICTION 2 · UnboundLocalError ────────────────────────────────────
+  // The hardest idea in the topic, and the one worth making them commit to.
+  // "Mithu" is the intuitive answer and it is wrong for a reason the story has
+  // spent five minutes building: the room claims the name before it runs.
+  errorPredict: {
+    code: [
+      'name = "Mithu"',
+      '',
+      'def room():',
+      '    print(name)',
+      '    name = "Tara"',
+      '',
+      'room()'
+    ],
+    question: 'And this one?',
+    options: [
+      { value: 'error', label: 'An error' },
+      { value: 'Mithu', label: 'Mithu' },
+      { value: 'Tara',  label: 'Tara' }
+    ],
+    answer: 'error',
+    hints: [
+      'Python reads the whole room before it runs a single line of it.',
+      'The room assigns to name somewhere. What does that make the name, everywhere in the room?'
+    ],
+    feedback: {
+      error: 'Yes — UnboundLocalError. The room owns the name before it has a value.',
+      Mithu: 'That is the trap. Because the room assigns to name lower down, it never looks outside at all.',
+      Tara:  'Not yet — that line has not run when print is reached.'
+    },
+    reveal: 'It raises UnboundLocalError: the room claimed name the moment it was written, so there is nothing outside to fall back to.'
   }
 };

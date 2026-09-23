@@ -136,3 +136,127 @@ export async function say(stage, text, ms = 2600) {
   // a newer run started mid-sentence: stop the scene here
   if (mine !== currentGeneration()) await new Promise(() => {});
 }
+
+/**
+ * Ask the learner what a piece of Python will do, BEFORE showing them.
+ *
+ * ── Why this shape ────────────────────────────────────────────────────────
+ *
+ * The code sits INSIDE the question panel rather than in the story's usual
+ * code overlay. A prediction is read as one object — these lines, this
+ * question, these answers — and splitting it across two places on screen
+ * makes the learner hunt between them while trying to hold a mental model.
+ *
+ * A wrong answer is not an ending. It shows what actually happens and offers
+ * the question again, because the misconception is the thing being taught and
+ * a learner who is told "no" and moved past has learned nothing. After two
+ * tries it simply explains, kindly — being stuck is not a punishment either.
+ *
+ * Hints guide; they do not answer. They are revealed one at a time and the
+ * last one still stops short of saying it outright.
+ *
+ * @returns {Promise<{value:any, correct:boolean, attempts:number, usedHint:boolean}>}
+ */
+export async function predict(stage, spec) {
+  const { code = [], question, options, answer, hints = [], feedback = {}, reveal } = spec;
+  const host = stage.root.querySelector('.interact');
+  const mine = currentGeneration();
+
+  let attempts = 0;
+  let usedHint = false;
+
+  for (;;) {
+    const result = await new Promise((resolve) => {
+      const panel = document.createElement('div');
+      panel.className = 'ask ask-predict';
+      panel.setAttribute('role', 'group');
+      panel.setAttribute('aria-label', question);
+
+      if (code.length) {
+        const pre = document.createElement('pre');
+        pre.className = 'ask-code';
+        pre.textContent = code.join('\n');
+        panel.appendChild(pre);
+      }
+
+      const q = document.createElement('p');
+      q.className = 'ask-q';
+      q.textContent = question;
+      panel.appendChild(q);
+
+      const row = document.createElement('div');
+      row.className = 'ask-options';
+      panel.appendChild(row);
+
+      // the hint rail: one line at a time, never the answer
+      const rail = document.createElement('div');
+      rail.className = 'hint-rail';
+      panel.appendChild(rail);
+
+      let shown = 0;
+      let hintBtn = null;
+      if (hints.length) {
+        hintBtn = document.createElement('button');
+        hintBtn.type = 'button';
+        hintBtn.className = 'hintbtn';
+        hintBtn.innerHTML = '<span aria-hidden="true">\u{1F4A1}</span> Hint';
+        hintBtn.addEventListener('click', () => {
+          usedHint = true;
+          const line = document.createElement('p');
+          line.className = 'hint';
+          line.setAttribute('role', 'status');
+          line.textContent = hints[shown];
+          rail.appendChild(line);
+          requestAnimationFrame(() => line.classList.add('is-open'));
+          shown += 1;
+          if (shown >= hints.length) hintBtn.disabled = true;
+        });
+        panel.appendChild(hintBtn);
+      }
+
+      let done = false;
+      const finish = (opt) => {
+        if (done) return;
+        done = true;
+        unregister();
+        [...row.children].forEach((b) =>
+          b.classList.toggle('is-chosen', b.dataset.value === String(opt.value)));
+        panel.classList.add('is-going');
+        setTimeout(() => panel.remove(), REDUCED ? 0 : 420);
+        if (mine !== currentGeneration()) return;
+        resolve(opt.value);
+      };
+
+      options.forEach((opt, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'choice choice-tight';
+        b.dataset.value = String(opt.value);
+        b.textContent = opt.label;
+        b.addEventListener('click', () => finish(opt));
+        row.appendChild(b);
+        if (i === 0) requestAnimationFrame(() => b.focus({ preventScroll: true }));
+      });
+
+      const unregister = onRunCancel(() => { done = true; panel.remove(); });
+      host.appendChild(panel);
+      requestAnimationFrame(() => panel.classList.add('is-open'));
+    });
+
+    attempts += 1;
+    const correct = result === answer;
+
+    if (correct) {
+      await say(stage, feedback[result] || 'That is it.', 2400);
+      return { value: result, correct: true, attempts, usedHint };
+    }
+
+    // Not right — say what actually happens, and offer it again. Twice is
+    // enough; after that, being stuck should not feel like a wall.
+    await say(stage, feedback[result] || 'Not quite — look again at where it was made.', 2600);
+    if (attempts >= 2) {
+      if (reveal) await say(stage, reveal, 3000);
+      return { value: result, correct: false, attempts, usedHint };
+    }
+  }
+}

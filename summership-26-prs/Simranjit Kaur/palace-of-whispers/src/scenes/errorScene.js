@@ -18,6 +18,8 @@
 // it is not looking out there at all.
 
 import { ease, wait } from '../engine/anim.js';
+import { predict } from '../engine/Ask.js';
+import { beats } from '../story/beats.js';
 import { inRoom } from '../roomSpace.js';
 
 export async function errorScene(stage) {
@@ -56,6 +58,13 @@ export async function errorScene(stage) {
   trails.classList.remove('show-out');
   spark.el.classList.remove('is-answering');
   await wait(400);
+
+  // ── 2b. the prediction the whole topic turns on ─────────────────────────
+  // Asked BEFORE the claim, while "Mithu" still looks like the obvious answer.
+  // It is the trap, and a learner who commits to it and then watches the room
+  // take the name has understood something a correct-first-time answer would
+  // have skipped straight past.
+  await predict(stage, beats.errorPredict);
 
   // ── 3. she decides to make one of her own ───────────────────────────────
   // THE CLAIM. This happens now — before any attempt to read — because the
