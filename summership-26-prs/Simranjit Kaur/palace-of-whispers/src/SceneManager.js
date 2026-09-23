@@ -202,6 +202,11 @@ export function mountStory(root) {
   const code = new CodeSpell(root.querySelector('.code-air'));
 
   const journey = new Journey(root.querySelector('.journey'));
+  // Shown from the start, not from the first milestone. It is the only thing
+  // on screen that says "this is a journey with parts" — hiding it until the
+  // learner has already finished part one tells them nothing when they most
+  // need telling.
+  journey.at('local');
 
   const stage = {
     root,
@@ -264,6 +269,7 @@ export function mountStory(root) {
     // newRun() has already torn down the handlers; clear what they left behind
     root.querySelector('.interact').innerHTML = '';
     journey.reset();
+    journey.at('local');
     // a replay while paused would start a story whose clock is stopped
     resume();
     root.querySelector('.stage').classList.remove('is-paused');

@@ -43,9 +43,17 @@ export async function whisper(stage) {
   tara.express('curious');
   await wait(500);
 
-  // ── 2. she leans in and whispers ────────────────────────────────────────
+  // ── 2. she leans in and whispers — when the learner says so ─────────────
+  // The first thing the learner did used to be a full minute in, which meant
+  // a minute of watching before anything signalled that this was theirs to
+  // drive. Someone who opens the page and sees a film behaves like someone
+  // watching a film: they wait, and then they leave. The very first beat is
+  // now an action, even though there is only one thing to do — the point is
+  // that the story does not move until they move it.
   await camera.to({ ...inRoom(tara.x + 10, 70), zoom: camera.fitRoom(1067), duration: 1400 });
   await wait(400);
+
+  await choose(stage, beats.readyToWhisper);
 
   tara.setPose('whisper');
   await wait(500);

@@ -16,6 +16,17 @@
 //   · Feedback never says "Wrong". It says what happened and why.
 
 export const beats = {
+  // The first interaction, deliberately about 25 seconds in rather than 60.
+  // One option, not two: there is nothing to decide yet, and offering a fake
+  // dilemma this early would teach the learner that the choices are decoration.
+  // What it establishes is the contract — nothing happens until you act.
+  readyToWhisper: {
+    question: 'Tara has a secret word she wants to try.',
+    options: [
+      { value: 'go', label: 'Let her whisper it', note: 'and see where it goes' }
+    ]
+  },
+
   // ── LOCAL ───────────────────────────────────────────────────────────────
   // Asked while she is still holding the word, before anything is named.
   // The point is not the decision — both paths reach the courtyard — it is
