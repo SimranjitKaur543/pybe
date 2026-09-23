@@ -13,7 +13,7 @@
 // reads as "there is a wall there" — which is the actual idea.
 
 import { ease, wait, parallel } from '../engine/anim.js';
-import { choose } from '../engine/Ask.js';
+import { choose, react } from '../engine/Ask.js';
 import { beats } from '../story/beats.js';
 import { ROOM } from '../art/scenes/taraRoom.js';
 import { inRoom } from '../roomSpace.js';
@@ -180,6 +180,7 @@ export async function whisper(stage) {
   await stage.journey.flash(1800);
 
   let choice = await choose(stage, beats.whatToDo);
+  await react(stage, choice === 'outside' ? 'curious' : 'neutral', { ms: 700 });
 
   while (choice === 'stay') {
     // She says it again. It hits the same wall, because the wall is the point.

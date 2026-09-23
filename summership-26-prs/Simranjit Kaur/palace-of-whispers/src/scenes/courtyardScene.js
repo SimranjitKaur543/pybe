@@ -8,7 +8,7 @@
 // still glowing there so the viewer sees it never left.
 
 import { ease, wait, parallel } from '../engine/anim.js';
-import { choose, say } from '../engine/Ask.js';
+import { choose, say, react } from '../engine/Ask.js';
 import { beats } from '../story/beats.js';
 import { ROOM } from '../art/scenes/taraRoom.js';
 import { COURT } from '../art/scenes/courtyard.js';
@@ -141,6 +141,9 @@ export async function courtyardScene(stage) {
   // story exists to correct, so it is offered as a real option rather than
   // hidden — and the reply to it is a nudge to look, not a verdict.
   const guess = await choose(stage, beats.whereDidItGo);
+  // She answers the learner before the shot does. A guess that lands gets a
+  // small brightening; one that does not gets a puzzled look — not a scold.
+  await react(stage, guess === beats.whereDidItGo.answer ? 'happy' : 'confused', { nod: true, ms: 800 });
   await say(stage, beats.whereDidItGo.feedback[guess], 2400);
 
   // ── 8. she looks back — and it is still in there ────────────────────────

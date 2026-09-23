@@ -57,9 +57,9 @@ export function codeSpell() {
 export function readTrails() {
   return `
 <g class="trails">
-  <path class="read-out"   d="M -360 -260 C 260 -780 1080 -1120 1800 -1160" />
-  <path class="read-local" d="M -360 -250 C -430 -300 -500 -320 -560 -308" />
-  <path class="read-blocked" d="M -360 -260 C -250 -300 -150 -330 -40 -344" />
+  <path class="read-out"   pathLength="100" d="M -360 -260 C 260 -780 1080 -1120 1800 -1160" />
+  <path class="read-local" pathLength="100" d="M -360 -250 C -430 -300 -500 -320 -560 -308" />
+  <path class="read-blocked" pathLength="100" d="M -360 -260 C -250 -300 -150 -330 -40 -344" />
   <g class="block-wall">
     <path class="bw-line" d="M 20 -520 L 20 -60" />
     <g class="bw-sparks">

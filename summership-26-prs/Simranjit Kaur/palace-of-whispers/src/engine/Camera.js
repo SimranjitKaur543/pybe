@@ -18,6 +18,8 @@ export class Camera {
     this.state = { x: view.width / 2, y: view.height / 2, zoom: 1 };
     this.following = null;
     this.shakeAmount = 0;
+    this.shakePhase = 0;
+    this.shakeAngle = 0;
     this.apply();
     this.tick = this.tick.bind(this);
     requestAnimationFrame(this.tick);
@@ -28,8 +30,14 @@ export class Camera {
     const { x, y, zoom } = this.state;
     const cx = this.view.width / 2;
     const cy = this.view.height / 2;
-    const sx = this.shakeAmount ? (Math.random() - 0.5) * this.shakeAmount : 0;
-    const sy = this.shakeAmount ? (Math.random() - 0.5) * this.shakeAmount : 0;
+    // A DAMPED OSCILLATION, not noise. Picking a fresh random offset every
+    // frame is a buzz — sixty unrelated positions a second reads as the image
+    // vibrating, which is what it looked like after the error. A real impact
+    // has a direction and rings down: one axis, chosen when the shake starts,
+    // swung back and forth a few times while the amplitude decays.
+    const osc = this.shakeAmount ? Math.sin(this.shakePhase) * this.shakeAmount : 0;
+    const sx = osc * Math.cos(this.shakeAngle);
+    const sy = osc * Math.sin(this.shakeAngle) * 0.6;   // less vertical: it reads calmer
     this.el.setAttribute(
       'transform',
       `translate(${cx + sx} ${cy + sy}) scale(${zoom}) translate(${-x} ${-y})`
@@ -59,8 +67,11 @@ export class Camera {
     } else if (this.shakeAmount > 0) {
       this.apply();
     }
-    if (this.shakeAmount > 0) this.shakeAmount *= 0.9;
-    if (this.shakeAmount < 0.05) this.shakeAmount = 0;
+    if (this.shakeAmount > 0) {
+      this.shakePhase += 0.62;      // roughly 6 swings a second, not 60
+      this.shakeAmount *= 0.88;
+    }
+    if (this.shakeAmount < 0.05) { this.shakeAmount = 0; this.shakePhase = 0; }
     requestAnimationFrame(this.tick);
   }
 
@@ -129,8 +140,12 @@ export class Camera {
   }
 
   /** A small knock — a door slamming, a word bursting. */
+  /** A knock, with a direction. Rings down over about half a second. */
   shake(amount = 10) {
     this.shakeAmount = amount;
+    this.shakePhase = 0;
+    // mostly sideways, with a little tilt, so repeated shakes are not identical
+    this.shakeAngle = (Math.random() - 0.5) * 0.9;
     return this;
   }
 }

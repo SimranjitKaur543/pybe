@@ -18,7 +18,7 @@
 // it is not looking out there at all.
 
 import { ease, wait } from '../engine/anim.js';
-import { predict } from '../engine/Ask.js';
+import { predict, react } from '../engine/Ask.js';
 import { beats } from '../story/beats.js';
 import { inRoom } from '../roomSpace.js';
 
@@ -64,7 +64,8 @@ export async function errorScene(stage) {
   // It is the trap, and a learner who commits to it and then watches the room
   // take the name has understood something a correct-first-time answer would
   // have skipped straight past.
-  await predict(stage, beats.errorPredict);
+  const guessed = await predict(stage, beats.errorPredict);
+  await react(stage, guessed.correct ? 'happy' : 'surprised', { nod: true, ms: 850 });
 
   // ── 3. she decides to make one of her own ───────────────────────────────
   // THE CLAIM. This happens now — before any attempt to read — because the

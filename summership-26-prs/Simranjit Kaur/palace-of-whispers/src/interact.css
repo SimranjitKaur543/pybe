@@ -162,6 +162,31 @@
 }
 .hint.is-open { opacity: 1; transform: translateY(0); }
 
+/* ── the world reacting to being asked ───────────────────────────────────
+   While a question is open the scenery steps back and Tara turns her
+   attention to it. This is NOT a freeze — the camera, the flames and the
+   motes all keep moving, because the palace going still would turn the
+   question into a modal by other means. It is a shift of emphasis: the
+   brightest thing on screen becomes the thing the learner has to answer. */
+.stage.is-deciding .stage-svg {
+  filter: saturate(0.88) brightness(0.9);
+  /* the easing comes from the base .stage-svg rule in style.css; declaring it
+     again here would override the longer fade the error beat depends on */
+}
+
+/* she looks up and holds still, the way someone does when asked something */
+/* headFloat animates .head, and an animation replaces a transform rather than
+   composing with it — so the float has to stop for the tilt to be visible.
+   Which is also what we want: she holds still while she is being asked. */
+.tara.is-attending .head { animation: none; transform: rotate(-3deg) translateY(-2px); }
+.tara.is-attending .pupil { transform: translateY(-1.4px); }
+.tara.is-attending .head, .tara.is-attending .pupil { transition: transform 600ms ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage.is-deciding .stage-svg { transition: none; }
+  .tara.is-attending .head, .tara.is-attending .pupil { transition: none; transform: none; }
+}
+
 /* ── the journey ─────────────────────────────────────────────────────────── */
 .journey {
   position: absolute;

@@ -29,6 +29,28 @@ import { onRunCancel, currentGeneration, REDUCED } from './anim.js';
  * @param {string} [spec.kind]  'choice' (default) or 'predict'
  * @returns {Promise<any>} the chosen option's `value`
  */
+
+/** Marks the stage as waiting on the learner. Scenery recedes; Tara attends. */
+function deciding(stage, on) {
+  const st = stage.root.querySelector('.stage');
+  if (st) st.classList.toggle('is-deciding', on);
+  const fig = stage.root.querySelector('.tara');
+  if (fig) fig.classList.toggle('is-attending', on);
+}
+
+/**
+ * A visible response from Tara, before the story moves on.
+ * Small on purpose: a reaction that takes two seconds stops being a reaction
+ * and becomes another scene.
+ */
+export async function react(stage, mood = 'curious', { nod = false, ms = 900 } = {}) {
+  const fig = stage.root.querySelector('.tara');
+  stage.tara?.express?.(mood);
+  if (nod && fig) fig.classList.add('mithu-alert');
+  await new Promise((r) => setTimeout(r, REDUCED ? 0 : ms));
+  if (nod && fig) fig.classList.remove('mithu-alert');
+}
+
 export function choose(stage, { question, options, kind = 'choice' } = {}) {
   const host = stage.root.querySelector('.interact');
   const mine = currentGeneration();
@@ -52,6 +74,7 @@ export function choose(stage, { question, options, kind = 'choice' } = {}) {
     const cleanup = () => {
       if (done) return;
       done = true;
+      deciding(stage, false);
       unregister();
       panel.classList.add('is-going');
       // let it fade rather than vanish under the learner's cursor
@@ -87,6 +110,7 @@ export function choose(stage, { question, options, kind = 'choice' } = {}) {
       panel.remove();
     });
 
+    deciding(stage, true);
     host.appendChild(panel);
     requestAnimationFrame(() => panel.classList.add('is-open'));
   });
@@ -218,6 +242,7 @@ export async function predict(stage, spec) {
       const finish = (opt) => {
         if (done) return;
         done = true;
+        deciding(stage, false);
         unregister();
         [...row.children].forEach((b) =>
           b.classList.toggle('is-chosen', b.dataset.value === String(opt.value)));
@@ -238,7 +263,8 @@ export async function predict(stage, spec) {
         if (i === 0) requestAnimationFrame(() => b.focus({ preventScroll: true }));
       });
 
-      const unregister = onRunCancel(() => { done = true; panel.remove(); });
+      const unregister = onRunCancel(() => { done = true; deciding(stage, false); panel.remove(); });
+      deciding(stage, true);
       host.appendChild(panel);
       requestAnimationFrame(() => panel.classList.add('is-open'));
     });
