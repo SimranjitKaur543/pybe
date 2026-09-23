@@ -166,6 +166,15 @@ export function mountStory(root) {
            error, pausing its animations) can reach the controls the learner
            needs to answer with. -->
       <div class="interact"></div>
+
+      <!-- The story's narration is shown by toggling which <p> is displayed.
+           A screen reader announces nothing for that: the text was always in
+           the document, and display:none -> block is not reliably reported.
+           So the whole seven-minute lesson was silent, while the palace itself
+           offered one static alt line. This region mirrors whatever narration
+           is currently visible, and is the only thing that makes the story
+           audible at all. -->
+      <p class="sr-live" aria-live="polite" aria-atomic="true"></p>
       ${journeyMarkup()}
 
       <button class="pausebtn" type="button" aria-label="Pause the story" aria-pressed="false">
@@ -200,6 +209,27 @@ export function mountStory(root) {
   hers.at(0, 0).setScale(0.06);
 
   const code = new CodeSpell(root.querySelector('.code-air'));
+
+  // ── narration, for screen readers ───────────────────────────────────────
+  // Watching the .ui element rather than patching all twenty-six call sites:
+  // every line is shown the same way, so one observer covers them all and
+  // cannot fall out of step with a scene that forgets to announce itself.
+  const live = root.querySelector('.sr-live');
+  const uiEl = root.querySelector('.ui');
+  const mirror = () => {
+    if (!uiEl.classList.contains('show-line')) { live.textContent = ''; return; }
+    const key = uiEl.dataset.line;
+    const line = key
+      ? root.querySelector(`.narration[data-for="${key}"]`)
+      : root.querySelector('.narration[data-for="far"]');
+    const text = line ? line.textContent.trim() : '';
+    // reassigning the same string would not re-announce, so clear first
+    if (live.textContent !== text) live.textContent = text;
+  };
+  new MutationObserver(mirror).observe(uiEl, {
+    attributes: true,
+    attributeFilter: ['class', 'data-line']
+  });
 
   const journey = new Journey(root.querySelector('.journey'));
   // Shown from the start, not from the first milestone. It is the only thing
