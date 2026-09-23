@@ -5,6 +5,7 @@ import './courtyard.css';
 import './magic.css';
 import './lesson.css';
 import './ending.css';
+import './interact.css';
 import { mountStory } from './SceneManager.js';
 
 mountStory(document.getElementById('app'));

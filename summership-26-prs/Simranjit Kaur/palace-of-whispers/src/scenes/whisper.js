@@ -13,6 +13,8 @@
 // reads as "there is a wall there" — which is the actual idea.
 
 import { ease, wait, parallel } from '../engine/anim.js';
+import { choose } from '../engine/Ask.js';
+import { beats } from '../story/beats.js';
 import { ROOM } from '../art/scenes/taraRoom.js';
 import { inRoom } from '../roomSpace.js';
 
@@ -158,6 +160,44 @@ export async function whisper(stage) {
 
   room.classList.remove('wall-felt');
   root.querySelector('.tara').classList.remove('mithu-alert');
+  await wait(300);
+
+  // ── 7. the learner decides what happens next ────────────────────────────
+  // Both answers arrive at the courtyard, and that is deliberate: the decision
+  // is not a branch to be got right, it is a way of making the next failure
+  // BELONG to the learner. Someone who chose to take the word outside is
+  // asking "so where did it go?" when it does not follow. Someone who was
+  // simply shown the same thing is watching a cartoon.
+  stage.journey.at('local');
+  await stage.journey.flash(1800);
+
+  let choice = await choose(stage, beats.whatToDo);
+
+  while (choice === 'stay') {
+    // She says it again. It hits the same wall, because the wall is the point.
+    await camera.to({ ...inRoom(tara.x - 20, 60), zoom: camera.fitRoom(1330), duration: 1200 });
+    tara.setPose('whisper');
+    await wait(700);
+    tara.setPose('idle');
+    hers.el.classList.add('is-beckoning');
+    await wait(900);
+    hers.el.classList.remove('is-beckoning');
+    room.classList.add('wall-felt');
+    await wait(700);
+    room.classList.remove('wall-felt');
+    tara.express('confused');
+    await wait(900);
+
+    // then ask again, with the second option now the obvious one
+    choice = await choose(stage, {
+      question: 'The same wall, every time. Should she try outside?',
+      options: [
+        { value: 'outside', label: 'Take it outside', note: 'find out why' },
+        { value: 'stay',    label: 'Try once more' }
+      ]
+    });
+  }
+
   root.querySelector('.room-door').classList.remove('is-noticed');
   await wait(300);
 }

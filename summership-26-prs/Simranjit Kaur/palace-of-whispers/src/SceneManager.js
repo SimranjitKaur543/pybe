@@ -12,6 +12,7 @@ import { defs } from './art/parts.js';
 import { palaceNight, heroClipDef, HERO } from './art/scenes/palaceNight.js';
 import { spark as sparkArt, sparkWord, titleMotes } from './art/spark.js';
 import { playStory, scenes } from './scenes.js';
+import { journeyMarkup, Journey } from './ui/ProgressJourney.js';
 
 export const VIEW = { width: 1600, height: 900 };
 
@@ -160,6 +161,13 @@ export function mountStory(root) {
 
       <div class="code-air"><pre class="ca-lines"></pre></div>
 
+      <!-- Where questions appear. A sibling of the stage rather than a child
+           of it, so nothing the story does to the scene (darkening it for the
+           error, pausing its animations) can reach the controls the learner
+           needs to answer with. -->
+      <div class="interact"></div>
+      ${journeyMarkup()}
+
       <button class="pausebtn" type="button" aria-label="Pause the story" aria-pressed="false">
         <span class="pause-icon" aria-hidden="true">&#10073;&#10073;</span>
         <span class="play-icon" aria-hidden="true">&#9654;</span>
@@ -193,6 +201,8 @@ export function mountStory(root) {
 
   const code = new CodeSpell(root.querySelector('.code-air'));
 
+  const journey = new Journey(root.querySelector('.journey'));
+
   const stage = {
     root,
     camera,
@@ -200,6 +210,7 @@ export function mountStory(root) {
     spark,
     hers,
     code,
+    journey,
     ui: root.querySelector('.ui')
   };
 
@@ -250,6 +261,9 @@ export function mountStory(root) {
     sparkSlot.classList.remove('is-settled');
     root.querySelector('.layer-glows').classList.remove('is-soft');
     root.querySelector('.replay').classList.remove('is-offered');
+    // newRun() has already torn down the handlers; clear what they left behind
+    root.querySelector('.interact').innerHTML = '';
+    journey.reset();
     // a replay while paused would start a story whose clock is stopped
     resume();
     root.querySelector('.stage').classList.remove('is-paused');

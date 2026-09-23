@@ -10,8 +10,24 @@ export const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 // tween stop and never resolve, so the old scene is suspended for good.
 let generation = 0;
 export const currentGeneration = () => generation;
+
+// Anything waiting on the LEARNER rather than on time — a choice, a
+// prediction — has DOM listeners that a generation bump alone cannot reach.
+// A halted scene simply never resumes, so its buttons would sit on screen
+// wired to a promise nobody is awaiting. Handlers register here and are torn
+// down the moment a new run starts.
+const pending = new Set();
+export function onRunCancel(fn) {
+  pending.add(fn);
+  return () => pending.delete(fn);
+}
+
 export function newRun() {
   generation += 1;
+  for (const cancel of pending) {
+    try { cancel(); } catch { /* a torn-down handler must not block the reset */ }
+  }
+  pending.clear();
   return generation;
 }
 

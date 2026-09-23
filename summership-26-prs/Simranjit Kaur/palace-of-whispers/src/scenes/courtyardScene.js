@@ -8,6 +8,8 @@
 // still glowing there so the viewer sees it never left.
 
 import { ease, wait, parallel } from '../engine/anim.js';
+import { choose, say } from '../engine/Ask.js';
+import { beats } from '../story/beats.js';
 import { ROOM } from '../art/scenes/taraRoom.js';
 import { COURT } from '../art/scenes/courtyard.js';
 import { inRoom } from '../roomSpace.js';
@@ -133,7 +135,17 @@ export async function courtyardScene(stage) {
   root.querySelector('.tara').classList.add('mithu-alert');
   await wait(700);
 
+  // ── 7b. the prediction the whole idea turns on ──────────────────────────
+  // Asked BEFORE the reveal, while the learner still holds whatever belief
+  // they walked in with. Answering "it followed her" is the misconception this
+  // story exists to correct, so it is offered as a real option rather than
+  // hidden — and the reply to it is a nudge to look, not a verdict.
+  const guess = await choose(stage, beats.whereDidItGo);
+  await say(stage, beats.whereDidItGo.feedback[guess], 2400);
+
   // ── 8. she looks back — and it is still in there ────────────────────────
+  // This shot is now the ANSWER to a question the learner just committed to,
+  // which is the whole difference between watching and finding out.
   await tara.face('left');
   await wait(300);
 
@@ -154,6 +166,8 @@ export async function courtyardScene(stage) {
   await wait(4800);
   ui.classList.remove('show-line');
   await wait(400);
+
+  stage.journey.done('local').at('enclosing');
 
   root.querySelector('.tara').classList.remove('mithu-alert');
   root.querySelector('.courtyard').classList.remove('is-hushed');
