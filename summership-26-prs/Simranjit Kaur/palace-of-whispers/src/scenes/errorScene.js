@@ -18,7 +18,7 @@
 // it is not looking out there at all.
 
 import { ease, wait } from '../engine/anim.js';
-import { predict, react } from '../engine/Ask.js';
+import { predict, react, afterBeat } from '../engine/Ask.js';
 import { beats } from '../story/beats.js';
 import { inRoom } from '../roomSpace.js';
 
@@ -134,7 +134,24 @@ export async function errorScene(stage) {
   await wait(4400);
   ui.classList.remove('show-line');
 
-  await wait(800);
+  // ── 7. see it again, or move on ─────────────────────────────────────────
+  // This is the hardest beat in the piece and it goes past quickly. Offering
+  // it a second time costs nothing and means a learner who was still reading
+  // the error text when it faded is not simply left behind. The loop is
+  // bounded rather than endless: the offer does not return after the replay,
+  // because a control that keeps reappearing starts to feel like a gate.
+  if (await afterBeat(stage, { again: 'See that again', go: 'I follow — continue' }) === 'again') {
+    err.classList.remove('is-cast');
+    await wait(500);
+    trails.classList.add('show-blocked', 'is-barred');
+    err.classList.add('is-cast');
+    code.mark(3, 'is-error');
+    camera.shake(7);
+    await wait(2600);
+    trails.classList.remove('show-blocked', 'is-barred');
+  }
+
+  await wait(700);
   err.classList.remove('is-cast');
   root.querySelector('.stage').classList.remove('is-darkened');
   fig.classList.remove('mithu-alert');
@@ -143,5 +160,6 @@ export async function errorScene(stage) {
   code.unmark('is-error');
   code.unfocus();
   code.clearNotes();
+  stage.journey.done('builtin');
   await wait(500);
 }

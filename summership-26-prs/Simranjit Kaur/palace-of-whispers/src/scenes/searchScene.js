@@ -19,6 +19,8 @@
 // written (here, in Python) — three times, without three explanations.
 
 import { wait, parallel } from '../engine/anim.js';
+import { choose, say, react } from '../engine/Ask.js';
+import { beats } from '../story/beats.js';
 import { COURT } from '../art/scenes/courtyard.js';
 import { inRoom } from '../roomSpace.js';
 
@@ -68,6 +70,18 @@ export async function searchScene(stage) {
   glows.classList.add('is-live', 'is-searching');
 
   for (const step of STEPS) {
+    // ── the learner picks the order, which IS the rule ──────────────────
+    // Asked once, after her own room has come up empty and before the light
+    // moves on. "Straight to the palace" is where the name actually turns out
+    // to be, which makes it a real temptation — and being right by luck is
+    // still the wrong rule, so it gets corrected rather than rewarded.
+    if (step.cls === 'lg-enclosing') {
+      const next = await choose(stage, beats.lookNext);
+      await react(stage, next === beats.lookNext.answer ? 'happy' : 'curious', { ms: 700 });
+      await say(stage, beats.lookNext.feedback[next], 2600);
+      stage.journey.done('local').at('enclosing');
+    }
+
     const layer = root.querySelector(`.${step.cls}`);
     layer.classList.add('is-lit', 'is-probing');
     code.note(3, step.note);
@@ -113,6 +127,14 @@ export async function searchScene(stage) {
   root.querySelector('.lg-builtin').classList.add('is-lit', 'is-found');
   root.querySelector('.mlabel-builtin').classList.add('is-named');
   await wait(1000);
+
+  // print has been on screen since the first code panel; the question is not
+  // what it does but who it belongs to, which is the only thing that makes
+  // the outermost ring mean anything.
+  stage.journey.done('enclosing').done('global').at('builtin');
+  const who = await choose(stage, beats.whoMadePrint);
+  await react(stage, who === beats.whoMadePrint.answer ? 'happy' : 'surprised', { nod: true, ms: 800 });
+  await say(stage, beats.whoMadePrint.feedback[who], 2800);
 
   ui.dataset.line = 'builtin';
   ui.classList.add('show-line');

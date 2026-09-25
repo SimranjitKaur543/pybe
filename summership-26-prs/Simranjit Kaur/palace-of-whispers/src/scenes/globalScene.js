@@ -12,6 +12,8 @@
 // as the beam would teach something false.
 
 import { wait } from '../engine/anim.js';
+import { choose, predict, say, react } from '../engine/Ask.js';
+import { beats } from '../story/beats.js';
 import { inRoom } from '../roomSpace.js';
 
 export async function globalScene(stage) {
@@ -38,6 +40,14 @@ export async function globalScene(stage) {
   await wait(3600);
   ui.classList.remove('show-line');
   fig.classList.remove('mithu-alert');
+
+  // ── 2b. what would actually change it ───────────────────────────────────
+  // She has just watched her own copy change nothing. "Say it louder" is the
+  // instinct that the word global exists to replace, so it is offered.
+  stage.journey.at('global');
+  const how = await choose(stage, beats.changeThePalace);
+  await react(stage, how === beats.changeThePalace.answer ? 'happy' : 'confused', { nod: true, ms: 800 });
+  await say(stage, beats.changeThePalace.feedback[how], 2800);
 
   // ── 3. the megaphone ────────────────────────────────────────────────────
   await camera.to({ ...inRoom(-200, -300), zoom: camera.zoomToFitWidth(880), duration: 1600 });
@@ -105,6 +115,10 @@ export async function globalScene(stage) {
   code.note(4, 'reaches the ENCLOSING room only');
   reach.classList.add('show-nonlocal');
   await wait(1100);
+
+  // global and nonlocal as a choice between two real keywords, with the code
+  // on screen and the reach drawn behind it
+  await predict(stage, beats.whichReach);
 
   ui.dataset.line = 'nonlocal';
   ui.classList.add('show-line');

@@ -122,4 +122,89 @@ export const beats = {
     },
     reveal: 'It raises UnboundLocalError: the room claimed name the moment it was written, so there is nothing outside to fall back to.'
   }
+,
+
+  // ══ ENCLOSING ═══════════════════════════════════════════════════════════
+  // Asked after her own room comes up empty. The learner picks the search
+  // ORDER, which is the rule itself — and "straight to the palace" is a real
+  // temptation, because it is where the name actually turns out to be. Being
+  // right by luck is still the wrong rule.
+  lookNext: {
+    question: 'It is not in her room. Where should Python look next?',
+    options: [
+      { value: 'enclosing', label: 'The space just outside', note: 'one step out' },
+      { value: 'global',    label: 'Straight to the palace' },
+      { value: 'stop',      label: 'Stop looking' }
+    ],
+    answer: 'enclosing',
+    feedback: {
+      enclosing: 'Yes — one step out at a time, never a jump.',
+      global:    'It IS in the palace. But Python does not skip — it checks the space just outside first.',
+      stop:      'Not yet. A name missing from the room is normal; Python keeps looking outward.'
+    }
+  },
+
+  // ══ BUILT-IN ════════════════════════════════════════════════════════════
+  // print has been on screen since the first code panel. The question is not
+  // what it does, it is who it belongs to — which is the only thing that makes
+  // the outermost ring mean anything.
+  whoMadePrint: {
+    question: 'And print — who made that one?',
+    options: [
+      { value: 'python', label: 'Nobody. Python already knew it' },
+      { value: 'tara',   label: 'Tara did' },
+      { value: 'palace', label: 'The palace holds it' }
+    ],
+    answer: 'python',
+    feedback: {
+      python: 'Yes. It was never written here. It is built in.',
+      tara:   'She never wrote it — and it worked the very first time she used it.',
+      palace: 'Not the palace either. Search the whole file and print is nowhere in it.'
+    }
+  },
+
+  // ══ GLOBAL ══════════════════════════════════════════════════════════════
+  // She has just watched her own copy fail to change anything. The question is
+  // what would ACTUALLY change the palace's name — and "say it louder" is the
+  // instinct the word global exists to replace.
+  changeThePalace: {
+    question: "She wants to change the palace’s name, not make another copy. What does she need?",
+    options: [
+      { value: 'declare', label: "Tell Python she means the palace’s one" },
+      { value: 'louder',  label: 'Say it louder' },
+      { value: 'again',   label: 'Write it again' }
+    ],
+    answer: 'declare',
+    feedback: {
+      declare: 'Exactly. That is what the word global does.',
+      louder:  'Volume is not the problem — the room keeps making its own copy however loudly she says it.',
+      again:   'Writing it again in her room just makes the same local copy a second time.'
+    }
+  },
+
+  // Enclosing vs global, as a choice between two real keywords.
+  whichReach: {
+    code: [
+      'def palace():',
+      '    name = "Mithu"',
+      '',
+      '    def room():',
+      '        ???  name',
+      '        name = "Tara"'
+    ],
+    question: 'She means the room around her, not the whole palace. Which word?',
+    options: [
+      { value: 'nonlocal', label: 'nonlocal' },
+      { value: 'global',   label: 'global' }
+    ],
+    answer: 'nonlocal',
+    hints: [
+      'One of these reaches all the way out to the file. The other stops one step out.'
+    ],
+    feedback: {
+      nonlocal: 'Yes. nonlocal reaches the enclosing room and stops there.',
+      global:   'global would skip past the surrounding room and rebind the name at the very top of the file.'
+    },
+    reveal: 'nonlocal — it reaches the enclosing function, never the module.'
+  }
 };
