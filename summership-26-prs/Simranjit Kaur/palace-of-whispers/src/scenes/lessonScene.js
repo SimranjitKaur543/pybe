@@ -196,6 +196,9 @@ export async function lessonScene(stage) {
   tara.express('surprised');
   await wait(1100);
 
+  // shadowing len() is where Built-in stops being a ring on a diagram
+  stage.journey.done('builtin');
+
   ui.dataset.line = 'shadowbuiltin';
   ui.classList.add('show-line');
   await wait(4400);

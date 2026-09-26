@@ -79,7 +79,7 @@ export async function searchScene(stage) {
       const next = await choose(stage, beats.lookNext);
       await react(stage, next === beats.lookNext.answer ? 'happy' : 'curious', { ms: 700 });
       await say(stage, beats.lookNext.feedback[next], 2600);
-      stage.journey.done('local').at('enclosing');
+      stage.journey.at('enclosing');
     }
 
     const layer = root.querySelector(`.${step.cls}`);
@@ -101,6 +101,7 @@ export async function searchScene(stage) {
     await wait(1100);
 
     if (step.found) {
+      stage.journey.done('enclosing').at('global');
       layer.classList.remove('is-probing');
       layer.classList.add('is-found');
       spark.el.classList.add('is-answering');
@@ -131,7 +132,9 @@ export async function searchScene(stage) {
   // print has been on screen since the first code panel; the question is not
   // what it does but who it belongs to, which is the only thing that makes
   // the outermost ring mean anything.
-  stage.journey.done('enclosing').done('global').at('builtin');
+  // the name was found in the palace, and print is about to be placed in the
+  // ring beyond it
+  stage.journey.done('global').at('builtin');
   const who = await choose(stage, beats.whoMadePrint);
   await react(stage, who === beats.whoMadePrint.answer ? 'happy' : 'surprised', { nod: true, ms: 800 });
   await say(stage, beats.whoMadePrint.feedback[who], 2800);

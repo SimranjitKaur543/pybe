@@ -44,7 +44,6 @@ export async function globalScene(stage) {
   // ── 2b. what would actually change it ───────────────────────────────────
   // She has just watched her own copy change nothing. "Say it louder" is the
   // instinct that the word global exists to replace, so it is offered.
-  stage.journey.at('global');
   const how = await choose(stage, beats.changeThePalace);
   await react(stage, how === beats.changeThePalace.answer ? 'happy' : 'confused', { nod: true, ms: 800 });
   await say(stage, beats.changeThePalace.feedback[how], 2800);

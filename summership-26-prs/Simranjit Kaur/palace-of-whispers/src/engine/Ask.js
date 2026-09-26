@@ -34,6 +34,9 @@ import { onRunCancel, currentGeneration, REDUCED } from './anim.js';
 function deciding(stage, on) {
   const st = stage.root.querySelector('.stage');
   if (st) st.classList.toggle('is-deciding', on);
+  // also on the root, because the code panel is a SIBLING of the stage and a
+  // class on .stage cannot reach it
+  stage.root.classList.toggle('is-asking', on);
   const fig = stage.root.querySelector('.tara');
   if (fig) fig.classList.toggle('is-attending', on);
 }

@@ -160,6 +160,5 @@ export async function errorScene(stage) {
   code.unmark('is-error');
   code.unfocus();
   code.clearNotes();
-  stage.journey.done('builtin');
   await wait(500);
 }

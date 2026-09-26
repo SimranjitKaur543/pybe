@@ -170,6 +170,7 @@ export async function courtyardScene(stage) {
   ui.classList.remove('show-line');
   await wait(400);
 
+  // Local is what she just discovered; Enclosing is what the palace names next
   stage.journey.done('local').at('enclosing');
 
   root.querySelector('.tara').classList.remove('mithu-alert');

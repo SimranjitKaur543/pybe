@@ -187,6 +187,24 @@
   .tara.is-attending .head, .tara.is-attending .pupil { transition: none; transform: none; }
 }
 
+/* ── the collision between the code panel and the choices ────────────────
+   On a phone both are centred at the foot of the frame, so a question opening
+   while code was docked buried the code behind the answer buttons — measured
+   at 135x92px of overlap, with the buttons sitting on top. The learner could
+   not see the code they were being asked about.
+
+   On a phone the code steps aside while a question is open. Nothing is lost:
+   predictions carry their own copy of the code inside the panel, and the
+   plain choices are about the scene rather than the listing. On wider screens
+   the two sit side by side and both stay. */
+@media (max-width: 780px) {
+  .is-asking .code-air.is-docked {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+}
+
 /* ── the journey ─────────────────────────────────────────────────────────── */
 .journey {
   position: absolute;
@@ -258,9 +276,12 @@
   .jname { font-size: 10px; }
 }
 @media (max-width: 420px) {
-  /* at this width four labels cannot fit; the lamps still say where you are */
-  .jname { display: none; }
+  /* Four labels will not fit here, but dropping all of them left a row of
+     anonymous dots — the indicator stopped saying what it was for. The step
+     the learner is ON keeps its name; the rest are lamps. */
+  .jstep:not(.is-here) .jname { display: none; }
   .journey { gap: 6px; }
+  .jstep.is-here .jname { font-size: 11px; }
 }
 
 /* ── reduced motion ──────────────────────────────────────────────────────── */
