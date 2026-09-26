@@ -34,7 +34,7 @@
 .ask-q {
   margin: 0 0 clamp(10px, 1.6vh, 16px);
   font-family: var(--display);
-  font-size: clamp(19.5px, 2.4vw, 28.5px);
+  font-size: clamp(22px, 2.7vw, 32.5px);
   line-height: 1.35;
   color: var(--cream);
   text-shadow: 0 2px 20px rgba(10, 4, 22, 0.95), 0 0 40px rgba(10, 4, 22, 0.8);
@@ -50,16 +50,16 @@
 
 .choice {
   flex: 0 1 auto;
-  min-width: 150px;
-  min-height: 50px;                   /* a real touch target */
-  padding: 13px 23px;
+  min-width: 172px;
+  min-height: 57px;                   /* a real touch target */
+  padding: 14px 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   border-radius: 14px;
   font-family: var(--body);
-  font-size: clamp(16px, 1.7vw, 18.5px);
+  font-size: clamp(18px, 1.95vw, 20.8px);
   font-weight: 600;
   color: var(--cream);
   background: linear-gradient(180deg, rgba(60, 29, 85, 0.94), rgba(40, 19, 62, 0.94));
@@ -93,7 +93,7 @@
   width: min(620px, 100%);
   text-align: center;
   font-family: var(--display);
-  font-size: clamp(18.5px, 2.3vw, 26.5px);
+  font-size: clamp(21px, 2.6vw, 30px);
   font-style: italic;
   color: var(--gold);
   text-shadow: 0 2px 20px rgba(10, 4, 22, 0.95);
@@ -114,7 +114,7 @@
   padding: clamp(11px, 1.6vw, 16px) clamp(13px, 2vw, 20px);
   text-align: left;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-  font-size: clamp(14.5px, 1.45vw, 18px);
+  font-size: clamp(16.3px, 1.63vw, 20.2px);
   line-height: 1.62;
   color: rgba(253, 243, 227, 0.94);
   background: linear-gradient(180deg, rgba(16, 8, 36, 0.92), rgba(16, 8, 36, 0.82));
@@ -124,7 +124,7 @@
   white-space: pre;
 }
 /* tighter buttons: answers here are one or two words, not sentences */
-.choice-tight { min-width: 106px; padding: 11.5px 21px; }
+.choice-tight { min-width: 120px; padding: 13px 23px; }
 
 /* ── hints ───────────────────────────────────────────────────────────────
    A nudge, revealed one at a time, and the last one still stops short of
@@ -136,7 +136,7 @@
   min-height: 36px;
   border-radius: 999px;
   font-family: var(--body);
-  font-size: clamp(13.5px, 1.4vw, 16px);
+  font-size: clamp(15.6px, 1.56vw, 18.2px);
   color: rgba(253, 243, 227, 0.72);
   background: rgba(23, 13, 51, 0.5);
   border: 1px solid rgba(253, 243, 227, 0.18);
@@ -152,7 +152,7 @@
 .hint {
   margin: clamp(6px, 1vh, 10px) 0 0;
   font-family: var(--body);
-  font-size: clamp(15px, 1.5vw, 17px);
+  font-size: clamp(17px, 1.7vw, 19.5px);
   font-style: italic;
   color: rgba(255, 212, 137, 0.86);
   text-shadow: 0 2px 16px rgba(10, 4, 22, 0.9);
@@ -267,9 +267,9 @@
   /* stacked, full width, thumb-reachable — not a shrunken desktop row */
   .interact { padding-bottom: clamp(84px, 14vh, 130px); }
   .ask-options { flex-direction: column; }
-  .choice { width: 100%; min-height: 57px; }
-  .ask-q { font-size: clamp(18.5px, 4.8vw, 23px); }
-  .ask-code { font-size: 13.8px; max-height: 34vh; overflow-y: auto; }
+  .choice { width: 100%; min-height: 65px; }
+  .ask-q { font-size: clamp(21px, 5.5vw, 26px); }
+  .ask-code { font-size: 15.6px; max-height: 34vh; overflow-y: auto; }
   .choice-tight { width: 100%; }
   /* the journey loses its title before it loses its lamps */
   .journey-title { display: none; }
