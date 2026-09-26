@@ -12,7 +12,10 @@
 
 const H = 300;
 const HEAD_Y = -246;
-const HEAD_R = 46;
+// 43 rather than 46. At 46 the head was 31% of her height, which is toddler
+// proportion; this is a small step toward a child without turning her into a
+// different character.
+const HEAD_R = 43;
 const SHOULDER_Y = -190;
 const HIP_Y = -104;
 
@@ -34,11 +37,18 @@ function leg(x, cls) {
 function arm(x, cls, held = '') {
   return `
   <g class="limb ${cls}">
-    <path class="sleeve" d="M ${x} ${SHOULDER_Y + 4}
-      C ${x + 6} ${SHOULDER_Y + 40} ${x + 8} ${SHOULDER_Y + 66} ${x + 6} ${SHOULDER_Y + 86}
-      L ${x - 14} ${SHOULDER_Y + 86}
-      C ${x - 16} ${SHOULDER_Y + 62} ${x - 14} ${SHOULDER_Y + 36} ${x - 12} ${SHOULDER_Y + 4} Z" />
-    <circle class="skin" cx="${x - 4}" cy="${SHOULDER_Y + 94}" r="12" />
+    <path class="sleeve" d="M ${x + 1} ${SHOULDER_Y + 2}
+      C ${x + 7} ${SHOULDER_Y + 36} ${x + 8} ${SHOULDER_Y + 64} ${x + 6} ${SHOULDER_Y + 88}
+      C ${x + 1} ${SHOULDER_Y + 92} ${x - 9} ${SHOULDER_Y + 92} ${x - 13} ${SHOULDER_Y + 88}
+      C ${x - 15} ${SHOULDER_Y + 62} ${x - 14} ${SHOULDER_Y + 34} ${x - 12} ${SHOULDER_Y + 2} Z" />
+    <!-- one soft fold where the sleeve gathers at the elbow -->
+    <path class="fold" d="M ${x - 10} ${SHOULDER_Y + 48} C ${x - 4} ${SHOULDER_Y + 52} ${x + 1} ${SHOULDER_Y + 50} ${x + 5} ${SHOULDER_Y + 45}" />
+    <!-- a hand, not a ball: slightly oval, tilted, with a thumb suggested by
+         the notch on the inner edge -->
+    <path class="skin hand" d="M ${x - 14} ${SHOULDER_Y + 88}
+      C ${x - 17} ${SHOULDER_Y + 98} ${x - 12} ${SHOULDER_Y + 106} ${x - 3} ${SHOULDER_Y + 106}
+      C ${x + 6} ${SHOULDER_Y + 106} ${x + 10} ${SHOULDER_Y + 98} ${x + 8} ${SHOULDER_Y + 89}
+      C ${x + 4} ${SHOULDER_Y + 93} ${x - 8} ${SHOULDER_Y + 93} ${x - 14} ${SHOULDER_Y + 88} Z" />
     ${held}
   </g>`;
 }
@@ -91,6 +101,7 @@ export function tara() {
       L 54 ${HIP_Y + 16}
       C 50 ${HIP_Y - 20} 44 ${SHOULDER_Y + 22} 32 ${SHOULDER_Y - 6}
       C 18 ${SHOULDER_Y - 18} -18 ${SHOULDER_Y - 18} -32 ${SHOULDER_Y - 6} Z" />
+    <path class="fold" d="M -30 ${HIP_Y - 46} C -18 ${HIP_Y - 40} 16 ${HIP_Y - 40} 30 ${HIP_Y - 48}" />
     <path class="kurta-hem" d="M -54 ${HIP_Y + 4} L 54 ${HIP_Y + 4} L 54 ${HIP_Y + 16} L -54 ${HIP_Y + 16} Z" />
     <path class="dupatta" d="M -30 ${SHOULDER_Y - 2}
       C -6 ${SHOULDER_Y + 26} 22 ${SHOULDER_Y + 22} 34 ${SHOULDER_Y + 2}
@@ -108,12 +119,32 @@ export function tara() {
        forward face disc: that leaves a clean hair rim over the crown. A single
        curved cap never reaches the top of the skull and leaves it bald. -->
   <g class="head">
-    <circle class="hair" cx="-2" cy="${HEAD_Y - 6}" r="${HEAD_R + 5}" />
+    <!-- Hair as a rounded mass with real volume, rather than a disc five
+         units wider than the face — that only ever showed as a thin rim. The
+         old fringe doubled back on itself and left a dark wedge over her right
+         brow, which read as a mistake rather than a hairstyle. -->
+    <path class="hair" d="M -44 ${HEAD_Y + 10}
+      C -49 ${HEAD_Y - 30} -24 ${HEAD_Y - 54} 2 ${HEAD_Y - 54}
+      C 30 ${HEAD_Y - 54} 50 ${HEAD_Y - 28} 48 ${HEAD_Y + 12}
+      C 47 ${HEAD_Y + 30} 44 ${HEAD_Y + 42} 38 ${HEAD_Y + 52}
+      L -34 ${HEAD_Y + 52}
+      C -41 ${HEAD_Y + 38} -44 ${HEAD_Y + 26} -44 ${HEAD_Y + 10} Z" />
+
     <circle class="skin" cx="3" cy="${HEAD_Y + 4}" r="${HEAD_R}" />
-    <path class="hair" d="M ${-HEAD_R + 2} ${HEAD_Y - 6}
-      C ${-HEAD_R + 4} ${HEAD_Y - 34} ${HEAD_R - 6} ${HEAD_Y - 40} ${HEAD_R + 1} ${HEAD_Y - 12}
-      C ${HEAD_R - 12} ${HEAD_Y - 26} 4 ${HEAD_Y - 30} -10 ${HEAD_Y - 16}
-      C -22 ${HEAD_Y - 6} ${-HEAD_R + 6} ${HEAD_Y + 2} ${-HEAD_R + 2} ${HEAD_Y - 6} Z" />
+
+    <!-- Fringe: one sweep across the forehead, left to right. It has to clear
+         the brows by a good margin — the brows are stroked in the hair colour,
+         so a fringe that reaches them does not overlap them, it ERASES them,
+         and she loses every expression the moods depend on. -->
+    <path class="hair" d="M -42 ${HEAD_Y + 4}
+      C -46 ${HEAD_Y - 26} -24 ${HEAD_Y - 48} 3 ${HEAD_Y - 48}
+      C 31 ${HEAD_Y - 48} 48 ${HEAD_Y - 26} 46 ${HEAD_Y + 2}
+      C 41 ${HEAD_Y - 24} 30 ${HEAD_Y - 36} 14 ${HEAD_Y - 39}
+      C -6 ${HEAD_Y - 42} -27 ${HEAD_Y - 30} -37 ${HEAD_Y - 10}
+      C -38 ${HEAD_Y + 2} -40 ${HEAD_Y + 4} -42 ${HEAD_Y + 4} Z" />
+
+    <!-- the headband she already wore, drawn on purpose this time -->
+    <path class="headband" d="M -40 ${HEAD_Y - 10} C -30 ${HEAD_Y - 34} 30 ${HEAD_Y - 36} 45 ${HEAD_Y - 12}" />
     <circle class="flower" cx="34" cy="${HEAD_Y - 32}" r="9" />
     <circle class="flower-mid" cx="34" cy="${HEAD_Y - 32}" r="3.8" />
 
@@ -123,14 +154,16 @@ export function tara() {
 
       <g class="eyes">
         <g class="eye">
-          <ellipse class="eye-white" cx="-6" cy="${HEAD_Y - 2}" rx="10" ry="12" />
-          <circle class="pupil" cx="-4" cy="${HEAD_Y}" r="6" />
-          <circle class="glint" cx="-7" cy="${HEAD_Y - 4}" r="2.6" />
+          <ellipse class="eye-white" cx="-7" cy="${HEAD_Y - 2}" rx="11.5" ry="13.5" />
+          <circle class="pupil" cx="-5" cy="${HEAD_Y}" r="7.4" />
+          <circle class="glint" cx="-9" cy="${HEAD_Y - 5}" r="3.1" />
+          <circle class="glint small" cx="-1" cy="${HEAD_Y + 4}" r="1.6" />
         </g>
         <g class="eye">
-          <ellipse class="eye-white" cx="22" cy="${HEAD_Y - 2}" rx="10" ry="12" />
-          <circle class="pupil" cx="24" cy="${HEAD_Y}" r="6" />
-          <circle class="glint" cx="21" cy="${HEAD_Y - 4}" r="2.6" />
+          <ellipse class="eye-white" cx="23" cy="${HEAD_Y - 2}" rx="11.5" ry="13.5" />
+          <circle class="pupil" cx="25" cy="${HEAD_Y}" r="7.4" />
+          <circle class="glint" cx="21" cy="${HEAD_Y - 5}" r="3.1" />
+          <circle class="glint small" cx="29" cy="${HEAD_Y + 4}" r="1.6" />
         </g>
       </g>
 
@@ -159,8 +192,8 @@ export function tara() {
       </g>
 
       <g class="mouths">
-        <path class="mouth-set" data-for="neutral"   d="M 2 ${HEAD_Y + 24} Q 10 ${HEAD_Y + 30} 18 ${HEAD_Y + 24}" />
-        <path class="mouth-set" data-for="curious"   d="M 3 ${HEAD_Y + 23} Q 10 ${HEAD_Y + 31} 17 ${HEAD_Y + 23}" />
+        <path class="mouth-set" data-for="neutral"   d="M 1 ${HEAD_Y + 24} Q 10 ${HEAD_Y + 33} 19 ${HEAD_Y + 24}" />
+        <path class="mouth-set" data-for="curious"   d="M 2 ${HEAD_Y + 23} Q 10 ${HEAD_Y + 33} 18 ${HEAD_Y + 23}" />
         <path class="mouth-set open" data-for="surprised" d="M 10 ${HEAD_Y + 27} m -8 0 a 8 9 0 1 0 16 0 a 8 9 0 1 0 -16 0" />
         <path class="mouth-set" data-for="confused" d="M 2 ${HEAD_Y + 28} Q 10 ${HEAD_Y + 22} 18 ${HEAD_Y + 27}" />
         <path class="mouth-set open" data-for="happy" d="M 0 ${HEAD_Y + 22} Q 10 ${HEAD_Y + 38} 20 ${HEAD_Y + 22} Z" />
@@ -171,7 +204,7 @@ export function tara() {
   <!-- Mithu rides on her shoulder -->
   <!-- positioning on the OUTER group: the hop animation below sets transform,
        and a CSS transform replaces the SVG attribute rather than composing. -->
-  <g class="mithu-perch" transform="translate(46 ${SHOULDER_Y - 14}) scale(0.34)">
+  <g class="mithu-perch" transform="translate(42 ${SHOULDER_Y - 10}) scale(0.27)">
     <g class="mithu-hop">${mithu()}</g>
   </g>
 </g>`;
