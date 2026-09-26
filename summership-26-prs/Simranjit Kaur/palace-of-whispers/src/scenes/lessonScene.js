@@ -16,11 +16,9 @@ const CODE_AT = { x: 620, y: -1180 };
 
 
 export async function lessonScene(stage) {
-  const { camera, tara, spark, hers, code, ui, root } = stage;
+  const { camera, tara, hers, code, ui, root } = stage;
   const fig = root.querySelector('.tara');
-  const trails = root.querySelector('.trails');
   const perch = root.querySelector('.perch-stand');
-  const err = root.querySelector('.error-spell');
 
   // ── 1. everyone settles ─────────────────────────────────────────────────
   await parallel(
@@ -41,137 +39,21 @@ export async function lessonScene(stage) {
   await wait(3800);
   ui.classList.remove('show-line');
 
-  // ── 2. Example 1 — the name is not hers, so Python may look outward ─────
-  code.at(CODE_AT.x, CODE_AT.y);
-  code.undock();
-  await code.clear({ duration: 400 });
-  await camera.to({ ...inRoom(520, -760), zoom: camera.fitRoom(2100), duration: 1800 });
-
-  hers.el.classList.remove(
-    'is-word', 'is-live', 'is-hollow', 'is-claimed', 'is-hollow-pulse',
-    'is-inner', 'is-shadowing', 'is-clearing'
-  );
-  spark.setText('MITHU').at(1900, -1180);
-  spark.el.classList.add('is-live', 'is-word', 'is-outer');
-
-  await code.write([
-    'name = "Mithu"',
-    '',
-    'def room():',
-    '    print(name)'
-  ]);
-  await wait(300);
-
-  code.focus(3);
-  trails.classList.add('show-out');
-  await wait(500);
-  spark.el.classList.add('is-answering');
-  await wait(700);
-
-  ui.dataset.line = 'lookout';
-  ui.classList.add('show-line');
-  await wait(3900);
-  ui.classList.remove('show-line');
-  trails.classList.remove('show-out');
-  spark.el.classList.remove('is-answering');
-  code.unfocus();
-  await code.clear();
-
-  // ── 3. Example 2 — she makes her own, and it hides the outer one ────────
-  await code.write([
-    'name = "Mithu"',
-    '',
-    'def room():',
-    '    name = "Tara"',
-    '    print(name)'
-  ]);
-  await wait(300);
-
-  code.focus(3);
-  hers.setText('TARA').at(-560, -300).setScale(0.1);
-  hers.el.classList.remove('is-hollow', 'is-claimed');
-  hers.el.classList.add('is-live', 'is-inner');
-  await hers.scaleTo(1, { duration: 900, easing: ease.back });
-  hers.el.classList.add('is-word');
+  // ── 2. the one thing the story has NOT already shown ───────────────────
+  // Three examples used to live here: reading a name from an outer scope,
+  // shadowing it, and UnboundLocalError. Every one of them had already been
+  // played out in the palace AND written in the code panel as it happened —
+  // and the error had been predicted by the learner a scene earlier. Teaching
+  // them again in the same words was not reinforcement, it was the film
+  // saying the same thing twice while the viewer waited.
+  //
+  // The camera also stays CLOSE here. This beat used to frame her at roughly
+  // a twelfth of the screen height with the code centred on top of her, so
+  // the person supposedly giving the lesson was a detail behind a panel.
+  code.dock();
+  await code.clear({ duration: 300 });
+  await camera.to({ ...inRoom(-40, -300), zoom: camera.fitRoom(1150), duration: 1600 });
   await wait(400);
-
-  code.focus(4);
-  trails.classList.add('show-local');
-  hers.el.classList.add('is-shadowing');
-  spark.el.classList.add('is-shadowed');
-  await wait(800);
-
-  ui.dataset.line = 'hides';
-  ui.classList.add('show-line');
-  await wait(3800);
-  ui.classList.remove('show-line');
-
-  const shadowTag = root.querySelector('.shadow-tag .mlabel');
-  shadowTag.classList.add('is-named');
-  await wait(1100);
-  shadowTag.classList.remove('is-named');
-
-  trails.classList.remove('show-local');
-  spark.el.classList.remove('is-shadowed');
-  hers.el.classList.remove('is-shadowing');
-  code.unfocus();
-  await code.clear();
-
-  // ── 4. Example 3 — the same two lines, the other way round ──────────────
-  await code.write([
-    'name = "Mithu"',
-    '',
-    'def room():',
-    '    print(name)',
-    '    name = "Tara"'
-  ]);
-  await wait(300);
-
-  // the claim is made by the assignment on the LAST line, before anything runs
-  code.focus(4);
-  await wait(500);
-  hers.setText('name').at(-560, -300).setScale(0.1);
-  hers.el.classList.remove('is-inner');
-  hers.el.classList.add('is-live', 'is-hollow');
-  await hers.scaleTo(1, { duration: 800, easing: ease.back });
-  hers.el.classList.add('is-word', 'is-claimed');
-  camera.shake(4);
-  await wait(700);
-
-  // only now is the read attempted, and it finds an empty name
-  code.focus(3);
-  trails.classList.add('show-blocked');
-  hers.el.classList.add('is-hollow-pulse');
-  await wait(500);
-  trails.classList.add('is-barred');
-  camera.shake(8);
-  await wait(500);
-  trails.classList.remove('show-blocked', 'is-barred');
-
-  // clear of the code block, which runs from -1180 down to about -700
-  err.setAttribute('transform', 'translate(620 -320)');
-  root.querySelector('.stage').classList.add('is-darkened');
-  err.classList.add('is-cast');
-  code.mark(3, 'is-error');
-  await wait(900);
-
-  ui.dataset.line = 'assigns';
-  ui.classList.add('show-line');
-  await wait(4400);
-  ui.classList.remove('show-line');
-  await wait(300);
-
-  ui.dataset.line = 'novalue';
-  ui.classList.add('show-line');
-  await wait(4000);
-  ui.classList.remove('show-line');
-
-  err.classList.remove('is-cast');
-  root.querySelector('.stage').classList.remove('is-darkened');
-  code.unfocus();
-  code.unmark('is-error');
-  await code.clear();
-  hers.el.classList.remove('is-hollow-pulse');
 
   // ── 4b. Example 4 — the same trick played on a built-in name ────────────
   // Everything so far shadowed a name the story invented. Built-ins are not
@@ -239,17 +121,16 @@ export async function lessonScene(stage) {
   await wait(4000);
   ui.classList.remove('show-line');
 
-  // ── 6. the architecture, one last time ──────────────────────────────────
-  await tara.walkTo(ROOM.taraX - 160, { speed: 220 });
+  // ── 6. and that is the lesson ───────────────────────────────────────────
+  // This used to pull out to zoomToFitWidth(1760) and light the four rings
+  // again. The ending now performs that far better — four lookups, one per
+  // ring, each with a different answer — so doing it here as well meant the
+  // story reprised the same diagram twice within a few minutes, and did it
+  // the weaker way first. The line still lands; the camera just stays with
+  // her to say it.
   await tara.face('right');
   tara.express('happy');
-
-  await camera.to({ ...inRoom(980, -940), zoom: camera.zoomToFitWidth(1760), duration: 2400 });
-  root.querySelector('.layer-glows').classList.add('is-live');
-  for (const id of ['local', 'enclosing', 'global', 'builtin']) {
-    root.querySelector(`.lg-${id}`).classList.add('is-lit');
-    await wait(300);
-  }
+  await camera.to({ ...inRoom(-60, -280), zoom: camera.fitRoom(1050), duration: 1500 });
   await wait(500);
 
   ui.dataset.line = 'begins';
