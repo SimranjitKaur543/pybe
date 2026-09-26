@@ -168,10 +168,15 @@
    motes all keep moving, because the palace going still would turn the
    question into a modal by other means. It is a shift of emphasis: the
    brightest thing on screen becomes the thing the learner has to answer. */
+/* The scenery used to desaturate and dim while a question was open. With one
+   or two questions that read as emphasis; with nine of them the frame kept
+   changing colour through the story — brighter, duller, brighter — and the
+   palace never settled. The question already has its own scrim and the
+   brightest type on screen, so the emphasis was doing no work the panel was
+   not already doing. The frame now holds one colour from start to finish, and
+   the only deliberate exception is the error beat. */
 .stage.is-deciding .stage-svg {
-  filter: saturate(0.88) brightness(0.9);
-  /* the easing comes from the base .stage-svg rule in style.css; declaring it
-     again here would override the longer fade the error beat depends on */
+  /* intentionally no filter: see above */
 }
 
 /* she looks up and holds still, the way someone does when asked something */

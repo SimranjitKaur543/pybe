@@ -10,35 +10,48 @@
 
 /* ------------------------------------------------------------------ Tara */
 
+// Tara, matched to the reference art: a magenta kurta over an orange
+// under-top, gold at the hem, waist and jewellery, and two plaits falling
+// forward over her shoulders.
+//
+// Proportions follow the reference too. She was a 46-unit head on a 300-unit
+// body — 31%, which is toddler proportion and no amount of facial detail talks
+// you out of it. She is now 38 units, about a quarter of her height: still
+// frankly storybook, but a child rather than an infant.
 const H = 300;
-const HEAD_Y = -246;
-const HEAD_R = 46;
-const SHOULDER_Y = -190;
-const HIP_Y = -104;
+const HEAD_R = 38;
+const HEAD_Y = -258;
+const CHIN_Y = HEAD_Y + HEAD_R;
+const SHOULDER_Y = -204;
+const HIP_Y = -112;
 
-/** One leg: thigh-to-shin as a single soft shape, plus a slipper. */
+/** One leg. The skirt covers the thigh, so this is shin, ankle and slipper. */
 function leg(x, cls) {
   return `
   <g class="limb ${cls}">
-    <path class="churidar" d="M ${x - 13} ${HIP_Y}
-      C ${x - 15} ${HIP_Y + 46} ${x - 13} ${-40} ${x - 11} ${-12}
-      L ${x + 11} ${-12}
-      C ${x + 13} ${-40} ${x + 15} ${HIP_Y + 46} ${x + 13} ${HIP_Y} Z" />
-    <path class="cuff" d="M ${x - 12} -26 L ${x + 12} -26 L ${x + 11} -14 L ${x - 11} -14 Z" />
-    <ellipse class="slipper" cx="${x + 3}" cy="-5" rx="19" ry="9" />
+    <path class="churidar" d="M ${x - 8} ${HIP_Y + 54}
+      C ${x - 9} -52 ${x - 8} -30 ${x - 7} -13
+      L ${x + 7} -13
+      C ${x + 8} -30 ${x + 9} -52 ${x + 8} ${HIP_Y + 54} Z" />
+    <path class="slipper" d="M ${x - 12} -2
+      C ${x - 14} -13 ${x - 6} -16 ${x + 3} -15
+      C ${x + 13} -14 ${x + 19} -10 ${x + 17} -2
+      C ${x + 15} 1 ${x - 10} 1 ${x - 12} -2 Z" />
+    <ellipse class="slipper-strap" cx="${x + 2}" cy="-12" rx="8" ry="3" />
   </g>`;
 }
 
-/** One arm from the shoulder, hand as a soft round cap. `held` rides in the
- *  hand, so a lantern or megaphone swings with the arm without extra rigging. */
+/** One arm: an orange sleeve to the wrist, a gold bangle, then the hand. */
 function arm(x, cls, held = '') {
+  const L = 80;
   return `
   <g class="limb ${cls}">
-    <path class="sleeve" d="M ${x} ${SHOULDER_Y + 4}
-      C ${x + 6} ${SHOULDER_Y + 40} ${x + 8} ${SHOULDER_Y + 66} ${x + 6} ${SHOULDER_Y + 86}
-      L ${x - 14} ${SHOULDER_Y + 86}
-      C ${x - 16} ${SHOULDER_Y + 62} ${x - 14} ${SHOULDER_Y + 36} ${x - 12} ${SHOULDER_Y + 4} Z" />
-    <circle class="skin" cx="${x - 4}" cy="${SHOULDER_Y + 94}" r="12" />
+    <path class="sleeve" d="M ${x} ${SHOULDER_Y + 2}
+      C ${x + 7} ${SHOULDER_Y + 30} ${x + 8} ${SHOULDER_Y + 52} ${x + 6} ${SHOULDER_Y + L - 12}
+      L ${x - 12} ${SHOULDER_Y + L - 12}
+      C ${x - 14} ${SHOULDER_Y + 50} ${x - 12} ${SHOULDER_Y + 28} ${x - 10} ${SHOULDER_Y + 2} Z" />
+    <rect class="bangle" x="${x - 13}" y="${SHOULDER_Y + L - 14}" width="19" height="7" rx="3" />
+    <circle class="skin" cx="${x - 3}" cy="${SHOULDER_Y + L + 1}" r="9.5" />
     ${held}
   </g>`;
 }
@@ -66,112 +79,172 @@ function megaphoneProp(x, y) {
   </g>`;
 }
 
+
 export function tara() {
   return `
 <g class="tara pose-idle" data-mood="neutral">
-  <ellipse class="shadow" cx="4" cy="2" rx="62" ry="12" />
+  <ellipse class="shadow" cx="4" cy="2" rx="54" ry="10" />
 
-  <!-- far side limbs sit behind the body -->
-  ${leg(-17, 'leg-far')}
-  ${arm(-46, 'arm-far')}
+  <!-- The far ARM sits behind the body. The far LEG does not: the skirt now
+       ends above the knee, so a leg drawn behind it is hidden completely and
+       she stands on one visible shin. -->
+  ${arm(-44, 'arm-far')}
 
-  <!-- braid falls behind the shoulder -->
-  <g class="braid">
-    <path class="hair" d="M -34 ${HEAD_Y + 6}
-      C -66 ${HEAD_Y + 40} -64 ${HEAD_Y + 116} -46 ${HEAD_Y + 152}
-      L -26 ${HEAD_Y + 146}
-      C -44 ${HEAD_Y + 112} -46 ${HEAD_Y + 44} -18 ${HEAD_Y + 16} Z" />
-    <circle class="ribbon" cx="-36" cy="${HEAD_Y + 150}" r="11" />
-  </g>
+  <!-- neck -->
+  <path class="skin neck" d="M -10 ${SHOULDER_Y + 6} L 15 ${SHOULDER_Y + 6}
+    L 13 ${CHIN_Y - 6} L -8 ${CHIN_Y - 6} Z" />
 
-  <!-- body -->
+  <!-- body: a sleeveless magenta kurta over the orange under-top, flaring into
+       a skirt with a gold hem. The reference reads as three bands of colour
+       top to bottom, and that banding is most of what makes it legible at the
+       size she is usually on screen. -->
   <g class="body">
-    <path class="kurta" d="M -32 ${SHOULDER_Y - 6}
-      C -48 ${SHOULDER_Y + 22} -50 ${HIP_Y - 20} -54 ${HIP_Y + 16}
-      L 54 ${HIP_Y + 16}
-      C 50 ${HIP_Y - 20} 44 ${SHOULDER_Y + 22} 32 ${SHOULDER_Y - 6}
-      C 18 ${SHOULDER_Y - 18} -18 ${SHOULDER_Y - 18} -32 ${SHOULDER_Y - 6} Z" />
-    <path class="kurta-hem" d="M -54 ${HIP_Y + 4} L 54 ${HIP_Y + 4} L 54 ${HIP_Y + 16} L -54 ${HIP_Y + 16} Z" />
-    <path class="dupatta" d="M -30 ${SHOULDER_Y - 2}
-      C -6 ${SHOULDER_Y + 26} 22 ${SHOULDER_Y + 22} 34 ${SHOULDER_Y + 2}
-      C 44 ${SHOULDER_Y + 54} 38 ${HIP_Y + 6} 26 ${HIP_Y + 30}
-      L 8 ${HIP_Y + 24}
-      C 22 ${HIP_Y - 6} 28 ${SHOULDER_Y + 58} 20 ${SHOULDER_Y + 34}
-      C 4 ${SHOULDER_Y + 46} -18 ${SHOULDER_Y + 40} -30 ${SHOULDER_Y + 22} Z" />
+    <path class="kurta" d="M -26 ${SHOULDER_Y - 2}
+      C -38 ${SHOULDER_Y + 26} -40 ${HIP_Y - 40} -42 ${HIP_Y - 6}
+      L 42 ${HIP_Y - 6}
+      C 40 ${HIP_Y - 40} 38 ${SHOULDER_Y + 26} 26 ${SHOULDER_Y - 2}
+      C 14 ${SHOULDER_Y - 14} -14 ${SHOULDER_Y - 14} -26 ${SHOULDER_Y - 2} Z" />
+
+    <!-- the V of the neckline, with a gold chain sitting in it -->
+    <path class="kurta-vee" d="M -13 ${SHOULDER_Y - 8}
+      C -7 ${SHOULDER_Y + 16} 9 ${SHOULDER_Y + 16} 15 ${SHOULDER_Y - 8}" />
+    <path class="necklace" d="M -16 ${SHOULDER_Y + 2} C -8 ${SHOULDER_Y + 24} 10 ${SHOULDER_Y + 24} 18 ${SHOULDER_Y + 2}" />
+    <circle class="pendant" cx="1" cy="${SHOULDER_Y + 26}" r="4.2" />
+
+    <!-- gold waist band -->
+    <path class="sash" d="M -42 ${HIP_Y - 8} L 42 ${HIP_Y - 8} L 42 ${HIP_Y + 8} L -42 ${HIP_Y + 8} Z" />
+
+    <!-- the skirt, flared, with the gold hem the reference gives it -->
+    <path class="skirt" d="M -42 ${HIP_Y + 6}
+      C -50 ${HIP_Y + 26} -55 ${HIP_Y + 44} -57 ${HIP_Y + 58}
+      C -28 ${HIP_Y + 70} 30 ${HIP_Y + 70} 57 ${HIP_Y + 58}
+      C 55 ${HIP_Y + 44} 50 ${HIP_Y + 26} 42 ${HIP_Y + 6} Z" />
+    <path class="skirt-pleat" d="M -20 ${HIP_Y + 12} L -25 ${HIP_Y + 60}" />
+    <path class="skirt-pleat" d="M 2 ${HIP_Y + 12} L 2 ${HIP_Y + 64}" />
+    <path class="skirt-pleat" d="M 24 ${HIP_Y + 12} L 29 ${HIP_Y + 60}" />
+    <path class="kurta-hem" d="M -57 ${HIP_Y + 58}
+      C -28 ${HIP_Y + 70} 30 ${HIP_Y + 70} 57 ${HIP_Y + 58}
+      C 57 ${HIP_Y + 72} 57 ${HIP_Y + 72} 57 ${HIP_Y + 72}
+      C 30 ${HIP_Y + 84} -28 ${HIP_Y + 84} -57 ${HIP_Y + 72} Z" />
   </g>
 
   <!-- near side limbs -->
-  ${leg(17, 'leg-near')}
-  ${arm(48, 'arm-near', lanternProp(40, SHOULDER_Y + 104) + megaphoneProp(40, SHOULDER_Y + 96))}
+  ${leg(-17, 'leg-far')}
+  ${leg(15, 'leg-near')}
+  ${arm(46, 'arm-near', lanternProp(36, SHOULDER_Y + 88) + megaphoneProp(36, SHOULDER_Y + 80))}
 
-  <!-- head. The hair is a full disc sitting behind a slightly lower, slightly
-       forward face disc: that leaves a clean hair rim over the crown. A single
-       curved cap never reaches the top of the skull and leaves it bald. -->
+  <!-- Both plaits, falling FORWARD over her shoulders as in the reference.
+       Drawn after the body so they lie on top of it, and inside one .braid
+       group so the existing sway and bounce animations move them together. -->
+  <g class="braid">
+    <path class="hair" d="M -30 ${HEAD_Y + 18}
+      C -44 ${HEAD_Y + 40} -46 ${HEAD_Y + 74} -40 ${HEAD_Y + 104}
+      L -22 ${HEAD_Y + 100}
+      C -28 ${HEAD_Y + 72} -26 ${HEAD_Y + 44} -16 ${HEAD_Y + 26} Z" />
+    <circle class="ribbon" cx="-31" cy="${HEAD_Y + 106}" r="6.5" />
+    <path class="hair" d="M 32 ${HEAD_Y + 18}
+      C 46 ${HEAD_Y + 40} 48 ${HEAD_Y + 74} 42 ${HEAD_Y + 104}
+      L 24 ${HEAD_Y + 100}
+      C 30 ${HEAD_Y + 72} 28 ${HEAD_Y + 44} 18 ${HEAD_Y + 26} Z" />
+    <circle class="ribbon" cx="33" cy="${HEAD_Y + 106}" r="6.5" />
+  </g>
+
+  <!-- Head. The hair is a rounded mass with a centre parting, not a disc a few
+       units larger than the face — that only ever shows as a thin rim and
+       reads as a swimming cap. -->
   <g class="head">
-    <circle class="hair" cx="-2" cy="${HEAD_Y - 6}" r="${HEAD_R + 5}" />
-    <circle class="skin" cx="3" cy="${HEAD_Y + 4}" r="${HEAD_R}" />
-    <path class="hair" d="M ${-HEAD_R + 2} ${HEAD_Y - 6}
-      C ${-HEAD_R + 4} ${HEAD_Y - 34} ${HEAD_R - 6} ${HEAD_Y - 40} ${HEAD_R + 1} ${HEAD_Y - 12}
-      C ${HEAD_R - 12} ${HEAD_Y - 26} 4 ${HEAD_Y - 30} -10 ${HEAD_Y - 16}
-      C -22 ${HEAD_Y - 6} ${-HEAD_R + 6} ${HEAD_Y + 2} ${-HEAD_R + 2} ${HEAD_Y - 6} Z" />
-    <circle class="flower" cx="34" cy="${HEAD_Y - 32}" r="9" />
-    <circle class="flower-mid" cx="34" cy="${HEAD_Y - 32}" r="3.8" />
+    <path class="hair" d="M -40 ${HEAD_Y + 6}
+      C -44 ${HEAD_Y - 34} -20 ${HEAD_Y - 54} 2 ${HEAD_Y - 54}
+      C 26 ${HEAD_Y - 54} 46 ${HEAD_Y - 32} 44 ${HEAD_Y + 8}
+      C 43 ${HEAD_Y + 26} 40 ${HEAD_Y + 36} 34 ${HEAD_Y + 46}
+      L -30 ${HEAD_Y + 46}
+      C -37 ${HEAD_Y + 34} -40 ${HEAD_Y + 22} -40 ${HEAD_Y + 6} Z" />
+
+    <!-- ears, with the gold drops the reference hangs from them -->
+    <ellipse class="skin ear" cx="-37" cy="${HEAD_Y + 6}" rx="7" ry="9" />
+    <ellipse class="skin ear" cx="41" cy="${HEAD_Y + 6}" rx="7" ry="9" />
+    <circle class="earring" cx="-37" cy="${HEAD_Y + 18}" r="3.6" />
+    <circle class="earring" cx="41" cy="${HEAD_Y + 18}" r="3.6" />
+
+    <circle class="skin" cx="2" cy="${HEAD_Y}" r="${HEAD_R}" />
+
+    <!-- the parting: two sweeps meeting at the centre -->
+    <path class="hair" d="M -38 ${HEAD_Y + 2}
+      C -41 ${HEAD_Y - 26} -22 ${HEAD_Y - 46} 2 ${HEAD_Y - 46}
+      C 0 ${HEAD_Y - 30} -8 ${HEAD_Y - 22} -22 ${HEAD_Y - 14}
+      C -31 ${HEAD_Y - 8} -36 ${HEAD_Y - 3} -38 ${HEAD_Y + 2} Z" />
+    <path class="hair" d="M 42 ${HEAD_Y + 2}
+      C 44 ${HEAD_Y - 26} 26 ${HEAD_Y - 46} 2 ${HEAD_Y - 46}
+      C 6 ${HEAD_Y - 30} 16 ${HEAD_Y - 22} 29 ${HEAD_Y - 14}
+      C 37 ${HEAD_Y - 8} 40 ${HEAD_Y - 3} 42 ${HEAD_Y + 2} Z" />
+
+    <!-- bindi -->
+    <circle class="bindi" cx="2" cy="${HEAD_Y - 20}" r="3.4" />
 
     <g class="face">
-      <circle class="blush" cx="-20" cy="${HEAD_Y + 14}" r="10" />
-      <circle class="blush" cx="30" cy="${HEAD_Y + 14}" r="10" />
+      <circle class="blush" cx="-20" cy="${HEAD_Y + 13}" r="8" />
+      <circle class="blush" cx="24" cy="${HEAD_Y + 13}" r="8" />
 
+      <!-- Large round eyes with a lid line and two highlights, which is what
+           gives the reference its warmth. The old 10x12 ovals on a wider head
+           were the single biggest reason she read as a cheap sticker. -->
       <g class="eyes">
         <g class="eye">
-          <ellipse class="eye-white" cx="-6" cy="${HEAD_Y - 2}" rx="10" ry="12" />
-          <circle class="pupil" cx="-4" cy="${HEAD_Y}" r="6" />
-          <circle class="glint" cx="-7" cy="${HEAD_Y - 4}" r="2.6" />
+          <ellipse class="eye-white" cx="-12" cy="${HEAD_Y - 2}" rx="9" ry="10.5" />
+          <circle class="pupil" cx="-11" cy="${HEAD_Y - 1}" r="6.4" />
+          <circle class="glint" cx="-14" cy="${HEAD_Y - 5}" r="2.6" />
+          <circle class="glint small" cx="-8" cy="${HEAD_Y + 3}" r="1.3" />
+          <path class="lash" d="M -22 ${HEAD_Y - 8} C -18 ${HEAD_Y - 14} -6 ${HEAD_Y - 14} -3 ${HEAD_Y - 7}" />
         </g>
         <g class="eye">
-          <ellipse class="eye-white" cx="22" cy="${HEAD_Y - 2}" rx="10" ry="12" />
-          <circle class="pupil" cx="24" cy="${HEAD_Y}" r="6" />
-          <circle class="glint" cx="21" cy="${HEAD_Y - 4}" r="2.6" />
+          <ellipse class="eye-white" cx="16" cy="${HEAD_Y - 2}" rx="9" ry="10.5" />
+          <circle class="pupil" cx="17" cy="${HEAD_Y - 1}" r="6.4" />
+          <circle class="glint" cx="14" cy="${HEAD_Y - 5}" r="2.6" />
+          <circle class="glint small" cx="20" cy="${HEAD_Y + 3}" r="1.3" />
+          <path class="lash" d="M 7 ${HEAD_Y - 7} C 10 ${HEAD_Y - 14} 22 ${HEAD_Y - 14} 26 ${HEAD_Y - 8}" />
         </g>
       </g>
 
-      <!-- every mood is drawn; CSS reveals one -->
+      <path class="nose" d="M 2 ${HEAD_Y + 8} q 3.6 3 0 5.2" />
+
+      <!-- every mood is drawn once; CSS reveals one -->
       <g class="brows">
         <g class="brow-set" data-for="neutral">
-          <path d="M -16 ${HEAD_Y - 20} Q -6 ${HEAD_Y - 26} 4 ${HEAD_Y - 21}" />
-          <path d="M 14 ${HEAD_Y - 21} Q 24 ${HEAD_Y - 26} 32 ${HEAD_Y - 20}" />
+          <path d="M -22 ${HEAD_Y - 17} Q -12 ${HEAD_Y - 23} -3 ${HEAD_Y - 18}" />
+          <path d="M 7 ${HEAD_Y - 18} Q 16 ${HEAD_Y - 23} 26 ${HEAD_Y - 17}" />
         </g>
         <g class="brow-set" data-for="curious">
-          <path d="M -16 ${HEAD_Y - 22} Q -6 ${HEAD_Y - 30} 4 ${HEAD_Y - 24}" />
-          <path d="M 14 ${HEAD_Y - 28} Q 24 ${HEAD_Y - 36} 32 ${HEAD_Y - 27}" />
+          <path d="M -22 ${HEAD_Y - 18} Q -12 ${HEAD_Y - 26} -3 ${HEAD_Y - 20}" />
+          <path d="M 7 ${HEAD_Y - 24} Q 16 ${HEAD_Y - 32} 26 ${HEAD_Y - 23}" />
         </g>
         <g class="brow-set" data-for="surprised">
-          <path d="M -17 ${HEAD_Y - 29} Q -6 ${HEAD_Y - 38} 5 ${HEAD_Y - 30}" />
-          <path d="M 13 ${HEAD_Y - 30} Q 24 ${HEAD_Y - 38} 33 ${HEAD_Y - 29}" />
+          <path d="M -23 ${HEAD_Y - 25} Q -12 ${HEAD_Y - 34} -2 ${HEAD_Y - 26}" />
+          <path d="M 6 ${HEAD_Y - 26} Q 16 ${HEAD_Y - 34} 27 ${HEAD_Y - 25}" />
         </g>
         <g class="brow-set" data-for="confused">
-          <path d="M -16 ${HEAD_Y - 26} Q -6 ${HEAD_Y - 18} 4 ${HEAD_Y - 24}" />
-          <path d="M 14 ${HEAD_Y - 30} Q 24 ${HEAD_Y - 37} 32 ${HEAD_Y - 28}" />
+          <path d="M -22 ${HEAD_Y - 22} Q -12 ${HEAD_Y - 14} -3 ${HEAD_Y - 20}" />
+          <path d="M 7 ${HEAD_Y - 26} Q 16 ${HEAD_Y - 33} 26 ${HEAD_Y - 24}" />
         </g>
         <g class="brow-set" data-for="happy">
-          <path d="M -16 ${HEAD_Y - 24} Q -6 ${HEAD_Y - 31} 4 ${HEAD_Y - 25}" />
-          <path d="M 14 ${HEAD_Y - 25} Q 24 ${HEAD_Y - 31} 32 ${HEAD_Y - 24}" />
+          <path d="M -22 ${HEAD_Y - 20} Q -12 ${HEAD_Y - 27} -3 ${HEAD_Y - 21}" />
+          <path d="M 7 ${HEAD_Y - 21} Q 16 ${HEAD_Y - 27} 26 ${HEAD_Y - 20}" />
         </g>
       </g>
 
       <g class="mouths">
-        <path class="mouth-set" data-for="neutral"   d="M 2 ${HEAD_Y + 24} Q 10 ${HEAD_Y + 30} 18 ${HEAD_Y + 24}" />
-        <path class="mouth-set" data-for="curious"   d="M 3 ${HEAD_Y + 23} Q 10 ${HEAD_Y + 31} 17 ${HEAD_Y + 23}" />
-        <path class="mouth-set open" data-for="surprised" d="M 10 ${HEAD_Y + 27} m -8 0 a 8 9 0 1 0 16 0 a 8 9 0 1 0 -16 0" />
-        <path class="mouth-set" data-for="confused" d="M 2 ${HEAD_Y + 28} Q 10 ${HEAD_Y + 22} 18 ${HEAD_Y + 27}" />
-        <path class="mouth-set open" data-for="happy" d="M 0 ${HEAD_Y + 22} Q 10 ${HEAD_Y + 38} 20 ${HEAD_Y + 22} Z" />
+        <path class="mouth-set" data-for="neutral"   d="M -6 ${HEAD_Y + 21} Q 2 ${HEAD_Y + 27} 10 ${HEAD_Y + 21}" />
+        <path class="mouth-set" data-for="curious"   d="M -5 ${HEAD_Y + 20} Q 2 ${HEAD_Y + 28} 9 ${HEAD_Y + 20}" />
+        <path class="mouth-set open" data-for="surprised" d="M 2 ${HEAD_Y + 24} m -6 0 a 6 7 0 1 0 12 0 a 6 7 0 1 0 -12 0" />
+        <path class="mouth-set" data-for="confused" d="M -6 ${HEAD_Y + 25} Q 2 ${HEAD_Y + 19} 10 ${HEAD_Y + 24}" />
+        <path class="mouth-set open" data-for="happy" d="M -8 ${HEAD_Y + 19} Q 2 ${HEAD_Y + 33} 12 ${HEAD_Y + 19} Z" />
       </g>
     </g>
   </g>
 
-  <!-- Mithu rides on her shoulder -->
-  <!-- positioning on the OUTER group: the hop animation below sets transform,
-       and a CSS transform replaces the SVG attribute rather than composing. -->
-  <g class="mithu-perch" transform="translate(46 ${SHOULDER_Y - 14}) scale(0.34)">
+  <!-- Mithu rides on her shoulder. Positioning lives on the OUTER group: the
+       hop animation sets transform, and a CSS transform replaces the SVG
+       attribute rather than composing with it. -->
+  <g class="mithu-perch" transform="translate(44 ${SHOULDER_Y - 10}) scale(0.28)">
     <g class="mithu-hop">${mithu()}</g>
   </g>
 </g>`;

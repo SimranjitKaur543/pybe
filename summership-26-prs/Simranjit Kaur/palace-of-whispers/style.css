@@ -9,9 +9,18 @@
   --cream: #fdf3e3;
   --coral: #e2684a;
   --marigold: #f0b93f;
-  --skin: #f2c39a;
-  --skin-shade: #d9a276;
-  --hair: #2d1f2b;
+  --skin: #f0c9a0;
+  --skin-shade: #d7a578;
+  --hair: #4a2b1c;
+  --hair-dark: #2e1a10;
+  /* Tara, matched to the reference: magenta kurta over an orange under-top,
+     gold at the hem, waist and jewellery, red slippers. */
+  --kurta-pink: #bd3c7e;
+  --kurta-pink-dark: #9c2f68;
+  --under-orange: #f0913a;
+  --under-orange-dark: #d2762a;
+  --gold-band: #f2b62e;
+  --shoe-red: #e0384a;
   --leaf: #4fae5c;
   --leaf-dark: #3c8f49;
   --leaf-light: #6fc97a;
@@ -44,27 +53,53 @@ body {
 .stage-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
 /* ------------------------------------------------------------------- Tara */
-.tara .shadow { fill: rgba(0, 0, 0, 0.28); }
+/* Matched to the reference: magenta kurta over an orange under-top, gold at
+   the hem, waist and jewellery, red slippers, two plaits worn forward. */
+.tara .shadow { fill: rgba(0, 0, 0, 0.26); }
 .tara .skin { fill: var(--skin); }
+.tara .neck { fill: var(--skin-shade); }
+.tara .ear  { fill: var(--skin-shade); }
 .tara .hair { fill: var(--hair); }
+.tara .braid .hair { fill: var(--hair-dark); }
 .tara .ribbon { fill: var(--coral); }
-.tara .kurta { fill: var(--marigold); }
-.tara .kurta-hem { fill: var(--gold-deep); }
-.tara .dupatta { fill: var(--coral); opacity: 0.95; }
-.tara .sleeve { fill: var(--marigold); }
-.tara .arm-far .sleeve { fill: #d79f2f; }
+
+/* the three bands of colour that make her readable when she is small */
+.tara .kurta { fill: var(--kurta-pink); }
+.tara .skirt { fill: var(--kurta-pink); }
+.tara .kurta-hem { fill: var(--gold-band); }
+.tara .sash { fill: var(--gold-band); }
+.tara .sleeve { fill: var(--under-orange); }
+.tara .arm-far .sleeve { fill: var(--under-orange-dark); }
 .tara .arm-far .skin { fill: var(--skin-shade); }
-.tara .churidar { fill: #6b3a63; }
-.tara .cuff { fill: #7d4774; }
-.tara .slipper { fill: #3f2140; }
-.tara .blush { fill: #ef9a86; opacity: 0.55; }
+.tara .churidar { fill: var(--skin); }
+.tara .leg-far .churidar { fill: var(--skin-shade); }
+.tara .slipper { fill: var(--shoe-red); }
+.tara .slipper-strap { fill: #c22b3c; }
+.tara .leg-far .slipper { fill: #c22b3c; }
+
+/* jewellery: a bindi, drops, a chain and bangles. Small gold accents do more
+   for "she lives in a palace" than any amount of extra linework. */
+.tara .bindi { fill: var(--gold); }
+.tara .earring { fill: var(--gold); }
+.tara .pendant { fill: var(--gold); }
+.tara .bangle { fill: var(--gold); }
+.tara .arm-far .bangle { fill: var(--gold-deep); }
+.tara .necklace { fill: none; stroke: var(--gold); stroke-width: 2.6; }
+.tara .kurta-vee { fill: none; stroke: var(--gold-band); stroke-width: 3; stroke-linecap: round; }
+.tara .skirt-pleat { fill: none; stroke: var(--kurta-pink-dark); stroke-width: 2.4; opacity: 0.6; }
+
+/* face */
+.tara .blush { fill: #ef9a96; opacity: 0.5; }
 .tara .eye-white { fill: #fffaf2; }
-.tara .pupil { fill: #34212f; }
+.tara .pupil { fill: #43261a; }
 .tara .glint { fill: #ffffff; }
+.tara .glint.small { opacity: 0.75; }
+.tara .lash { fill: none; stroke: var(--hair-dark); stroke-width: 2.6; stroke-linecap: round; }
+.tara .nose { fill: none; stroke: var(--skin-shade); stroke-width: 2.6; stroke-linecap: round; }
 .tara .flower { fill: var(--cream); }
 .tara .flower-mid { fill: var(--gold-deep); }
-.tara .brows path { fill: none; stroke: var(--hair); stroke-width: 4.5; stroke-linecap: round; }
-.tara .mouth-set { fill: none; stroke: #a4485a; stroke-width: 4; stroke-linecap: round; }
+.tara .brows path { fill: none; stroke: var(--hair-dark); stroke-width: 3.6; stroke-linecap: round; }
+.tara .mouth-set { fill: none; stroke: #a4485a; stroke-width: 3.2; stroke-linecap: round; }
 .tara .mouth-set.open { fill: #a4485a; stroke: none; }
 
 /* joints: every limb pivots from where it attaches */
